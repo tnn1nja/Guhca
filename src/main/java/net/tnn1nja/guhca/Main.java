@@ -7,13 +7,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
 
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import static net.tnn1nja.guhca.GTools.PlayersDied;
-import static net.tnn1nja.guhca.GTools.initScoreboard;
-import static net.tnn1nja.guhca.commands.GCommandExec.OFPGen;
+import static net.tnn1nja.guhca.GTools.*;
 
 public final class Main extends JavaPlugin {
 
@@ -23,16 +20,18 @@ public final class Main extends JavaPlugin {
     public static Team Afk;
     public static Objective HealthBN;
     public static Objective HealthPL;
-    public static boolean playersDied = false;
     public GCommandExec gComm = new GCommandExec();
     public GTabCompleter gTab = new GTabCompleter();
-    public static boolean kicked = false;
+    public static ArrayList<String> OfflinePlayers = new ArrayList<String>();
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
 
     //Constants
     public static Integer afkTime = 300;
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
+    public static boolean kicked = false;
+    public static boolean playersDied = false;
 
 
     @Override
@@ -46,6 +45,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("kick")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("lp")).setTabCompleter(gTab);
         Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(gTab);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         GListener.onSec();
         initScoreboard();
         OFPGen();

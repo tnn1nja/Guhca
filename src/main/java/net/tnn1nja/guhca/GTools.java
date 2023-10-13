@@ -3,6 +3,7 @@ package net.tnn1nja.guhca;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
@@ -57,4 +58,9 @@ public class GTools {
         }
     }
 
+    public static void OFPGen(){
+        for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
+            OfflinePlayers.add(op.getName().toLowerCase());
+        }
+    }
 }

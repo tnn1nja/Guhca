@@ -3,14 +3,14 @@ version: '${project.version}'
 main: net.tnn1nja.guhca.Main
 api-version: '1.20'
 authors: [ tnn1nja ]
-description: Custom Plugin for ItsAllGud and tnn1nja's UHC
+description: Custom Plugin for Multiplayer UHC
 commands:
   lastplayed:
     description: When player was last online
     usage: /<command>
   lp:
-    description: When player was last online
+    description: Shorthand for '/lastplayed'
     usage: /<command>
   kick:
-    description: Kicks other player
+    description: A proxy for the native kick command
     usage: /<command>

@@ -8,26 +8,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
 import static net.tnn1nja.guhca.Main.*;
 
 public class GCommandExec implements CommandExecutor {
-
-    public static ArrayList<String> OfflinePlayers = new ArrayList<String>();
-    public static void OFPGen(){
-        for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
-            OfflinePlayers.add(op.getName().toLowerCase());
-        }
-    }
-
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
-    static {
-        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
-    }
 
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
@@ -39,12 +24,8 @@ public class GCommandExec implements CommandExecutor {
                     if (pt.isOnline()) {
                         sender.sendMessage( ChatColor.RED + pt.getName() + " is currently online.");
                     } else {
-                        if (pt.hasPlayedBefore()) {
-                            sender.sendMessage(ChatColor.RED + pt.getName() + ChatColor.WHITE + " Last Played: " +
-                                            ChatColor.GOLD + dateFormat.format(new Date(pt.getLastPlayed())));
-                        }else{
-                            sender.sendMessage(ChatColor.RED + "Player has never joined.");
-                        }
+                        sender.sendMessage(ChatColor.RED + pt.getName() + ChatColor.WHITE + " Last Played: " +
+                                ChatColor.GOLD + dateFormat.format(new Date(pt.getLastPlayed())));
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Player could not be found.");

@@ -13,9 +13,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
 
+import static net.tnn1nja.guhca.GTools.OFPGen;
 import static net.tnn1nja.guhca.Main.*;
 import static net.tnn1nja.guhca.GTools.PlayersDied;
-import static net.tnn1nja.guhca.commands.GCommandExec.OFPGen;
 
 
 public class GListener implements Listener {
@@ -73,7 +73,6 @@ public class GListener implements Listener {
     public static void onSec(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
             public void run() {
-
                 for(Player p: Bukkit.getOnlinePlayers()){
                     UUID uuid = p.getUniqueId();
                     afkTracker.replace(uuid, afkTracker.get(uuid)+1);
