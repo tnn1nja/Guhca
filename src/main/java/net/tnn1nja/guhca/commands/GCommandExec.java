@@ -60,8 +60,8 @@ public class GCommandExec implements CommandExecutor {
                     OfflinePlayer pt = Bukkit.getOfflinePlayer(args[0].toLowerCase());
                     if(pt.isOnline()){
                         Player p = Bukkit.getPlayer(pt.getName());
-                        p.kickPlayer("You have been kicked by " + sender.getName());
                         kicked = true;
+                        p.kickPlayer("You have been kicked by " + sender.getName());
 
                     }else{
                         sender.sendMessage(ChatColor.RED + pt.getName() + " is not currently online.");
