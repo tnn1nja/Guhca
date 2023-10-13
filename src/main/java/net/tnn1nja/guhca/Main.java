@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import static net.tnn1nja.guhca.GTools.PlayersDied;
 import static net.tnn1nja.guhca.GTools.initScoreboard;
+import static net.tnn1nja.guhca.commands.GCommandExec.OFPGen;
 
 public final class Main extends JavaPlugin {
 
@@ -47,6 +48,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(gTab);
         GListener.onSec();
         initScoreboard();
+        OFPGen();
 
         //Set Gamerules
         for(World w: Bukkit.getWorlds()){

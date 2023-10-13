@@ -18,7 +18,7 @@ import static net.tnn1nja.guhca.Main.*;
 public class GCommandExec implements CommandExecutor {
 
     public static ArrayList<String> OfflinePlayers = new ArrayList<String>();
-    static{
+    public static void OFPGen(){
         for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
             OfflinePlayers.add(op.getName().toLowerCase());
         }

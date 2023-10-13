@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import static net.tnn1nja.guhca.Main.*;
 import static net.tnn1nja.guhca.GTools.PlayersDied;
+import static net.tnn1nja.guhca.commands.GCommandExec.OFPGen;
 
 
 public class GListener implements Listener {
@@ -33,6 +34,11 @@ public class GListener implements Listener {
 
         //Checks
         if(playersDied){ p.setGameMode(GameMode.SPECTATOR); }
+
+        //OFPGen
+        if(!p.hasPlayedBefore()){
+            OFPGen();
+        }
     }
 
     @EventHandler
