@@ -9,6 +9,7 @@ import org.bukkit.scoreboard.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static net.tnn1nja.guhca.GTools.*;
 
@@ -24,6 +25,7 @@ public final class Main extends JavaPlugin {
     public GTabCompleter gTab = new GTabCompleter();
     public static ArrayList<String> OfflinePlayers = new ArrayList<String>();
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
+    public static Logger log = Bukkit.getLogger();
 
     //Constants
     public static Integer afkTime = 300;
@@ -38,7 +40,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         //Init
         me = this;
-        getLogger().info("Guhca Enabled.");
+        log.info("[Gucha] Guhca Enabled.");
         getServer().getPluginManager().registerEvents(new GListener(), this);
         Objects.requireNonNull(getCommand("lastplayed")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("lp")).setExecutor(gComm);
@@ -67,7 +69,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getLogger().info("Guhca Disabled.");
+        log.info("[Gucha] Guhca Disabled.");
         Online.unregister();
         Afk.unregister();
         HealthBN.unregister();

@@ -3,13 +3,19 @@ package net.tnn1nja.guhca;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SuspiciousStewMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
@@ -48,6 +54,23 @@ public class GListener implements Listener {
         if(Afk.getEntries().contains(p.getName())) {
             Online.addEntry(p.getName());
             p.setPlayerListName(ChatColor.WHITE + p.getName());
+        }
+    }
+
+    //Fix Regen Soup Disappearing
+    @EventHandler
+    public void onSoup(PlayerItemConsumeEvent e){
+        Player p = e.getPlayer();
+        ItemStack i = e.getItem();
+
+        if(i.getType().equals(Material.SUSPICIOUS_STEW)){
+            if(i.hasItemMeta()){
+                SuspiciousStewMeta stew = (SuspiciousStewMeta) i.getItemMeta();
+                if(stew.hasCustomEffects() && stew.hasCustomEffect(PotionEffectType.REGENERATION)){
+                    log.info("[Gucha] " + p.getName() + "'s Regen Soup Fixed.");
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
+                }
+            }
         }
     }
 
