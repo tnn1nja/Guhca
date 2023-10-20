@@ -74,7 +74,7 @@ public class GCommandExec implements CommandExecutor {
 
 
             String msg = "You have survived: ";
-            sender.sendMessage("You have survived: " + ChatColor.GOLD + Long.toString(hours) + " hours!");
+            sender.sendMessage("You have survived: " + ChatColor.GOLD + Long.toString(hours) + " hours.");
         }
 
         return true;
