@@ -64,7 +64,10 @@ public class GCommandExec implements CommandExecutor {
                 command.getName().equalsIgnoreCase("pt")){
             long pt = 0;
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
-                int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME) - op.getStatistic(Statistic.TIME_SINCE_DEATH);
+                int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME);
+                if (op.getStatistic(Statistic.DEATHS) > 0){
+                    ticks -= op.getStatistic(Statistic.TIME_SINCE_DEATH);
+                }
                 pt += ticks/20;
             }
             long hours = TimeUnit.SECONDS.toHours(pt);
