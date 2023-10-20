@@ -3,12 +3,14 @@ package net.tnn1nja.guhca.commands;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -16,6 +18,7 @@ public class GCommandExec implements CommandExecutor {
 
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+        //Last Played
         if (command.getName().equalsIgnoreCase("lastplayed") ||
                 command.getName().equalsIgnoreCase("lp")) {
             if (args.length > 0) {
@@ -35,6 +38,7 @@ public class GCommandExec implements CommandExecutor {
             }
         }
 
+        //Kick
         if (command.getName().equalsIgnoreCase("kick")){
             if(args.length > 0){
                 if(OfflinePlayers.contains(args[0].toLowerCase())){
@@ -53,6 +57,21 @@ public class GCommandExec implements CommandExecutor {
             }else{
                 sender.sendMessage(ChatColor.RED + "Please specify a player.");
             }
+        }
+
+        //Playtime
+        if (command.getName().equalsIgnoreCase("playtime") ||
+                command.getName().equalsIgnoreCase("pt")){
+            long pt = 0;
+            for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
+                int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME) - op.getStatistic(Statistic.TIME_SINCE_DEATH);
+                pt += ticks/20;
+            }
+            long hours = TimeUnit.SECONDS.toHours(pt);
+
+
+            String msg = "You have survived: ";
+            sender.sendMessage("You have survived: " + ChatColor.GOLD + Long.toString(hours) + " hours!");
         }
 
         return true;
