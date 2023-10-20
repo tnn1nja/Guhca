@@ -65,15 +65,14 @@ public class GCommandExec implements CommandExecutor {
             long pt = 0;
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
                 int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME);
-                if (op.getStatistic(Statistic.DEATHS) > 0){
+                if (op.getStatistic(Statistic.DEATHS) > 0){                 //this only works for the player who died.
                     ticks -= op.getStatistic(Statistic.TIME_SINCE_DEATH);
                 }
                 pt += ticks/20;
             }
             long hours = TimeUnit.SECONDS.toHours(pt);
 
-
-            String msg = "You have survived: ";
+            //This happens even after death.
             sender.sendMessage("You have survived: " + ChatColor.GOLD + Long.toString(hours) + " hours.");
         }
 
