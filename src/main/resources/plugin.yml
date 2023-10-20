@@ -14,3 +14,9 @@ commands:
   kick:
     description: A proxy for the native kick command
     usage: /<command>
+  playtime:
+    description: Shows total playtime of all players.
+    usage: /<command>
+  pt:
+    description: Shorthand for '/playtime'
+    usage: /<command>

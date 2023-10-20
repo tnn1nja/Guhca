@@ -45,6 +45,8 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("lastplayed")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("lp")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("kick")).setExecutor(gComm);
+        Objects.requireNonNull(getCommand("playtime")).setExecutor(gComm);
+        Objects.requireNonNull(getCommand("pt")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("lp")).setTabCompleter(gTab);
         Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(gTab);
         dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
