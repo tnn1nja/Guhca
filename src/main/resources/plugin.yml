@@ -19,9 +19,6 @@ commands:
   damage:
     description: Shows an ordered list of how much damage each player has taken.
     usage: /<command>
-  deaths:
-    description: Shows an ordered list of how many times each player has died.
-    usage: /<command>
   nightvision:
     description: Gives the player Night Vision if they have died.
     usage: /<command>
