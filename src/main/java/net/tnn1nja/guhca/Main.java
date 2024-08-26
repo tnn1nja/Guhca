@@ -46,7 +46,6 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("kick")).setExecutor(ComExec);
         Objects.requireNonNull(getCommand("playtime")).setExecutor(ComExec);
         Objects.requireNonNull(getCommand("damage")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("deaths")).setExecutor(ComExec);
         Objects.requireNonNull(getCommand("kick")).setExecutor(ComExec);
         Objects.requireNonNull(getCommand("dimension")).setExecutor(ComExec);
         Objects.requireNonNull(getCommand("nightvision")).setExecutor(ComExec);
