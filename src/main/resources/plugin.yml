@@ -8,18 +8,14 @@ commands:
   lastplayed:
     description: When player was last online.
     usage: /<command>
-  lp:
-    description: Shorthand for '/lastplayed'.
-    usage: /<command>
+    aliases: [ lp ]
   kick:
     description: A proxy for the native kick command.
     usage: /<command>
   playtime:
     description: Shows total playtime of all players.
     usage: /<command>
-  pt:
-    description: Shorthand for '/playtime'.
-    usage: /<command>
+    aliases: [ pt ]
   damage:
     description: Shows an ordered list of how much damage each player has taken.
     usage: /<command>
@@ -29,9 +25,7 @@ commands:
   nightvision:
     description: Gives the player Night Vision if they have died.
     usage: /<command>
-  nv:
-    description: Shorthand for '/nightvision'/
-    usage: /<command>
+    aliases: [ nv ]
   dimension:
     description: Move between dimensions in Spectator Mode.
     usage: /<command> [dimension]

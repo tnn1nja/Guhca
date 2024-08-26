@@ -48,18 +48,14 @@ public final class Main extends JavaPlugin {
         log.info("[Guhca] Guhca Enabled.");
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         Objects.requireNonNull(getCommand("lastplayed")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("lp")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("kick")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("playtime")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("pt")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("damage")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("deaths")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("kick")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("dimension")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("nightvision")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("nv")).setExecutor(gComm);
         Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(gTab);
-        Objects.requireNonNull(getCommand("lp")).setTabCompleter(gTab);
         Objects.requireNonNull(getCommand("dimension")).setTabCompleter(gTab);
         dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();

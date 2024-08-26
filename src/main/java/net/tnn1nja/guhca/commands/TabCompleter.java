@@ -15,8 +15,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
         //Last Played
-        if(command.getName().equalsIgnoreCase("lastplayed") ||
-                command.getName().equalsIgnoreCase("lp")){
+        if(command.getName().equalsIgnoreCase("lastplayed")) {
 
             List<String> output = new ArrayList<String>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){

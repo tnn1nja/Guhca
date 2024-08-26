@@ -26,8 +26,7 @@ public class CommandExec implements CommandExecutor {
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
         //Last Played
-        if (command.getName().equalsIgnoreCase("lastplayed") ||
-                command.getName().equalsIgnoreCase("lp")) {
+        if (command.getName().equalsIgnoreCase("lastplayed")) {
             if (args.length > 0) {
                 if (OfflinePlayers.contains(args[0].toLowerCase())) {
                     OfflinePlayer pt = Bukkit.getOfflinePlayer(args[0].toLowerCase());
@@ -67,8 +66,7 @@ public class CommandExec implements CommandExecutor {
         }
 
         //Night Vision
-        if (command.getName().equalsIgnoreCase("nightvision") ||
-                command.getName().equalsIgnoreCase("nv")) {
+        if (command.getName().equalsIgnoreCase("nightvision")) {
             if(playersDied && sender instanceof Player){
                 Player p = (Player) sender;
                 if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
@@ -122,8 +120,7 @@ public class CommandExec implements CommandExecutor {
         }
 
         //Playtime
-        if (command.getName().equalsIgnoreCase("playtime") ||
-                command.getName().equalsIgnoreCase("pt")) {
+        if (command.getName().equalsIgnoreCase("playtime")) {
             long secsSurvived = 0;
 
             //Collective
