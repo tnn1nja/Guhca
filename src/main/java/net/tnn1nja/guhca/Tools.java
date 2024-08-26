@@ -3,24 +3,12 @@ package net.tnn1nja.guhca;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Statistic;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.*;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.bukkit.util.io.BukkitObjectInputStream;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -61,34 +49,6 @@ public class Tools {
         HealthPL.setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
-    public static void saveData() {
-        DataStore fileData = new DataStore(playerDeaths, survived);
-
-        try {
-            BukkitObjectOutputStream out = new BukkitObjectOutputStream
-                    (new GZIPOutputStream(Files.newOutputStream(Paths.get(dataFile))));
-            out.writeObject(fileData);
-            out.close();
-            log.info("[Gucha] Data file saved.");
-        } catch (IOException e) {
-            log.info("[Guhca] Data file not found, creating one...");
-        }
-    }
-
-    public static void loadData() {
-        try {
-            BukkitObjectInputStream in = new BukkitObjectInputStream
-                    (new GZIPInputStream(Files.newInputStream(Paths.get(dataFile))));
-            DataStore fileData = (DataStore) in.readObject();
-            in.close();
-            playerDeaths = fileData.filePlayerDeaths;
-            survived = fileData.fileSurvived;
-            log.info("[Gucha] Data file loaded.");
-        } catch (ClassNotFoundException | IOException e) {
-            log.info("[Guhca] Data file not found, creating one...");
-        }
-    }
-
     public static String getCurrentTimeStamp() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//dd/MM/yyyy
         Date now = new Date();
@@ -101,17 +61,7 @@ public class Tools {
         playersDied = true;
         for(Player p: Bukkit.getOnlinePlayers()){
             p.setGameMode(GameMode.SPECTATOR);
-            new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false);
         }
-    }
-
-    public static long getSecsSurvived(){
-        long pt = 0;
-        for (OfflinePlayer op : Bukkit.getOfflinePlayers()) {
-            int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME);
-            pt += ticks/20;
-        }
-        return pt;
     }
 
     public static void generateOfflinePlayerSet(){
@@ -134,7 +84,7 @@ public class Tools {
         }
     }
 
-    public static String stripColor(String s){
+    public static String stripMCCodes(String s){
         String bsChar = "\u00A7";
         StringBuilder output = new StringBuilder(s);
         while (output.toString().contains(bsChar)){
@@ -144,17 +94,6 @@ public class Tools {
         }
 
         return output.toString();
-    }
-
-
-    public static class DataStore implements Serializable {
-        public HashMap<String, Integer> filePlayerDeaths;
-        public long fileSurvived;
-
-        public DataStore(HashMap<String, Integer> hm, long l){
-            filePlayerDeaths = hm;
-            fileSurvived = l;
-        }
     }
 
 }

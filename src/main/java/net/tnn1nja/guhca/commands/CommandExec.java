@@ -1,7 +1,5 @@
 package net.tnn1nja.guhca.commands;
 
-import net.tnn1nja.guhca.Tools;
-import net.tnn1nja.guhca.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -34,7 +32,7 @@ public class CommandExec implements CommandExecutor {
                         sender.sendMessage( ChatColor.RED + pt.getName() + " is currently online.");
                     } else {
                         sender.sendMessage(ChatColor.RED + pt.getName() + ChatColor.WHITE + " Last Played: " +
-                                ChatColor.GOLD + dateFormat.format(new Date(pt.getLastPlayed())));
+                                ChatColor.GOLD + DateFormat.format(new Date(pt.getLastPlayed())));
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "Player could not be found.");
@@ -92,27 +90,23 @@ public class CommandExec implements CommandExecutor {
                 Location tpl;
                 if (args.length > 0){
                     switch(args[0]){
-                        case "nether":
-                        case "n":
+                        case "nether": case "n":
                             tpl = new Location(n, 0, 64, 0);
                             p.teleport(tpl);
                             break;
-                        case "overworld":
-                        case "o":
+                        case "overworld": case "o":
                             tpl = new Location(o, 0, 150, 0);
                             p.teleport(tpl);
                             break;
-                        case "end":
-                        case "e":
+                        case "end": case "e":
                             tpl = new Location(e, 0, 100, 0);
                             p.teleport(tpl);
                             break;
                         default:
-                            p.sendMessage(ChatColor.RED + "That dimension is not recognised. " +
-                                    "(try /dimension nether)");
+                            p.sendMessage(ChatColor.RED + "That dimension is not recognised.");
                     }
                 }else{
-                    p.sendMessage(ChatColor.RED + "You must specify a dimension. (try /dimension nether)");
+                    p.sendMessage(ChatColor.RED + "You must specify a dimension.");
                 }
             }else{
                 sender.sendMessage(ChatColor.RED + "You cannot use this until you have died.");
@@ -121,13 +115,12 @@ public class CommandExec implements CommandExecutor {
 
         //Playtime
         if (command.getName().equalsIgnoreCase("playtime")) {
-            long secsSurvived = 0;
 
             //Collective
-            if(playersDied) {
-                secsSurvived = Main.survived;
-            }else {
-                secsSurvived = Tools.getSecsSurvived();
+            long secsSurvived = 0;
+            for (OfflinePlayer op : Bukkit.getOfflinePlayers()) {
+                int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME);
+                secsSurvived += ticks/20;
             }
 
             long hours = secsSurvived / 3600;
@@ -155,38 +148,6 @@ public class CommandExec implements CommandExecutor {
                 hours = i.stat / 3600;
                 sender.sendMessage("" + ChatColor.GRAY + counter + ". " + ChatColor.RED + i.name + ChatColor.RESET +
                         " has played for " + ChatColor.GOLD +  hours + ChatColor.RESET + " hours.");
-                counter++;
-            }
-            sender.sendMessage("");
-        }
-
-        //Deaths Leaderboard
-        if (command.getName().equalsIgnoreCase("deaths")) {
-
-            //Extract
-            PlayerStatHolder[] psh = new PlayerStatHolder[playerDeaths.size()];
-            int counter = 0;
-            for(String k: playerDeaths.keySet()){
-                psh[counter] = new PlayerStatHolder(k, playerDeaths.get(k));
-                counter++;
-            }
-
-            //Format
-            Arrays.sort(psh, new PlayerStatHolderComparator());
-
-            //Output
-            sender.sendMessage("");
-            sender.sendMessage(ChatColor.GRAY + "-+=" + ChatColor.RESET + " Deaths Leaderboard " +
-                    ChatColor.GRAY + "=+-");
-            counter = 1;
-            for(PlayerStatHolder i: psh){
-                if(i.name.equalsIgnoreCase("bs")){
-                    sender.sendMessage("" + ChatColor.GRAY + counter + ". " + ChatColor.RESET + "Bullshit has killed "
-                            + ChatColor.GOLD + i.stat + ChatColor.RESET + " players.");
-                }else {
-                    sender.sendMessage("" + ChatColor.GRAY + counter + ". " + ChatColor.RED + i.name + ChatColor.RESET +
-                            " has died " + ChatColor.GOLD + i.stat + ChatColor.RESET + " times.");
-                }
                 counter++;
             }
             sender.sendMessage("");
@@ -220,7 +181,6 @@ public class CommandExec implements CommandExecutor {
 
         return true;
     }
-
 
     //Player Stat Data Structure
     private class PlayerStatHolder {

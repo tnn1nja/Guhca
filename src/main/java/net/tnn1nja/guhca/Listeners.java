@@ -30,9 +30,6 @@ public class Listeners implements Listener {
         Online.addEntry(p.getName());
         e.setJoinMessage(ChatColor.YELLOW + p.getName() + " joined the game.");
         afkTracker.put(p.getUniqueId(), 0);
-        if(!playerDeaths.containsKey(p.getName())) {
-            playerDeaths.put(p.getName(), 0);
-        }
 
         //Check if Players Died
         if(playersDied){
@@ -89,8 +86,6 @@ public class Listeners implements Listener {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " left the game.");
         }else if(kicker.equals("afk")){
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " took damage while afk.");
-        }else if(kicker.equals("lag")){
-            e.setQuitMessage(ChatColor.GOLD + p.getName() + " took damage while lagging.");
         }else {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " was kicked by " + kicker + ".");
         }
@@ -104,32 +99,17 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e){
-        //Fix Death Message
-        e.setDeathMessage(ChatColor.RED + stripColor(e.getDeathMessage()));
-
-        //Flag Players as Dead
+        e.setDeathMessage(ChatColor.RED + stripMCCodes(e.getDeathMessage()));
         playersDied();
-
-        //Add a Death to the Counter
-        String pname = e.getEntity().getPlayer().getName();
-        playerDeaths.replace(pname, playerDeaths.get(pname)+1);
-        survived = Tools.getSecsSurvived();
-        Tools.saveData();
     }
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            log.info(p.getName() + " was hit.");
             if(Afk.hasPlayer(p)){
                 p.kickPlayer("You took damage will afk\n");
                 kicker = "afk";
-            }
-            if(lagTracker.contains(p.getUniqueId())) {
-                lagTracker.remove(p.getName());
-                p.kickPlayer("You took damage whilst lagging.");
-                kicker = "lag";
             }
         }
     }
@@ -138,15 +118,6 @@ public class Listeners implements Listener {
     public static void onSec(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
             public void run() {
-                //Lag Tracker
-                for(Player p: Bukkit.getOnlinePlayers()){
-                    if (p.getPing() > lagPing){
-                        lagTracker.add(p.getUniqueId());
-                    }else if(lagTracker.contains(p.getUniqueId())){
-                        lagTracker.remove(p.getUniqueId());
-                    }
-                }
-
                 //AFK Tracker
                 for(Player p: Bukkit.getOnlinePlayers()){
                     UUID uuid = p.getUniqueId();

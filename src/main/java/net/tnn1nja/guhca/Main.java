@@ -21,24 +21,19 @@ public final class Main extends JavaPlugin {
     public static Team Afk;
     public static Objective HealthBN;
     public static Objective HealthPL;
-    public CommandExec gComm = new CommandExec();
-    public TabCompleter gTab = new TabCompleter();
+    public CommandExec ComExec = new CommandExec();
+    public TabCompleter TabComp = new TabCompleter();
     public static HashSet<String> OfflinePlayers = new HashSet<String>();
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
+    public static SimpleDateFormat DateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
     public static Logger log = Bukkit.getLogger();
-    public static String dataFile;
 
     //Constants
     public static Integer afkTime = 300;
-    public static int lagPing = 1500;
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
     public static String kicker = null;
     public static boolean playersDied = false;
-    public static HashMap<String, Integer> playerDeaths = new HashMap<String, Integer>();
-    public static long survived = -1;
-    public static HashSet<UUID> lagTracker = new HashSet<UUID>();
 
 
     @Override
@@ -47,17 +42,17 @@ public final class Main extends JavaPlugin {
         me = this;
         log.info("[Guhca] Guhca Enabled.");
         getServer().getPluginManager().registerEvents(new Listeners(), this);
-        Objects.requireNonNull(getCommand("lastplayed")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("kick")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("playtime")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("damage")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("deaths")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("kick")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("dimension")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("nightvision")).setExecutor(gComm);
-        Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(gTab);
-        Objects.requireNonNull(getCommand("dimension")).setTabCompleter(gTab);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
+        Objects.requireNonNull(getCommand("lastplayed")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("kick")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("playtime")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("damage")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("deaths")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("kick")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("dimension")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("nightvision")).setExecutor(ComExec);
+        Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(TabComp);
+        Objects.requireNonNull(getCommand("dimension")).setTabCompleter(TabComp);
+        DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         initScoreboard();
         generateOfflinePlayerSet();
@@ -83,10 +78,6 @@ public final class Main extends JavaPlugin {
             }
         }
 
-        //Save and Load
-        getDataFolder().mkdirs();
-        dataFile = getDataFolder() + "/serverData.dat";
-        Tools.loadData();
     }
 
 
@@ -97,6 +88,5 @@ public final class Main extends JavaPlugin {
         Afk.unregister();
         HealthBN.unregister();
         HealthPL.unregister();
-        Tools.saveData();
     }
 }
