@@ -114,6 +114,18 @@ public class Listeners implements Listener {
         }
     }
 
+    /*
+    @EventHandler
+    public void onGoatHorn(PlayerInteractEvent e){
+        ItemStack i = e.getItem();
+            if (i.getType() == Material.GOAT_HORN) {
+                e.setCancelled(true);
+                e.getPlayer().sendMessage("go fuck yourself");
+            }
+        }
+    }
+    */
+
     //@HonouraryEventHandler
     public static void onSec(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
