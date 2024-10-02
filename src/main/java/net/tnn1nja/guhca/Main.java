@@ -29,6 +29,7 @@ public final class Main extends JavaPlugin {
 
     //Constants
     public static Integer afkTime = 300;
+    public static int pingKickThreshold = 5000;
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
@@ -53,6 +54,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("dimension")).setTabCompleter(TabComp);
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
+        Listeners.onHalfSec();
         initScoreboard();
         generateOfflinePlayerSet();
         serverFreeze();

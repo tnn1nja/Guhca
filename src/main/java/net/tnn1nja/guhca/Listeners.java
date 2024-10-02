@@ -84,8 +84,10 @@ public class Listeners implements Listener {
         //Quit Message
         if(kicker == null) {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " left the game.");
-        }else if(kicker.equals("afk")){
+        }else if(kicker.equals(".afk")){
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " took damage while afk.");
+        }else if(kicker.equals(".lag")){
+            e.setQuitMessage(ChatColor.GOLD + p.getName() + " lagged out.");
         }else {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " was kicked by " + kicker + ".");
         }
@@ -109,7 +111,7 @@ public class Listeners implements Listener {
             Player p = (Player) e.getEntity();
             if(Afk.hasPlayer(p)){
                 p.kickPlayer("You took damage will afk\n");
-                kicker = "afk";
+                kicker = ".afk";
             }
         }
     }
@@ -140,5 +142,20 @@ public class Listeners implements Listener {
                 }
             }
         }, 0L, 20L);
+    }
+
+    //@HonouraryEventHandler
+    public static void onHalfSec(){
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
+            public void run(){
+                //Kick Lagging Players
+                for(Player p: Bukkit.getOnlinePlayers()){
+                    if(p.getPing() > pingKickThreshold){
+                        p.kickPlayer("Your ping exceeded " + pingKickThreshold);
+                        kicker = ".lag";
+                    }
+                }
+            }
+        }, 0L, 10L);
     }
 }
