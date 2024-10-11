@@ -33,6 +33,7 @@ public final class Main extends JavaPlugin {
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
+    public static ArrayList<String> notes = new ArrayList<String>();
     public static String kicker = null;
     public static boolean playersDied = false;
 
@@ -43,15 +44,15 @@ public final class Main extends JavaPlugin {
         me = this;
         log.info("[Guhca] Guhca Enabled.");
         getServer().getPluginManager().registerEvents(new Listeners(), this);
-        Objects.requireNonNull(getCommand("lastplayed")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("kick")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("playtime")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("damage")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("kick")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("dimension")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("nightvision")).setExecutor(ComExec);
-        Objects.requireNonNull(getCommand("lastplayed")).setTabCompleter(TabComp);
-        Objects.requireNonNull(getCommand("dimension")).setTabCompleter(TabComp);
+        getCommand("lastplayed").setExecutor(ComExec);
+        getCommand("kick").setExecutor(ComExec);
+        getCommand("playtime").setExecutor(ComExec);
+        getCommand("damage").setExecutor(ComExec);
+        getCommand("kick").setExecutor(ComExec);
+        getCommand("dimension").setExecutor(ComExec);
+        getCommand("nightvision").setExecutor(ComExec);
+        getCommand("lastplayed").setTabCompleter(TabComp);
+        getCommand("dimension").setTabCompleter(TabComp);
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();
@@ -69,6 +70,7 @@ public final class Main extends JavaPlugin {
             w.setGameRule(GameRule.NATURAL_REGENERATION, false);
             w.setGameRule(GameRule.KEEP_INVENTORY, true);
             w.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
+            w.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 50);
             w.setDifficulty(Difficulty.HARD);
         }
 

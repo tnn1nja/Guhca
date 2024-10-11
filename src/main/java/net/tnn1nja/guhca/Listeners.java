@@ -1,9 +1,11 @@
 package net.tnn1nja.guhca;
 
 import org.bukkit.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
@@ -116,15 +118,12 @@ public class Listeners implements Listener {
         }
     }
 
-    /*
     @EventHandler
-    public void onGoatHorn(PlayerInteractEvent e){
-        ItemStack i = e.getItem();
-        if (i.getType() == Material.GOAT_HORN) {
-            Bukkit.getPlayer("ItsAllGud").kickPlayer("Goat Horn was misused.");
+    public void onEndermanBlock(EntityChangeBlockEvent e) {
+        if (e.getEntity().getType().equals(EntityType.ENDERMAN)) {
+            e.setCancelled(true);
         }
     }
-     */
 
     //@HonouraryEventHandler
     public static void onSec(){
