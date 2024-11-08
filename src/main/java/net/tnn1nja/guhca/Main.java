@@ -33,7 +33,6 @@ public final class Main extends JavaPlugin {
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
-    public static ArrayList<String> notes = new ArrayList<String>();
     public static String kicker = null;
     public static boolean playersDied = false;
 

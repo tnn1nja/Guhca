@@ -2,20 +2,17 @@ package net.tnn1nja.guhca;
 
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static net.tnn1nja.guhca.Tools.*;
@@ -63,7 +60,6 @@ public class Listeners implements Listener {
         }
     }
 
-    //Fix Regen Soup Disappearing
     @EventHandler
     public void onSoup(PlayerItemConsumeEvent e){
         Player p = e.getPlayer();
@@ -76,6 +72,29 @@ public class Listeners implements Listener {
                     log.info("[Guhca] " + p.getName() + "'s Regen Soup Fixed.");
                     p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onRightClick(PlayerInteractAtEntityEvent e){
+        if (e.getRightClicked() instanceof ItemFrame && e.getPlayer().isSneaking()){
+            ItemFrame itf = (ItemFrame) e.getRightClicked();
+            if(itf.getItem().getType() != Material.AIR) {
+                itf.setVisible(!itf.isVisible());
+                itf.setRotation(itf.getRotation().rotateCounterClockwise());
+                log.info("[Guhca] Toggled Item Frame Visibility.");
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHitItemFrame(EntityDamageByEntityEvent e){
+        if (e.getEntity() instanceof ItemFrame){
+            ItemFrame itf = (ItemFrame) e.getEntity();
+            if(!itf.isVisible()) {
+                itf.setVisible(true);
+                log.info("[Guhca] Toggled Item Frame Visibility.");
             }
         }
     }
