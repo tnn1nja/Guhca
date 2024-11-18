@@ -44,7 +44,7 @@ public class Listeners implements Listener {
         }
 
         //Unfreeze Server
-        if (Bukkit.getOnlinePlayers().size() == 1) { //includes joining player
+        if (Bukkit.getServerTickManager().isFrozen()) {
             serverResume();
         }
 
