@@ -82,7 +82,7 @@ public class Tools {
             Bukkit.getServer().getScheduler().runTaskLater(me, new Runnable() {
                 @Override
                 public void run() {
-                    if(Bukkit.getOnlinePlayers().size() == 1){ //includes leaving player
+                    if(Bukkit.getOnlinePlayers().isEmpty()){ //includes leaving player
                         serverFreeze();
                     }
                 }
