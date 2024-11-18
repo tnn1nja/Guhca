@@ -118,7 +118,7 @@ public class Listeners implements Listener {
 
         //Freeze Server
         if(Bukkit.getOnlinePlayers().size() == 1){ //includes leaving player
-            serverFreeze();
+            delayedServerFreeze();
         }
     }
 

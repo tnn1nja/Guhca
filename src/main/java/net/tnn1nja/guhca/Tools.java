@@ -77,6 +77,19 @@ public class Tools {
         }
     }
 
+    public static void delayedServerFreeze(){
+        if(!playersDied){
+            Bukkit.getServer().getScheduler().runTaskLater(me, new Runnable() {
+                @Override
+                public void run() {
+                    if(Bukkit.getOnlinePlayers().size() == 1){ //includes leaving player
+                        serverFreeze();
+                    }
+                }
+            }, 100L);
+        }
+    }
+
     public static void serverResume(){
         if(!playersDied) {
             Bukkit.getServerTickManager().setFrozen(false);
