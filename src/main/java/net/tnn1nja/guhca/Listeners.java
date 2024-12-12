@@ -1,11 +1,11 @@
 package net.tnn1nja.guhca;
 
 import org.bukkit.*;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BellResonateEvent;
+import org.bukkit.event.block.BellRingEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import static net.tnn1nja.guhca.Tools.*;
@@ -58,6 +59,42 @@ public class Listeners implements Listener {
             Online.addEntry(p.getName());
             p.setPlayerListName(ChatColor.WHITE + p.getName());
         }
+    }
+
+    @EventHandler
+    public void onBellRing(BellRingEvent e){
+        Location l = e.getBlock().getLocation();
+        if(!isRaidersWithinVanillaRange(l)){
+            Collection<Raider> raiders = getRaidersWithinCustomRange(l);
+            if(!raiders.isEmpty() && !bellOnCooldownLocations.contains(l)) {
+                Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (LivingEntity le: raiders) {
+                            le.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 60, 0));
+                        }
+                    }
+                }, 60L);
+                Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            p.playSound(l, Sound.BLOCK_BELL_RESONATE, 1, 1);
+                        }
+                    }
+                }, 10L);
+                startBellCooldown(l);
+                log.info("[BetterRaidBells] Bell resonated with range of " + customDetectionRadius + " blocks.");
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBellResonate(BellResonateEvent e){
+        Location l = e.getBlock().getLocation();
+        e.getResonatedEntities().addAll(getRaidersWithinCustomRange(l));
+        startBellCooldown(l);
+        log.info("[BetterRaidBells] Bell resonation range extended to " + customDetectionRadius + " blocks.");
     }
 
     @EventHandler

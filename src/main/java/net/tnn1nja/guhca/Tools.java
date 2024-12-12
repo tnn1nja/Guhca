@@ -1,14 +1,12 @@
 package net.tnn1nja.guhca;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Raider;
 import org.bukkit.scoreboard.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Collection;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -47,13 +45,6 @@ public class Tools {
         HealthBN.setDisplaySlot(DisplaySlot.BELOW_NAME);
         HealthPL = board.registerNewObjective("guhcaHealthPL", "health");
         HealthPL.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-    }
-
-    public static String getCurrentTimeStamp() {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("HH:mm");//dd/MM/yyyy
-        Date now = new Date();
-        String strDate = sdfDate.format(now);
-        return strDate;
     }
 
     public static void playersDied(){
@@ -108,5 +99,42 @@ public class Tools {
 
         return output.toString();
     }
+
+    public static boolean isRaidersWithinVanillaRange(Location bellLocation){
+        Collection<Entity> entities = bellLocation.getWorld().getNearbyEntities(bellLocation,
+                vanillaDetectionRadius, vanillaDetectionRadius, vanillaDetectionRadius);
+        for(Entity e: entities){
+            if(e instanceof Raider && isWithinSphere(e.getLocation(), bellLocation, vanillaDetectionRadius)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void startBellCooldown(Location l){
+        bellOnCooldownLocations.add(l);
+        Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+            @Override
+            public void run() {
+                bellOnCooldownLocations.remove(l);
+            }
+        }, 60L);
+    }
+
+    public static boolean isWithinSphere(Location entityLocation, Location bellLocation, int radius){
+        return Math.pow((bellLocation.getX() - entityLocation.getX()), 2) +
+                Math.pow((bellLocation.getY() - entityLocation.getY()), 2) +
+                Math.pow((bellLocation.getZ() - entityLocation.getZ()), 2)
+                <= Math.pow(radius, 2);
+    }
+
+    public static Collection<Raider> getRaidersWithinCustomRange(Location bellLocation){
+        return bellLocation.getWorld().getNearbyEntities(bellLocation,
+                        customDetectionRadius, customDetectionRadius, customDetectionRadius,
+                        entity -> entity instanceof Raider &&
+                                isWithinSphere(entity.getLocation(), bellLocation, customDetectionRadius)).
+                stream().map(entity -> (Raider) entity).toList();
+    }
+
 
 }

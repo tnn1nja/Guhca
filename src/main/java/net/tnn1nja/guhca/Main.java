@@ -30,9 +30,12 @@ public final class Main extends JavaPlugin {
     //Constants
     public static Integer afkTime = 300;
     public static int pingKickThreshold = 5000;
+    public static int vanillaDetectionRadius = 32;
+    public static int customDetectionRadius = 128;
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
+    public static HashSet<Location> bellOnCooldownLocations = new HashSet<Location>();
     public static String kicker = null;
     public static boolean playersDied = false;
 
@@ -50,6 +53,7 @@ public final class Main extends JavaPlugin {
         getCommand("kick").setExecutor(ComExec);
         getCommand("dimension").setExecutor(ComExec);
         getCommand("nightvision").setExecutor(ComExec);
+        getCommand("kick").setTabCompleter(TabComp);
         getCommand("lastplayed").setTabCompleter(TabComp);
         getCommand("dimension").setTabCompleter(TabComp);
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));

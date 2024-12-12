@@ -50,7 +50,15 @@ public class CommandExec implements CommandExecutor {
                     if(pt.isOnline()){
                         Player p = Bukkit.getPlayer(pt.getName());
                         kicker = sender.getName();
-                        p.kickPlayer("You have been kicked by " + sender.getName());
+                        if(args.length > 1) {
+                            StringBuilder sb = new StringBuilder();
+                            for (int i = 1; i < args.length; i++){
+                                sb.append(args[i]).append(" ");
+                            }
+                            p.kickPlayer(sb.toString());
+                        }else{
+                            p.kickPlayer("You have been kicked by " + sender.getName());
+                        }
 
                     }else{
                         sender.sendMessage(ChatColor.RED + pt.getName() + " is not currently online.");

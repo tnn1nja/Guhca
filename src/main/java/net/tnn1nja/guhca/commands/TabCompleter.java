@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class TabCompleter implements org.bukkit.command.TabCompleter {
 
+    ArrayList<String> empty = new ArrayList<String>();
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
@@ -40,6 +42,13 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             if (args.length == 1){
                 return output.stream().filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase())).
                         collect(Collectors.toList());
+            }
+        }
+
+        //Kick
+        if(command.getName().equalsIgnoreCase("kick")) {
+            if (args.length > 1){
+                return empty;
             }
         }
 
