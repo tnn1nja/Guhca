@@ -74,6 +74,8 @@ public final class Main extends JavaPlugin {
             w.setGameRule(GameRule.KEEP_INVENTORY, true);
             w.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
             w.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 50);
+            w.setGameRule(GameRule.DISABLE_ELYTRA_MOVEMENT_CHECK, true);
+            w.setGameRule(GameRule.DISABLE_PLAYER_MOVEMENT_CHECK, true);
             w.setDifficulty(Difficulty.HARD);
         }
 
