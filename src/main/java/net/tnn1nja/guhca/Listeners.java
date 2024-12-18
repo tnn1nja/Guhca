@@ -1,6 +1,9 @@
 package net.tnn1nja.guhca;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +30,7 @@ public class Listeners implements Listener {
         Player p = e.getPlayer();
 
         //Set Player Data
-        p.setDisplayName(ChatColor.RED + p.getDisplayName());
+        p.setDisplayName(ChatColor.RED + p.getDisplayName() + ChatColor.RESET);
         p.setPlayerListName(ChatColor.WHITE + p.getName());
         Online.addEntry(p.getName());
         e.setJoinMessage(ChatColor.YELLOW + p.getName() + " joined the game.");
@@ -110,6 +113,18 @@ public class Listeners implements Listener {
                     p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onToolDurabilityDecrease(PlayerItemDamageEvent e){
+        Player p = e.getPlayer();
+        ItemStack is = e.getItem();
+        int maxDurability = is.getType().getMaxDurability();
+        int remainingDurability = maxDurability - ((Damageable) is.getItemMeta()).getDamage();;
+        if(remainingDurability / (float) maxDurability < 0.2){
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    TextComponent.fromLegacy(ChatColor.RED + "Warning: low durability"));
         }
     }
 
