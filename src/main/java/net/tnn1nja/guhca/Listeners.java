@@ -202,6 +202,11 @@ public class Listeners implements Listener {
                         p.getStatistic(Statistic.DAMAGE_TAKEN) + ((int) e.getFinalDamage())*10);
                 e.setDamage(0);
                 p.setHealth(1);
+
+                renderRubyParticles(p);
+                p.teleport(getRespawnLocation(p));
+                p.setFlying(false);
+                renderRubyParticles(p);
             }
         }
     }

@@ -9,6 +9,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
 
 import java.util.Collection;
+import java.util.Random;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -139,13 +140,14 @@ public class Tools {
     }
 
     public static boolean useRubyHeart(Player p){
-        PlayerInventory i = p.getInventory();
-        if (i.contains(Material.COMMAND_BLOCK)){
-            for(int slot: i.all(Material.COMMAND_BLOCK).keySet()){
-                if (i.getItem(slot).getItemMeta().hasItemName()){
-                    i.setItem(slot, null);
-                    return true;
-                }
+        PlayerInventory inv = p.getInventory();
+        for(int i = 0; i < inv.getSize(); i++){
+            ItemStack item = inv.getItem(i);
+            if (item != null &&
+                    item.getType() == Material.COMMAND_BLOCK &&
+                    item.getItemMeta().hasItemName()){
+                inv.setItem(i, null);
+                return true;
             }
         }
         return false;
@@ -155,8 +157,32 @@ public class Tools {
         if(p.getRespawnLocation() != null){
             return p.getRespawnLocation();
         }else{
+            Random r = new Random();
+            for(int i = 0; i<256; i++) {
+                Location l = Bukkit.getWorlds().get(0).getSpawnLocation();
+                l.setX(l.getX() + r.nextInt(21)-10);
+                l.setZ(l.getZ() + r.nextInt(21)-10);
+                for(int y = 319; y >= -64; y--){
+                    l.setY(y);
+                    if(l.getBlock().getType() != Material.AIR) {
+                        if (l.getBlock().getType().isSolid()) {
+                            l.setY(y+1);
+                            return l;
+                        }else{
+                            break;
+                        }
+                    }
+                }
+            }
             return Bukkit.getWorlds().get(0).getSpawnLocation();
         }
     }
+
+    public static void renderRubyParticles(Player p){
+        Location l = p.getLocation().add(0, 1, 0);
+        p.spawnParticle(Particle.DUST, l, 1000, 0.55, 0.55, 0.55, 1,
+                new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
+    }
+
 
 }
