@@ -47,15 +47,12 @@ public final class Main extends JavaPlugin {
         log.info("[Guhca] Guhca Enabled.");
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         getCommand("lastplayed").setExecutor(ComExec);
-        getCommand("kick").setExecutor(ComExec);
         getCommand("playtime").setExecutor(ComExec);
         getCommand("damage").setExecutor(ComExec);
         getCommand("kick").setExecutor(ComExec);
-        getCommand("dimension").setExecutor(ComExec);
-        getCommand("nightvision").setExecutor(ComExec);
         getCommand("kick").setTabCompleter(TabComp);
         getCommand("lastplayed").setTabCompleter(TabComp);
-        getCommand("dimension").setTabCompleter(TabComp);
+        Recipes.registerRecipes();
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();
@@ -72,7 +69,6 @@ public final class Main extends JavaPlugin {
         for(World w: Bukkit.getWorlds()){
             w.setGameRule(GameRule.NATURAL_REGENERATION, false);
             w.setGameRule(GameRule.KEEP_INVENTORY, true);
-            w.setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
             w.setGameRule(GameRule.PLAYERS_SLEEPING_PERCENTAGE, 50);
             w.setGameRule(GameRule.DISABLE_ELYTRA_MOVEMENT_CHECK, true);
             w.setGameRule(GameRule.DISABLE_PLAYER_MOVEMENT_CHECK, true);

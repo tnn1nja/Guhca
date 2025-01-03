@@ -4,6 +4,8 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Raider;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
 
 import java.util.Collection;
@@ -136,5 +138,25 @@ public class Tools {
                 stream().map(entity -> (Raider) entity).toList();
     }
 
+    public static boolean useRubyHeart(Player p){
+        PlayerInventory i = p.getInventory();
+        if (i.contains(Material.COMMAND_BLOCK)){
+            for(int slot: i.all(Material.COMMAND_BLOCK).keySet()){
+                if (i.getItem(slot).getItemMeta().hasItemName()){
+                    i.setItem(slot, null);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Location getRespawnLocation(Player p){
+        if(p.getRespawnLocation() != null){
+            return p.getRespawnLocation();
+        }else{
+            return Bukkit.getWorlds().get(0).getSpawnLocation();
+        }
+    }
 
 }

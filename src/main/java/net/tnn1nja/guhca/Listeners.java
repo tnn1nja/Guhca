@@ -3,6 +3,7 @@ package net.tnn1nja.guhca;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -121,10 +122,14 @@ public class Listeners implements Listener {
         Player p = e.getPlayer();
         ItemStack is = e.getItem();
         int maxDurability = is.getType().getMaxDurability();
-        int remainingDurability = maxDurability - ((Damageable) is.getItemMeta()).getDamage();;
-        if(remainingDurability / (float) maxDurability < 0.2){
+        int remainingDurability = maxDurability - ((Damageable) is.getItemMeta()).getDamage();
+        float durability = remainingDurability / (float) maxDurability;
+        if (durability < 0.1){
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacy(ChatColor.RED + "Warning: low durability"));
+                    TextComponent.fromLegacy(ChatColor.RED + "Severe Warning: low durability"));
+        }else if(durability < 0.2){
+            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                    TextComponent.fromLegacy(ChatColor.GOLD + "Warning: low durability"));
         }
     }
 
@@ -188,12 +193,31 @@ public class Listeners implements Listener {
                 p.kickPlayer("You took damage will afk\n");
                 kicker = ".afk";
             }
+
+            if(e.getFinalDamage() > (p.getHealth() + p.getAbsorptionAmount()) &&
+                    p.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING &&
+                    p.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING &&
+                    useRubyHeart(p)){
+                p.setStatistic(Statistic.DAMAGE_TAKEN,
+                        p.getStatistic(Statistic.DAMAGE_TAKEN) + ((int) e.getFinalDamage())*10);
+                e.setDamage(0);
+                p.setHealth(1);
+            }
         }
     }
 
     @EventHandler
     public void onEndermanBlock(EntityChangeBlockEvent e) {
         if (e.getEntity().getType().equals(EntityType.ENDERMAN)) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlaceCustomItem(BlockPlaceEvent e){
+        Material m = e.getBlock().getType();
+        if (e.getItemInHand().getItemMeta().hasItemName() &&
+                (m.equals(Material.COMMAND_BLOCK) || m.equals(Material.STRUCTURE_BLOCK))){
             e.setCancelled(true);
         }
     }

@@ -32,19 +32,6 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             }
         }
 
-        //Dimension
-        if(command.getName().equalsIgnoreCase("dimension")) {
-            List<String> output = new ArrayList<>();
-            output.add("nether");
-            output.add("end");
-            output.add("overworld");
-
-            if (args.length == 1){
-                return output.stream().filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase())).
-                        collect(Collectors.toList());
-            }
-        }
-
         //Kick
         if(command.getName().equalsIgnoreCase("kick")) {
             if (args.length > 1){
