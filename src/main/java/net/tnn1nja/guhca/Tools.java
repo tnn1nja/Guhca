@@ -139,7 +139,7 @@ public class Tools {
                 stream().map(entity -> (Raider) entity).toList();
     }
 
-    public static boolean useRubyHeart(Player p){
+    public static boolean useCrystalHeart(Player p){
         PlayerInventory inv = p.getInventory();
         for(int i = 0; i < inv.getSize(); i++){
             ItemStack item = inv.getItem(i);
@@ -178,9 +178,11 @@ public class Tools {
         }
     }
 
-    public static void renderRubyParticles(Player p){
-        Location l = p.getLocation().add(0, 1, 0);
-        p.spawnParticle(Particle.DUST, l, 1000, 0.55, 0.55, 0.55, 1,
+    public static void doCrystalRelocateAnim(Player p){
+        World w = Bukkit.getWorlds().get(0);
+        w.playSound(p.getLocation(), Sound.ENTITY_EVOKER_CAST_SPELL, 1F, 1F);
+        w.spawnParticle(Particle.DUST, p.getLocation().add(0,  (int) p.getHeight(),
+                        0), 3000, 0.55, 0.55, 0.55, 1,
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
     }
 

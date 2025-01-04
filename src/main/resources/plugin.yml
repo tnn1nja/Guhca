@@ -6,7 +6,7 @@ authors: [ tnn1nja ]
 description: Custom Plugin for Multiplayer UHC.
 commands:
   lastplayed:
-    description: When player was last online.
+    description: Shows when player was last online.
     usage: /<command>
     aliases: [ lp ]
   kick:
@@ -17,12 +17,5 @@ commands:
     usage: /<command>
     aliases: [ pt ]
   damage:
-    description: Shows an ordered list of how much damage each player has taken.
+    description: Shows player damage scoreboard.
     usage: /<command>
-  nightvision:
-    description: Gives the player Night Vision if they have died.
-    usage: /<command>
-    aliases: [ nv ]
-  dimension:
-    description: Move between dimensions in Spectator Mode.
-    usage: /<command> [dimension]

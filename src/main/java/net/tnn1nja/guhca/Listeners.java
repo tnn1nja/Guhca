@@ -197,16 +197,15 @@ public class Listeners implements Listener {
             if(e.getFinalDamage() > (p.getHealth() + p.getAbsorptionAmount()) &&
                     p.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING &&
                     p.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING &&
-                    useRubyHeart(p)){
+                    useCrystalHeart(p)){
                 p.setStatistic(Statistic.DAMAGE_TAKEN,
                         p.getStatistic(Statistic.DAMAGE_TAKEN) + ((int) e.getFinalDamage())*10);
                 e.setDamage(0);
                 p.setHealth(1);
-
-                renderRubyParticles(p);
+                doCrystalRelocateAnim(p);
                 p.teleport(getRespawnLocation(p));
                 p.setFlying(false);
-                renderRubyParticles(p);
+                doCrystalRelocateAnim(p);
             }
         }
     }

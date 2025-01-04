@@ -11,50 +11,50 @@ import static net.tnn1nja.guhca.Main.me;
 public class Recipes {
 
     public static void registerRecipes(){
-        //Ruby Shard Furnace
+        //Crystal Shard Furnace
         Bukkit.addRecipe(new FurnaceRecipe(
-                new NamespacedKey(me, "furnace/ruby_shard"),
-                getRubyShard(),
+                new NamespacedKey(me, "furnace/crystal_shard"),
+                getCrystalShard(),
                 Material.HEAVY_CORE,
                 2F,
                 200));
 
-        //Ruby Shard Blasting
+        //Crystal Shard Blasting
         Bukkit.addRecipe(new BlastingRecipe(
-                new NamespacedKey(me, "blasting/ruby_shard"),
-                getRubyShard(),
+                new NamespacedKey(me, "blasting/crystal_shard"),
+                getCrystalShard(),
                 Material.HEAVY_CORE,
                 2F,
                 100));
 
-        //Ruby Heart Crafting
-        ShapedRecipe rubyHeartRecipe =
-                new ShapedRecipe(new NamespacedKey(me, "crafting/ruby_heart"),
-                getRubyHeart());
-        rubyHeartRecipe.shape("R R", " R ", "   ");
-        rubyHeartRecipe.setIngredient('R', Material.STRUCTURE_BLOCK);
-        Bukkit.addRecipe(rubyHeartRecipe);
+        //Crystal Heart Crafting
+        ShapedRecipe crystalHeartRecipe =
+                new ShapedRecipe(new NamespacedKey(me, "crafting/crystal_heart"),
+                getCrystalHeart());
+        crystalHeartRecipe.shape("R R", " R ", "   ");
+        crystalHeartRecipe.setIngredient('R', Material.STRUCTURE_BLOCK);
+        Bukkit.addRecipe(crystalHeartRecipe);
     }
 
 
-    public static ItemStack getRubyHeart(){
-        ItemStack rubyHeart = new ItemStack(Material.COMMAND_BLOCK);
-        ItemMeta meta = rubyHeart.getItemMeta();
-        meta.setItemName("Ruby Heart");
+    public static ItemStack getCrystalHeart(){
+        ItemStack crystalHeart = new ItemStack(Material.COMMAND_BLOCK);
+        ItemMeta meta = crystalHeart.getItemMeta();
+        meta.setItemName("Crystal Heart");
         meta.setRarity(ItemRarity.EPIC);
         meta.setMaxStackSize(1);
-        meta.setItemModel(new NamespacedKey("guhca", "ruby_heart"));
-        rubyHeart.setItemMeta(meta);
-        return rubyHeart;
+        meta.setItemModel(new NamespacedKey("guhca", "crystal_heart"));
+        crystalHeart.setItemMeta(meta);
+        return crystalHeart;
     }
 
-    public static ItemStack getRubyShard(){
-        ItemStack rubyShard = new ItemStack(Material.STRUCTURE_BLOCK);
-        ItemMeta meta = rubyShard.getItemMeta();
-        meta.setItemName("Ruby Shard");
+    public static ItemStack getCrystalShard(){
+        ItemStack crystalShard = new ItemStack(Material.STRUCTURE_BLOCK);
+        ItemMeta meta = crystalShard.getItemMeta();
+        meta.setItemName("Crystal Shard");
         meta.setRarity(ItemRarity.EPIC);
-        meta.setItemModel(new NamespacedKey("guhca", "ruby_shard"));
-        rubyShard.setItemMeta(meta);
-        return rubyShard;
+        meta.setItemModel(new NamespacedKey("guhca", "crystal_shard"));
+        crystalShard.setItemMeta(meta);
+        return crystalShard;
     }
 }
