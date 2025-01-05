@@ -194,7 +194,7 @@ public class Listeners implements Listener {
                 kicker = ".afk";
             }
 
-            if(e.getFinalDamage() > (p.getHealth() + p.getAbsorptionAmount()) &&
+            if(e.getFinalDamage() >= (p.getHealth() + p.getAbsorptionAmount()) &&
                     p.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING &&
                     p.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING &&
                     useCrystalHeart(p)){
@@ -206,6 +206,16 @@ public class Listeners implements Listener {
                 p.teleport(getRespawnLocation(p));
                 p.setFlying(false);
                 doCrystalRelocateAnim(p);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                        TextComponent.fromLegacy("Your crystal heart shatters, you live"));
+
+                for (PotionEffect pe: p.getActivePotionEffects()){
+                    p.removePotionEffect(pe.getType());
+                }
+                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 400, 1));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 3));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 6000, 0));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0));
             }
         }
     }
