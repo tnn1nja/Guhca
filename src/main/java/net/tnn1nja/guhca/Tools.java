@@ -182,9 +182,11 @@ public class Tools {
         World w = Bukkit.getWorlds().get(0);
         w.playSound(p.getLocation(), Sound.ENTITY_EVOKER_CAST_SPELL, 1F, 1F);
         w.spawnParticle(Particle.DUST, p.getLocation().add(0,  (int) p.getHeight(),
-                        0), 3000, 0.55, 0.55, 0.55, 1,
+                        0), 2048, 0.55, 0.55, 0.55, 1,
+                new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
+        w.spawnParticle(Particle.DUST, p.getLocation().add(0,  p.getEyeHeight(),
+                        0), 256, 0.1, 0.1, 0.1, 1,
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
     }
-
 
 }
