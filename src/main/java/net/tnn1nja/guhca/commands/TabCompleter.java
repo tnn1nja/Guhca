@@ -11,24 +11,21 @@ import java.util.stream.Collectors;
 
 public class TabCompleter implements org.bukkit.command.TabCompleter {
 
-    ArrayList<String> empty = new ArrayList<String>();
+    List<String> empty = new ArrayList<String>();
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
         //Last Played
         if(command.getName().equalsIgnoreCase("lastplayed")) {
-
             List<String> output = new ArrayList<String>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
                 if(!op.getName().equalsIgnoreCase(sender.getName())) {
                     output.add(op.getName());
                 }
             }
-
             if (args.length == 1){
-                return output.stream().filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase())).
-                        collect(Collectors.toList());
+                return filterList(output, args[0]);
             }
         }
 
@@ -40,5 +37,10 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
         }
 
         return null;
+    }
+
+    public List<String> filterList(List<String> input, String arg){
+        return input.stream().filter(s -> s.toLowerCase().startsWith(arg.toLowerCase())).
+                collect(Collectors.toList());
     }
 }
