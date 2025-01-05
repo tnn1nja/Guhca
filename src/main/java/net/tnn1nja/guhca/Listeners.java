@@ -88,7 +88,7 @@ public class Listeners implements Listener {
                     }
                 }, 10L);
                 startBellCooldown(l);
-                log.info("[BetterRaidBells] Bell resonated with range of " + customDetectionRadius + " blocks.");
+                log.info("[Guhca] Bell resonated with range of " + customDetectionRadius + " blocks.");
             }
         }
     }
@@ -98,7 +98,7 @@ public class Listeners implements Listener {
         Location l = e.getBlock().getLocation();
         e.getResonatedEntities().addAll(getRaidersWithinCustomRange(l));
         startBellCooldown(l);
-        log.info("[BetterRaidBells] Bell resonation range extended to " + customDetectionRadius + " blocks.");
+        log.info("[Guhca] Bell resonation range extended to " + customDetectionRadius + " blocks.");
     }
 
     @EventHandler
@@ -216,6 +216,7 @@ public class Listeners implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 3));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 6000, 0));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0));
+                log.info("[Guhca] Crystal Heart Used.");
             }
         }
     }
