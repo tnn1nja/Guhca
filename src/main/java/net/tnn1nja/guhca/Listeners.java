@@ -207,7 +207,7 @@ public class Listeners implements Listener {
                 p.setFlying(false);
                 doCrystalRelocateAnim(p);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacy("Your crystal heart shatters, you live"));
+                        TextComponent.fromLegacy("Your crystal heart has shattered"));
 
                 for (PotionEffect pe: p.getActivePotionEffects()){
                     p.removePotionEffect(pe.getType());
