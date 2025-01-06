@@ -10,6 +10,7 @@ import org.bukkit.scoreboard.*;
 
 import java.util.Collection;
 import java.util.Random;
+import java.util.UUID;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -196,6 +197,16 @@ public class Tools {
                 doCrystalRelocateAnim(p);
             }
         }, 1L);
+    }
+
+    public static void grantPlayerImmunity(UUID uuid, long ticks){
+        damageImmunePlayers.add(uuid);
+        Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+            @Override
+            public void run() {
+                damageImmunePlayers.remove(uuid);
+            }
+        }, ticks);
     }
 
 }

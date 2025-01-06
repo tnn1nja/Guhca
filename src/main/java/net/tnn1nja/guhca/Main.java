@@ -35,6 +35,7 @@ public final class Main extends JavaPlugin {
 
     //Variables
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
+    public static HashSet<UUID> damageImmunePlayers = new HashSet<UUID>();
     public static HashSet<Location> bellOnCooldownLocations = new HashSet<Location>();
     public static String kicker = null;
     public static boolean playersDied = false;

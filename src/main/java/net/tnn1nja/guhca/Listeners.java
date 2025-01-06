@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -192,23 +193,37 @@ public class Listeners implements Listener {
             if(Afk.hasPlayer(p)){
                 p.kickPlayer("You took damage will afk\n");
                 kicker = ".afk";
+                return;
             }
 
+            if(damageImmunePlayers.contains(p.getUniqueId())){
+                e.setCancelled(true);
+                return;
+            }
+
+            //Check for Ruby Heart
             if(e.getFinalDamage() >= p.getHealth() &&
                     p.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING &&
                     p.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING &&
                     useCrystalHeart(p)){
                 p.setStatistic(Statistic.DAMAGE_TAKEN,
-                        p.getStatistic(Statistic.DAMAGE_TAKEN) + ((int) e.getFinalDamage())*10);
-                e.setDamage(0);
-                p.setHealth(1);
+                        p.getStatistic(Statistic.DAMAGE_TAKEN) + (((int) e.getFinalDamage())*10)-1);
+                p.setHealth(2);
+                e.setDamage(1);
+
+                //Move Particle Animation
                 doCrystalRelocateAnim(p);
                 p.teleport(getRespawnLocation(p));
-                p.setFlying(false);
                 doCrystalRelocateAnimDelayed(p);
+
+                //Assorted
+                p.setFlying(false);
+                p.setFreezeTicks(0);
+                grantPlayerImmunity(p.getUniqueId(), 60L);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         TextComponent.fromLegacy("Your crystal heart has shattered"));
 
+                //Enchanted Golden Apple
                 for (PotionEffect pe: p.getActivePotionEffects()){
                     p.removePotionEffect(pe.getType());
                 }
@@ -216,6 +231,8 @@ public class Listeners implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 3));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 6000, 0));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0));
+
+                //Logging
                 log.info("[Guhca] Crystal Heart Used.");
             }
         }
