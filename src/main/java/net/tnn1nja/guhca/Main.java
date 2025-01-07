@@ -60,6 +60,7 @@ public final class Main extends JavaPlugin {
         initScoreboard();
         generateOfflinePlayerSet();
         serverFreeze();
+        updateDatapack();
 
         //Kick Players on Reload
         for(Player p: Bukkit.getOnlinePlayers()){

@@ -8,7 +8,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
 
+import java.io.*;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -207,6 +209,37 @@ public class Tools {
                 damageImmunePlayers.remove(uuid);
             }
         }, ticks);
+    }
+
+    public static void updateDatapack(){
+        String datapackDir = Bukkit.getWorlds().get(0).getName() + "/datapacks/guhca/";
+        String[][] files = {
+                {"pack.mcmeta", ""},
+                {"reward_ominous_unique.json", "data/minecraft/loot_table/chests/trial_chambers/"}};
+
+        long lastExtracted = new File(datapackDir + "pack.mcmeta").lastModified();
+        long lastCompiled = Objects.requireNonNull(new File("plugins/").listFiles((dir, name) ->
+                name.startsWith("Guhca-") || name.endsWith(".jar")))[0].lastModified();
+
+        if(lastCompiled > lastExtracted) {
+            try {
+                for (String[] pair : files) {
+                    new File(datapackDir + pair[1]).mkdirs();
+                    InputStream is = Tools.class.getClassLoader().getResourceAsStream("datapack/" + pair[0]);
+                    FileOutputStream fos = new FileOutputStream(datapackDir + pair[1] + pair[0]);
+                    is.transferTo(fos);
+                    is.close();
+                    fos.close();
+                }
+                log.info("[Guhca] Datapack extracted and updated, reloading data...");
+                Bukkit.getServer().reloadData();
+            } catch (IOException e) {
+                log.info("[Guhca] Datapack failed to extract");
+                e.printStackTrace();
+            }
+        }else{
+            log.info("[Guhca] Datapack up to date, skipping...");
+        }
     }
 
 }
