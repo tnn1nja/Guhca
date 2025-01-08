@@ -53,7 +53,6 @@ public final class Main extends JavaPlugin {
         getCommand("kick").setExecutor(ComExec);
         getCommand("kick").setTabCompleter(TabComp);
         getCommand("lastplayed").setTabCompleter(TabComp);
-        Recipes.registerRecipes();
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();

@@ -38,12 +38,11 @@
               "components": {
                 "minecraft:item_name": "{'extra':['Crystal Heart'], 'text':''}",
                 "minecraft:item_model": "guhca:crystal_heart",
-                "minecraft:max_stack_size": 1,
-                "minecraft:rarity": "epic"
+                "minecraft:max_stack_size": 1
               }
             }
           ],
-          "weight": 1000
+          "weight": 1
         }
       ],
       "rolls": 1.0

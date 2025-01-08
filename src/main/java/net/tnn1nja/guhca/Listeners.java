@@ -198,15 +198,13 @@ public class Listeners implements Listener {
                 return;
             }
 
-            //Check for Ruby Heart
+            //Attempt to use Crystal Heart
             if(e.getFinalDamage() >= p.getHealth() &&
                     p.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING &&
                     p.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING &&
                     useCrystalHeart(p)){
                 p.setStatistic(Statistic.DAMAGE_TAKEN,
                         p.getStatistic(Statistic.DAMAGE_TAKEN) + (((int) e.getFinalDamage())*10)-1);
-                p.setHealth(2);
-                e.setDamage(1);
 
                 //Move Particle Animation
                 doCrystalRelocateAnim(p);
@@ -214,6 +212,8 @@ public class Listeners implements Listener {
                 doCrystalRelocateAnimDelayed(p);
 
                 //Assorted
+                p.setHealth(1.1);
+                e.setDamage(0.1);
                 p.setFlying(false);
                 p.setFreezeTicks(0);
                 grantPlayerImmunity(p.getUniqueId(), 60L);
@@ -243,10 +243,10 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onPlaceCustomItem(BlockPlaceEvent e){
+    public void onPlaceCrystalHeart(BlockPlaceEvent e){
         Material m = e.getBlock().getType();
         if (e.getItemInHand().getItemMeta().hasItemName() &&
-                (m.equals(Material.COMMAND_BLOCK) || m.equals(Material.STRUCTURE_BLOCK))){
+                (m.equals(Material.STRUCTURE_BLOCK))){
             e.setCancelled(true);
         }
     }

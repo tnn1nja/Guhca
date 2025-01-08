@@ -147,7 +147,7 @@ public class Tools {
         for(int i = 0; i < inv.getSize(); i++){
             ItemStack item = inv.getItem(i);
             if (item != null &&
-                    item.getType() == Material.COMMAND_BLOCK &&
+                    item.getType() == Material.STRUCTURE_BLOCK &&
                     item.getItemMeta().hasItemName()){
                 inv.setItem(i, null);
                 return true;
