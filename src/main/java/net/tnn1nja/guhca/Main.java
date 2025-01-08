@@ -51,8 +51,8 @@ public final class Main extends JavaPlugin {
         getCommand("playtime").setExecutor(ComExec);
         getCommand("damage").setExecutor(ComExec);
         getCommand("kick").setExecutor(ComExec);
-        getCommand("kick").setTabCompleter(TabComp);
         getCommand("lastplayed").setTabCompleter(TabComp);
+        getCommand("kick").setTabCompleter(TabComp);
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();

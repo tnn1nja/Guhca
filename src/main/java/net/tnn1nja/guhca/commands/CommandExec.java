@@ -19,6 +19,7 @@ public class CommandExec implements CommandExecutor {
 
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+
         //Last Played
         if (command.getName().equalsIgnoreCase("lastplayed")) {
             if (args.length > 0) {
@@ -134,6 +135,7 @@ public class CommandExec implements CommandExecutor {
         }
 
         return true;
+
     }
 
 

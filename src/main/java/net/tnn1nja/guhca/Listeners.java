@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -203,22 +204,30 @@ public class Listeners implements Listener {
                     p.getInventory().getItemInMainHand().getType() != Material.TOTEM_OF_UNDYING &&
                     p.getInventory().getItemInOffHand().getType() != Material.TOTEM_OF_UNDYING &&
                     useCrystalHeart(p)){
-                p.setStatistic(Statistic.DAMAGE_TAKEN,
-                        p.getStatistic(Statistic.DAMAGE_TAKEN) + (((int) e.getFinalDamage())*10)-1);
-
-                //Move Particle Animation
-                doCrystalRelocateAnim(p);
-                p.teleport(getRespawnLocation(p));
-                doCrystalRelocateAnimDelayed(p);
 
                 //Assorted
                 p.setHealth(1.1);
                 e.setDamage(0.1);
-                p.setFlying(false);
                 p.setFreezeTicks(0);
+                p.setFireTicks(0);
+                p.setFallDistance(0);
+                p.setGliding(false);
                 grantPlayerImmunity(p.getUniqueId(), 60L);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacy("Your crystal heart has shattered"));
+                p.setStatistic(Statistic.DAMAGE_TAKEN,
+                        p.getStatistic(Statistic.DAMAGE_TAKEN) + (((int) e.getFinalDamage())*10)-1);
+
+                //Move with Animation
+                doCrystalRelocateAnim(p);
+                p.teleport(getRespawnLocation(p));
+                Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+                    @Override
+                    public void run() {
+                        doCrystalRelocateAnim(p);
+                        p.setVelocity(new Vector(0, 0, 0));
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                                TextComponent.fromLegacy("Your crystal heart has shattered"));
+                    }
+                }, 1L);
 
                 //Enchanted Golden Apple
                 for (PotionEffect pe: p.getActivePotionEffects()){

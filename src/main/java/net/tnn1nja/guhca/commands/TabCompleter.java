@@ -37,7 +37,9 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
         }
 
         return null;
+
     }
+
 
     public List<String> filterList(List<String> input, String arg){
         return input.stream().filter(s -> s.toLowerCase().startsWith(arg.toLowerCase())).

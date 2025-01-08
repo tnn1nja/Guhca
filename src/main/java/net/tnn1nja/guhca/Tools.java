@@ -192,15 +192,6 @@ public class Tools {
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
     }
 
-    public static void doCrystalRelocateAnimDelayed(Player p){
-        Bukkit.getScheduler().runTaskLater(me, new Runnable() {
-            @Override
-            public void run() {
-                doCrystalRelocateAnim(p);
-            }
-        }, 1L);
-    }
-
     public static void grantPlayerImmunity(UUID uuid, long ticks){
         damageImmunePlayers.add(uuid);
         Bukkit.getScheduler().runTaskLater(me, new Runnable() {
