@@ -59,7 +59,7 @@ public final class Main extends JavaPlugin {
         initScoreboard();
         generateOfflinePlayerSet();
         serverFreeze();
-        updateDatapack();
+        loadDatapack();
 
         //Kick Players on Reload
         for(Player p: Bukkit.getOnlinePlayers()){
@@ -93,5 +93,6 @@ public final class Main extends JavaPlugin {
         Afk.unregister();
         HealthBN.unregister();
         HealthPL.unregister();
+        unloadDatapack();
     }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Guhca:jar">
+    <output-path>$PROJECT_DIR$/../../Servers/guhcaDev/plugins</output-path>
+    <root id="archive" name="Guhca.jar">
+      <element id="module-output" name="Guhca" />
+    </root>
+  </artifact>
+</component>
