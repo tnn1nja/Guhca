@@ -3,6 +3,7 @@ package net.tnn1nja.guhca;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Pose;
 import org.bukkit.entity.Raider;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -181,10 +182,29 @@ public class Tools {
     }
 
     public static void doWorldCrystalRelocateAnim(Player p){
+        double width = 0;
+        double height = 0;
+        double yMod = (int) p.getEyeHeight();
+        if(p.getPose() == Pose.STANDING){
+            width = 0.35;
+            height = 0.55;
+        }else if((p.getPose() == Pose.SWIMMING && p.isOnGround()) ||
+                (p.getPose() == Pose.SLEEPING)){
+            width = 0.5;
+            height = 0.4;
+        }else if(p.getPose() == Pose.SNEAKING){
+            width = 0.35;
+            height = 0.4;
+            yMod = 0.7;
+        }else{
+            width = 0.55;
+            height = 0.55;
+        }
+
         World w = Bukkit.getWorlds().get(0);
         w.playSound(p.getLocation(), Sound.ENTITY_EVOKER_CAST_SPELL, 1F, 1F);
-        w.spawnParticle(Particle.DUST, p.getLocation().add(0, (int) p.getEyeHeight(),
-                        0), 2048, 0.55, 0.55, 0.55, 1,
+        w.spawnParticle(Particle.DUST, p.getLocation().add(0, yMod,
+                        0), 2048, width, height, width, 1,
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
     }
 
