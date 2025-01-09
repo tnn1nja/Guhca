@@ -12,7 +12,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:flow_armor_trim_smithing_template",
-          "weight": 6
+          "weight": 5
         },
         {
           "type": "minecraft:item",
