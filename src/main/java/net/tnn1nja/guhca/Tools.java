@@ -18,7 +18,6 @@ import static net.tnn1nja.guhca.Main.*;
 
 public class Tools {
 
-    @SuppressWarnings("deprecation")
     public static void initScoreboard(){
         //Init
         Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
