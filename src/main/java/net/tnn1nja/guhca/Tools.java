@@ -184,26 +184,30 @@ public class Tools {
     public static void doWorldCrystalRelocateAnim(Player p){
         double width = 0;
         double height = 0;
-        double yMod = (int) p.getEyeHeight();
+        double yMod = 0;
         if(p.getPose() == Pose.STANDING){
             width = 0.35;
             height = 0.55;
+            yMod = 1;
         }else if((p.getPose() == Pose.SWIMMING && p.isOnGround()) ||
                 (p.getPose() == Pose.SLEEPING)){
-            width = 0.5;
-            height = 0.4;
+            width = 0.55;
+            height = 0.35;
+            yMod = 0.25;
         }else if(p.getPose() == Pose.SNEAKING){
             width = 0.35;
-            height = 0.4;
+            height = 0.45;
             yMod = 0.7;
         }else{
             width = 0.55;
             height = 0.55;
+            yMod = 0.25;
         }
 
+        Location l = p.getLocation();
         World w = Bukkit.getWorlds().get(0);
-        w.playSound(p.getLocation(), Sound.ENTITY_EVOKER_CAST_SPELL, 1F, 1F);
-        w.spawnParticle(Particle.DUST, p.getLocation().add(0, yMod,
+        w.playSound(l, Sound.ENTITY_EVOKER_CAST_SPELL, 1F, 1F);
+        w.spawnParticle(Particle.DUST, l.add(0, yMod,
                         0), 2048, width, height, width, 1,
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
     }
