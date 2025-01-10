@@ -15,17 +15,16 @@ import static net.tnn1nja.guhca.Tools.*;
 
 public final class Main extends JavaPlugin {
 
-    //Globals
+    //Objects
     public static Main me;
     public static Team Online;
     public static Team Afk;
     public static Objective HealthBN;
     public static Objective HealthPL;
-    public CommandExec ComExec = new CommandExec();
-    public TabCompleter TabComp = new TabCompleter();
-    public static HashSet<String> OfflinePlayers = new HashSet<String>();
     public static SimpleDateFormat DateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
     public static Logger log = Bukkit.getLogger();
+    public CommandExec ComExec = new CommandExec();
+    public TabCompleter TabComp = new TabCompleter();
 
     //Constants
     public static Integer afkTime = 300;
@@ -34,6 +33,7 @@ public final class Main extends JavaPlugin {
     public static int customDetectionRadius = 128;
 
     //Variables
+    public static HashSet<String> OfflinePlayers = new HashSet<String>();
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
     public static HashSet<UUID> damageImmunePlayers = new HashSet<UUID>();
     public static HashSet<Location> bellOnCooldownLocations = new HashSet<Location>();
