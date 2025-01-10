@@ -182,22 +182,26 @@ public class Tools {
     }
 
     public static void doWorldCrystalRelocateAnim(Player p){
-        double width = 0;
-        double height = 0;
-        double yMod = 0;
+        double width;
+        double height;
+        double yMod;
+
+        //Standing
         if(p.getPose() == Pose.STANDING){
             width = 0.35;
             height = 0.55;
             yMod = 1;
-        }else if((p.getPose() == Pose.SWIMMING && p.isOnGround()) ||
-                (p.getPose() == Pose.SLEEPING)){
-            width = 0.55;
-            height = 0.35;
-            yMod = 0.25;
+        //Sneaking
         }else if(p.getPose() == Pose.SNEAKING){
             width = 0.35;
             height = 0.45;
             yMod = 0.7;
+        //Crawling
+        }else if((p.getPose() == Pose.SWIMMING && p.isOnGround()) || (p.getPose() == Pose.SLEEPING)){
+            width = 0.55;
+            height = 0.35;
+            yMod = 0.25;
+        //Flying
         }else{
             width = 0.55;
             height = 0.55;
@@ -212,7 +216,7 @@ public class Tools {
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);
     }
 
-    public static void doClientCrystalRelocateAnim(Player p){
+    public static void doClientCrystalObscureAnim(Player p){
         p.spawnParticle(Particle.DUST, p.getLocation().add(0, p.getEyeHeight(),
                         0), 512, 0.2, 0.2, 0.2, 1,
                 new Particle.DustOptions(Color.fromRGB(252, 47, 72), 1.2F), true);

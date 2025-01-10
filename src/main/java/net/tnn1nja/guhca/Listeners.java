@@ -219,12 +219,12 @@ public class Listeners implements Listener {
                 //Move with Animation
                 doWorldCrystalRelocateAnim(p);
                 p.teleport(getRespawnLocation(p));
-                doClientCrystalRelocateAnim(p);
+                doClientCrystalObscureAnim(p);
                 Bukkit.getScheduler().runTaskLater(me, new Runnable() {
                     @Override
                     public void run() {
                         doWorldCrystalRelocateAnim(p);
-                        doClientCrystalRelocateAnim(p);
+                        doClientCrystalObscureAnim(p);
                         p.setVelocity(new Vector(0, 0, 0));
                         p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                                 TextComponent.fromLegacy("Your crystal heart has shattered"));
