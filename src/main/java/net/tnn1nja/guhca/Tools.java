@@ -162,8 +162,8 @@ public class Tools {
             Random r = new Random();
             for(int i = 0; i<256; i++) {
                 Location l = Bukkit.getWorlds().get(0).getSpawnLocation();
-                l.setX(l.getX() + r.nextInt(21)-10);
-                l.setZ(l.getZ() + r.nextInt(21)-10);
+                l.setX(l.getX() + r.nextInt(19)-9);
+                l.setZ(l.getZ() + r.nextInt(19)-9);
                 for(int y = 319; y >= -64; y--){
                     l.setY(y);
                     if(l.getBlock().getType() != Material.AIR) {
