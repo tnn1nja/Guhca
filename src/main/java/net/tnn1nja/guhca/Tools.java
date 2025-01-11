@@ -1,6 +1,7 @@
 package net.tnn1nja.guhca;
 
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Pose;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Raider;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
+import org.bukkit.util.BoundingBox;
 
 import java.io.*;
 import java.util.Collection;
@@ -166,10 +168,10 @@ public class Tools {
                 l.setZ(l.getZ() + r.nextInt(19)-9);
                 for(int y = 319; y >= -64; y--){
                     l.setY(y);
-                    if(l.getBlock().getType() != Material.AIR) {
-                        if (l.getBlock().getType().isSolid()) {
-                            l.setY(y+1);
-                            return l.add(0.5, 0, 0.5);
+                    Block b = l.getBlock();
+                    if(!b.getType().isAir()) {
+                        if (isFullBlock(b)) {
+                            return l.add(0.5, 1, 0.5);
                         }else{
                             break;
                         }
@@ -272,6 +274,15 @@ public class Tools {
             }
         }
         f.delete();
+    }
+
+    public static boolean isFullBlock(Block b){
+        BoundingBox bb = b.getBoundingBox();
+        return (b.getCollisionShape().getBoundingBoxes().size() == 1 &&
+                bb.getHeight() == 1.0 &&
+                bb.getWidthX() == 1.0 &&
+                bb.getWidthZ() == 1.0);
+
     }
 
 }
