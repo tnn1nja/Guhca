@@ -44,13 +44,19 @@ public class Listeners implements Listener {
         //Setup New Player
         if(!p.hasPlayedBefore()){
             generateOfflinePlayerSet();
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "recipe give " + p.getName() + " *");
         }
 
         //Unfreeze Server
         if (Bukkit.getServerTickManager().isFrozen()) {
             serverResume();
         }
+
+        //Discover all Recipes
+        Bukkit.recipeIterator().forEachRemaining(recipe -> {
+            if (recipe instanceof Keyed){
+                p.discoverRecipe(((Keyed) recipe).getKey());
+            }
+        });
 
     }
 
