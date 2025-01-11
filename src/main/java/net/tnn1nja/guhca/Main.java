@@ -29,8 +29,8 @@ public final class Main extends JavaPlugin {
     //Constants
     public static Integer afkTime = 300;
     public static int pingKickThreshold = 5000;
-    public static int vanillaDetectionRadius = 32;
-    public static int customDetectionRadius = 128;
+    public static int vanillaBellDetectionRadius = 32;
+    public static int customBellDetectionRadius = 128;
 
     //Variables
     public static HashSet<String> OfflinePlayers = new HashSet<String>();

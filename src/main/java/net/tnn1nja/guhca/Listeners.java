@@ -93,7 +93,7 @@ public class Listeners implements Listener {
                     }
                 }, 10L);
                 startBellCooldown(l);
-                log.info("[Guhca] Bell resonated with range of " + customDetectionRadius + " blocks.");
+                log.info("[Guhca] Bell resonated with range of " + customBellDetectionRadius + " blocks.");
             }
         }
     }
@@ -103,7 +103,7 @@ public class Listeners implements Listener {
         Location l = e.getBlock().getLocation();
         e.getResonatedEntities().addAll(getRaidersWithinCustomRange(l));
         startBellCooldown(l);
-        log.info("[Guhca] Bell resonation range extended to " + customDetectionRadius + " blocks.");
+        log.info("[Guhca] Bell resonation range extended to " + customBellDetectionRadius + " blocks.");
     }
 
     @EventHandler

@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,16 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                     output.add(op.getName());
                 }
             }
+            if (args.length == 1){
+                return filterList(output, args[0]);
+            }
+
+        }
+
+        //Dimension
+        if(command.getName().equalsIgnoreCase("dimension")) {
+            List<String> output = Arrays.asList("overworld", "nether", "end");
+
             if (args.length == 1){
                 return filterList(output, args[0]);
             }

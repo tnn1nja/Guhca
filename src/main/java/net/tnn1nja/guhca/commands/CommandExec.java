@@ -1,17 +1,17 @@
 package net.tnn1nja.guhca.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -65,6 +65,56 @@ public class CommandExec implements CommandExecutor {
                 }
             }else{
                 sender.sendMessage(ChatColor.RED + "Please specify a player.");
+            }
+        }
+
+        //Night Vision
+        if (command.getName().equalsIgnoreCase("nightvision")) {
+            if(playersDied && sender instanceof Player){
+                Player p = (Player) sender;
+                if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
+                    p.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                    sender.sendMessage("Night vision removed.");
+                }else{
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 5));
+                    sender.sendMessage("You now have night vision.");
+                }
+            }else{
+                sender.sendMessage(ChatColor.RED + "You cannot use this until you have died.");
+            }
+        }
+
+        //Dimension
+        if (command.getName().equalsIgnoreCase("dimension")) {
+            if(playersDied && sender instanceof Player p){
+                Location l = p.getLocation();
+                List<World> worlds = Bukkit.getWorlds();
+                World o = worlds.get(0);
+                World n = worlds.get(1);
+                World e = worlds.get(2);
+                Location tpl;
+                if (args.length > 0){
+                    switch(args[0]){
+                        case "nether": case "n":
+                            tpl = new Location(n, 0, 64, 0);
+                            p.teleport(tpl);
+                            break;
+                        case "overworld": case "o":
+                            tpl = new Location(o, 0, 150, 0);
+                            p.teleport(tpl);
+                            break;
+                        case "end": case "e":
+                            tpl = new Location(e, 0, 100, 0);
+                            p.teleport(tpl);
+                            break;
+                        default:
+                            p.sendMessage(ChatColor.RED + "That dimension is not recognised.");
+                    }
+                }else{
+                    p.sendMessage(ChatColor.RED + "You must specify a dimension.");
+                }
+            }else{
+                sender.sendMessage(ChatColor.RED + "You cannot use this until you have died.");
             }
         }
 
@@ -140,7 +190,7 @@ public class CommandExec implements CommandExecutor {
 
 
     //Player Stat Data Structure
-    private class PlayerStatHolder {
+    private static class PlayerStatHolder {
         String name;
         int stat;
 

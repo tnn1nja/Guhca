@@ -109,9 +109,9 @@ public class Tools {
 
     public static boolean isRaidersWithinVanillaRange(Location bellLocation){
         Collection<Entity> entities = bellLocation.getWorld().getNearbyEntities(bellLocation,
-                vanillaDetectionRadius, vanillaDetectionRadius, vanillaDetectionRadius);
+                vanillaBellDetectionRadius, vanillaBellDetectionRadius, vanillaBellDetectionRadius);
         for(Entity e: entities){
-            if(e instanceof Raider && isWithinSphere(e.getLocation(), bellLocation, vanillaDetectionRadius)){
+            if(e instanceof Raider && isWithinSphere(e.getLocation(), bellLocation, vanillaBellDetectionRadius)){
                 return true;
             }
         }
@@ -137,9 +137,9 @@ public class Tools {
 
     public static Collection<Raider> getRaidersWithinCustomRange(Location bellLocation){
         return bellLocation.getWorld().getNearbyEntities(bellLocation,
-                        customDetectionRadius, customDetectionRadius, customDetectionRadius,
+                        customBellDetectionRadius, customBellDetectionRadius, customBellDetectionRadius,
                         entity -> entity instanceof Raider &&
-                                isWithinSphere(entity.getLocation(), bellLocation, customDetectionRadius)).
+                                isWithinSphere(entity.getLocation(), bellLocation, customBellDetectionRadius)).
                 stream().map(entity -> (Raider) entity).toList();
     }
 
