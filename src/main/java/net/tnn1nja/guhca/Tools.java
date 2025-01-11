@@ -211,6 +211,8 @@ public class Tools {
 
         Location l = p.getLocation();
         World w = Bukkit.getWorlds().get(0);
+        w.playSound(l, Sound.ENTITY_ITEM_BREAK, 1F, 1F);
+        w.playSound(l, Sound.BLOCK_GLASS_BREAK, 1F, 1F);
         w.playSound(l, Sound.ENTITY_EVOKER_CAST_SPELL, 1F, 1F);
         w.spawnParticle(Particle.DUST, l.add(0, yMod,
                         0), 2048, width, height, width, 1,
