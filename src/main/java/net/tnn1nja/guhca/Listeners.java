@@ -13,10 +13,12 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import javax.naming.Name;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -273,13 +275,17 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onMobSpawn(CreatureSpawnEvent e){
-        //Should check if that world has a mob switch
         if(e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
                 e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
                 e.getEntityType() != EntityType.PHANTOM &&
                 e.getLocation().getWorld() == Bukkit.getWorlds().get(0)){
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onInteractEntity(PlayerInteractAtEntityEvent e){
+        hasActiveMobSwitch(e.getRightClicked().getWorld().getName());
     }
 
     //@HonouraryEventHandler

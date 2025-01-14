@@ -2,10 +2,7 @@ package net.tnn1nja.guhca;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Pose;
-import org.bukkit.entity.Raider;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scoreboard.*;
@@ -285,6 +282,18 @@ public class Tools {
                 bb.getWidthX() == 1.0 &&
                 bb.getWidthZ() == 1.0);
 
+    }
+
+    public static boolean hasActiveMobSwitch(String s){
+        int validZombieVillagers = 0;
+        for(LivingEntity le: Bukkit.getWorld(s).getLivingEntities()){
+            if (le.getType() == EntityType.ZOMBIE_VILLAGER){
+                if(le.getRemoveWhenFarAway()){
+                    validZombieVillagers += 1;
+                }
+            }
+        }
+        return validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size());
     }
 
 }
