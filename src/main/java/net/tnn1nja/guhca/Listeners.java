@@ -3,6 +3,7 @@ package net.tnn1nja.guhca;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.*;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
@@ -266,6 +267,17 @@ public class Listeners implements Listener {
         Material m = e.getBlock().getType();
         if (e.getItemInHand().getItemMeta().hasItemName() &&
                 (m.equals(Material.STRUCTURE_BLOCK))){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onMobSpawn(CreatureSpawnEvent e){
+        //Should check if that world has a mob switch
+        if(e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
+                e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
+                e.getEntityType() != EntityType.PHANTOM &&
+                e.getLocation().getWorld() == Bukkit.getWorlds().get(0)){
             e.setCancelled(true);
         }
     }
