@@ -284,16 +284,4 @@ public class Tools {
 
     }
 
-    public static boolean hasActiveMobSwitch(String s){
-        int validZombieVillagers = 0;
-        for(LivingEntity le: Bukkit.getWorld(s).getLivingEntities()){
-            if (le.getType() == EntityType.ZOMBIE_VILLAGER){
-                if(le.getRemoveWhenFarAway()){
-                    validZombieVillagers += 1;
-                }
-            }
-        }
-        return validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size());
-    }
-
 }

@@ -37,6 +37,7 @@ public final class Main extends JavaPlugin {
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
     public static HashSet<UUID> damageImmunePlayers = new HashSet<UUID>();
     public static HashSet<Location> bellOnCooldownLocations = new HashSet<Location>();
+    public static HashSet<UUID> mobSwitchedWorlds = new HashSet<UUID>();
     public static String kicker = null;
     public static boolean playersDied = false;
 
@@ -61,6 +62,7 @@ public final class Main extends JavaPlugin {
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();
+        Listeners.onTenSec();
         initScoreboard();
         generateOfflinePlayerSet();
         serverFreeze();

@@ -3,7 +3,6 @@ package net.tnn1nja.guhca;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.*;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
@@ -13,12 +12,10 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import javax.naming.Name;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -278,14 +275,9 @@ public class Listeners implements Listener {
         if(e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
                 e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
                 e.getEntityType() != EntityType.PHANTOM &&
-                e.getLocation().getWorld() == Bukkit.getWorlds().get(0)){
+                mobSwitchedWorlds.contains(e.getLocation().getWorld().getUID())){
             e.setCancelled(true);
         }
-    }
-
-    @EventHandler
-    public void onInteractEntity(PlayerInteractAtEntityEvent e){
-        hasActiveMobSwitch(e.getRightClicked().getWorld().getName());
     }
 
     //@HonouraryEventHandler
@@ -319,6 +311,36 @@ public class Listeners implements Listener {
                 }
             }
         }, 0L, 10L);
+    }
+
+    //@HonouraryEventHandler
+    public static void onTenSec(){
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable() {
+            @Override
+            public void run() {
+                log.info("start");
+                for(World w: Bukkit.getWorlds()) {
+                    int validZombieVillagers = 0;
+                    for (LivingEntity le : w.getLivingEntities()) {
+                        if (le.getType() == EntityType.ZOMBIE_VILLAGER) {
+                            if (le.getRemoveWhenFarAway()) {
+                                validZombieVillagers += 1;
+                            }
+                        }
+                    }
+                    if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
+                        if (mobSwitchedWorlds.add(w.getUID())) {
+                            log.info("[Guhca] Mob Switch Enabled for '" + w.getName() + "'");
+                        }
+                    } else {
+                        if (mobSwitchedWorlds.remove(w.getUID())) {
+                            log.info("[Guhca] Mob Switch Disabled for '" + w.getName() + "'");
+                        }
+                    }
+                }
+                log.info("stop");
+            }
+        }, 0L, 200L);
     }
 
 }
