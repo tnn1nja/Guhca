@@ -62,7 +62,7 @@ public final class Main extends JavaPlugin {
         DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();
-        Listeners.onTenSec();
+        Listeners.onFifteenSec();
         initScoreboard();
         generateOfflinePlayerSet();
         serverFreeze();

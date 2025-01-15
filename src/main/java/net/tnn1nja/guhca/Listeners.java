@@ -314,11 +314,10 @@ public class Listeners implements Listener {
     }
 
     //@HonouraryEventHandler
-    public static void onTenSec(){
+    public static void onFifteenSec(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable() {
             @Override
             public void run() {
-                log.info("start");
                 for(World w: Bukkit.getWorlds()) {
                     int validZombieVillagers = 0;
                     for (LivingEntity le : w.getLivingEntities()) {
@@ -338,9 +337,8 @@ public class Listeners implements Listener {
                         }
                     }
                 }
-                log.info("stop");
             }
-        }, 0L, 200L);
+        }, 0L, 300L);
     }
 
 }
