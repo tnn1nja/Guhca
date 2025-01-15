@@ -271,7 +271,7 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onMobSpawn(CreatureSpawnEvent e){
+    public void onMonsterSpawn(CreatureSpawnEvent e){
         if(e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
                 e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
                 e.getEntityType() != EntityType.PHANTOM &&
