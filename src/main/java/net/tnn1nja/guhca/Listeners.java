@@ -282,6 +282,14 @@ public class Listeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void onSneak(PlayerToggleSneakEvent e){
+        Player p = e.getPlayer();
+        if (p.isGliding() && p.isSneaking()){
+            p.setGliding(false);
+        }
+    }
+
     //@HonouraryEventHandler
     public static void onSec(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
