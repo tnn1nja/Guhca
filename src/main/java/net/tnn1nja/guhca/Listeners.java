@@ -283,7 +283,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onElytraSneak(PlayerToggleSneakEvent e){
         Player p = e.getPlayer();
-        if (p.isGliding() && p.isSneaking()){
+        if (p.isGliding() && e.isSneaking()){
             p.setGliding(false);
         }
     }
