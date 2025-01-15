@@ -194,15 +194,15 @@ public class Listeners implements Listener {
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            if(Afk.hasPlayer(p)){
-                p.kickPlayer("You took damage will afk\n");
-                kicker = ".afk";
-                return;
-            }
 
             if(damageImmunePlayers.contains(p.getUniqueId())){
                 e.setCancelled(true);
                 return;
+            }
+
+            if(Afk.hasPlayer(p)){
+                p.kickPlayer("You took damage will afk\n");
+                kicker = ".afk";
             }
 
             //Attempt to use Crystal Heart
