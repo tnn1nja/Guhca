@@ -288,6 +288,13 @@ public class Listeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void onExperienceOrb(PlayerExpCooldownChangeEvent e){
+        if(e.getReason() == PlayerExpCooldownChangeEvent.ChangeReason.PICKUP_ORB) {
+            e.setNewCooldown(0);
+        }
+    }
+
     //@HonouraryEventHandler
     public static void onSec(){
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
