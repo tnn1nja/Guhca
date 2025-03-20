@@ -4,7 +4,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.event.block.*;
-import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -292,18 +291,6 @@ public class Listeners implements Listener {
     public void onExperienceOrb(PlayerExpCooldownChangeEvent e){
         if(e.getReason() == PlayerExpCooldownChangeEvent.ChangeReason.PICKUP_ORB) {
             e.setNewCooldown(0);
-        }
-    }
-
-    @EventHandler
-    public void onPetLoad(ChunkLoadEvent e){
-        for (Entity en: e.getChunk().getEntities()){
-            if (en instanceof Tameable t && t.isTamed()){
-                if(t.getOwner().getName() == null) {
-                    t.setOwner(Bukkit.getOfflinePlayer("Its4llGud"));
-                    log.info("[Guhca] Pet Ownership transferred to Its4llGud");
-                }
-            }
         }
     }
 
