@@ -341,13 +341,23 @@ public class Listeners implements Listener {
                             }
                         }
                     }
+
+                    String dimension = w.getEnvironment().toString();
+                    if (dimension.endsWith("L")) {
+                        dimension = "Overworld";
+                    }else if(dimension.endsWith("R")){
+                        dimension = "ether";
+                    }else{
+                        dimension = "end";
+                    }
+
                     if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
                         if (mobSwitchedWorlds.add(w.getUID())) {
-                            log.info("[Guhca] Mob Switch Enabled for '" + w.getName() + "'");
+                            log.info("[Guhca] Mob Switch Enabled for The " + dimension);
                         }
                     } else {
                         if (mobSwitchedWorlds.remove(w.getUID())) {
-                            log.info("[Guhca] Mob Switch Disabled for '" + w.getName() + "'");
+                            log.info("[Guhca] Mob Switch Disabled for The " + dimension);
                         }
                     }
                 }
