@@ -274,6 +274,7 @@ public class Listeners implements Listener {
     public void onMonsterSpawn(CreatureSpawnEvent e){
         if(e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
                 e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
+                !(e.getEntityType() == EntityType.WARDEN) &&
                 mobSwitchedWorlds.contains(e.getLocation().getWorld().getUID())){
             e.setCancelled(true);
         }
