@@ -121,17 +121,6 @@ public class CommandExec implements CommandExecutor {
         //Playtime
         if (command.getName().equalsIgnoreCase("playtime")) {
 
-            //Collective
-            long secsSurvived = 0;
-            for (OfflinePlayer op : Bukkit.getOfflinePlayers()) {
-                int ticks = op.getStatistic(Statistic.TOTAL_WORLD_TIME);
-                secsSurvived += ticks/20;
-            }
-
-            long hours = secsSurvived / 3600;
-            long minutes = (secsSurvived % 3600) / 60;
-            String timeSurvived = hours + " hours and " + minutes + " minutes.";
-
             //Extract
             PlayerStatHolder[] psh = new PlayerStatHolder[Bukkit.getOfflinePlayers().length];
             int counter = 0;
@@ -147,12 +136,12 @@ public class CommandExec implements CommandExecutor {
             sender.sendMessage("");
             sender.sendMessage(ChatColor.GRAY + "-+=" + ChatColor.RESET + " Playtime Leaderboard " +
                     ChatColor.GRAY + "=+-");
-            sender.sendMessage("You have collectively survived: " + ChatColor.GOLD + timeSurvived);
+            sender.sendMessage("You have collectively survived " + ChatColor.GOLD +
+                    Bukkit.getWorlds().get(0).getFullTime()/24000 + ChatColor.RESET + " days.");
             counter = 1;
             for(PlayerStatHolder i: psh){
-                hours = i.stat / 3600;
                 sender.sendMessage("" + ChatColor.GRAY + counter + ". " + ChatColor.RED + i.name + ChatColor.RESET +
-                        " has played for " + ChatColor.GOLD +  hours + ChatColor.RESET + " hours.");
+                        " has played for " + ChatColor.GOLD +  i.stat / 3600 + ChatColor.RESET + " hours.");
                 counter++;
             }
             sender.sendMessage("");
