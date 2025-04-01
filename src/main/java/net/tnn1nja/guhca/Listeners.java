@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.event.block.*;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
@@ -293,6 +295,52 @@ public class Listeners implements Listener {
         if(e.getReason() == PlayerExpCooldownChangeEvent.ChangeReason.PICKUP_ORB) {
             e.setNewCooldown(0);
         }
+    }
+
+    @EventHandler
+    public void onToggleAging(PlayerInteractAtEntityEvent e) {
+
+        if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
+
+            boolean toggleAgeLock = false;
+            if (a.getAgeLock()) {
+                //Test for Unlock
+                PlayerInventory i = e.getPlayer().getInventory();
+                if (i.getItemInMainHand().getType() == Material.MILK_BUCKET) {
+                    i.setItemInMainHand(new ItemStack(Material.BUCKET));
+                    toggleAgeLock = true;
+                }
+            } else {
+                //Test for Lock
+                PlayerInventory i = e.getPlayer().getInventory();
+                if (i.getItemInMainHand().getType() == Material.SUGAR) {
+                    i.getItemInMainHand().setAmount(i.getItemInMainHand().getAmount() - 1);
+                    toggleAgeLock = true;
+                }
+            }
+
+            //Toggle Locked Aging
+            if(toggleAgeLock){
+                World w = a.getWorld();
+                BoundingBox bb = a.getBoundingBox();
+
+                //Display Particles
+                Particle p = a.getAgeLock() ? Particle.HAPPY_VILLAGER : Particle.WAX_ON;
+                w.spawnParticle(p, bb.getCenter().toLocation(w).add(0, bb.getHeight()/5, 0),
+                        15, bb.getWidthX()/2.5, bb.getHeight()/3.5, bb.getWidthZ()/2.5);
+
+                //Play Sound
+                Sound s = a.getAgeLock() ? Sound.ENTITY_GENERIC_DRINK : Sound.ENTITY_GENERIC_EAT;
+                w.playSound(a, s, SoundCategory.NEUTRAL, 1F, 1.2F);
+
+                //Lock Aging + Logging
+                a.setAgeLock(!a.getAgeLock());
+                String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
+                log.info("[Guhca] " + a.getType().toString() + " Aging " + locked);
+            }
+
+        }
+
     }
 
     //@HonouraryEventHandler
