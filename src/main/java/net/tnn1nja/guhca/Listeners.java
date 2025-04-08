@@ -333,7 +333,8 @@ public class Listeners implements Listener {
                 Sound s = a.getAgeLock() ? Sound.ENTITY_GENERIC_DRINK : Sound.ENTITY_GENERIC_EAT;
                 w.playSound(a, s, SoundCategory.NEUTRAL, 1F, 1.2F);
 
-                //Lock Aging + Logging
+                //Cancel Event + Lock Aging + Logging
+                e.setCancelled(true);
                 a.setAgeLock(!a.getAgeLock());
                 String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
                 log.info("[Guhca] " + a.getType().toString() + " Aging " + locked);
