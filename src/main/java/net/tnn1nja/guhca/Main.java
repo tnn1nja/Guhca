@@ -68,11 +68,6 @@ public final class Main extends JavaPlugin {
         serverFreeze();
         loadDatapack();
 
-        //Kick Players on Reload
-        for(Player p: Bukkit.getOnlinePlayers()){
-            p.kickPlayer("Server has reloaded.");
-        }
-
         //Set Gamerules
         for(World w: Bukkit.getWorlds()){
             w.setGameRule(GameRule.NATURAL_REGENERATION, false);
@@ -95,11 +90,19 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        log.info("[Guhca] Guhca Disabled.");
+        //Kick Players on Reload
+        for(Player p: Bukkit.getOnlinePlayers()){
+            p.kickPlayer("Server is restarting...");
+        }
+
+        //Unload
         Online.unregister();
         Afk.unregister();
         HealthBN.unregister();
         HealthPL.unregister();
         unloadDatapack();
+
+        //Log
+        log.info("[Guhca] Guhca Disabled.");
     }
 }
