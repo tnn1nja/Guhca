@@ -141,27 +141,7 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onRightClickEntity(PlayerInteractEntityEvent e){
-        //Toggle Item Frame Visibility
-        if (e.getRightClicked() instanceof ItemFrame && e.getPlayer().isSneaking()){
-            ItemFrame itf = (ItemFrame) e.getRightClicked();
-            if(itf.getItem().getType() != Material.AIR) {
-                itf.setVisible(!itf.isVisible());
-                itf.setRotation(itf.getRotation().rotateCounterClockwise());
-                log.info("[Guhca] Toggled Item Frame Visibility.");
-            }
-        }
-
-        //Toggle Armor Stand Pose
-        if(e.getRightClicked() instanceof ArmorStand as){
-            if(e.getPlayer().isSneaking()){
-                setArmorStandPose(as, (getArmorStandPose(as)+1)%13);
-                e.getPlayer().swingMainHand();
-                e.setCancelled(true);
-            }
-        }
-
-        //Toggle Baby Aging
+    public void onToggleAging(PlayerInteractEntityEvent e){
         if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
 
             boolean toggleAgeLock = false;
@@ -203,6 +183,28 @@ public class Listeners implements Listener {
                 log.info("[Guhca] " + a.getType().toString() + " Aging " + locked);
             }
 
+        }
+    }
+
+    @EventHandler
+    public void onRightClickEntity(PlayerInteractAtEntityEvent e){
+        //Toggle Item Frame Visibility
+        if (e.getRightClicked() instanceof ItemFrame && e.getPlayer().isSneaking()){
+            ItemFrame itf = (ItemFrame) e.getRightClicked();
+            if(itf.getItem().getType() != Material.AIR) {
+                itf.setVisible(!itf.isVisible());
+                itf.setRotation(itf.getRotation().rotateCounterClockwise());
+                log.info("[Guhca] Toggled Item Frame Visibility.");
+            }
+        }
+
+        //Toggle Armor Stand Pose
+        if(e.getRightClicked() instanceof ArmorStand as){
+            if(e.getPlayer().isSneaking()){
+                setArmorStandPose(as, (getArmorStandPose(as)+1)%13);
+                e.getPlayer().swingMainHand();
+                e.setCancelled(true);
+            }
         }
     }
 
