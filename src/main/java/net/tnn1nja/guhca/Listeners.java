@@ -157,6 +157,7 @@ public class Listeners implements Listener {
             if(e.getPlayer().isSneaking()){
                 setArmorStandPose(as, (getArmorStandPose(as)+1)%13);
                 e.setCancelled(true);
+                log.info("[Guhca] Armor Stand Pose Updated.");
             }
         }
 
@@ -354,6 +355,7 @@ public class Listeners implements Listener {
         if (e.getEntity() instanceof ArmorStand as){
             setArmorStandPose(as, 0);
             as.setArms(true);
+            log.info("[Guhca] Armor Stand Set to Pose 0");
         }
     }
 
