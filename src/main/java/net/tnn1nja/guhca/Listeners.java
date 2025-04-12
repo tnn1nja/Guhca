@@ -156,6 +156,7 @@ public class Listeners implements Listener {
         if(e.getRightClicked() instanceof ArmorStand as){
             if(e.getPlayer().isSneaking()){
                 setArmorStandPose(as, (getArmorStandPose(as)+1)%13);
+                e.getPlayer().swingMainHand();
                 e.setCancelled(true);
                 log.info("[Guhca] Armor Stand Pose Updated.");
             }
@@ -196,6 +197,7 @@ public class Listeners implements Listener {
                 w.playSound(a, s, SoundCategory.NEUTRAL, 1F, 1.2F);
 
                 //Cancel Event + Lock Aging + Logging
+                e.getPlayer().swingMainHand();
                 e.setCancelled(true);
                 a.setAgeLock(!a.getAgeLock());
                 String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
