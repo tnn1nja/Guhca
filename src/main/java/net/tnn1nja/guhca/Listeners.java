@@ -141,7 +141,7 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onRightClickEntity(PlayerInteractAtEntityEvent e){
+    public void onRightClickEntity(PlayerInteractEntityEvent e){
         //Toggle Item Frame Visibility
         if (e.getRightClicked() instanceof ItemFrame && e.getPlayer().isSneaking()){
             ItemFrame itf = (ItemFrame) e.getRightClicked();
