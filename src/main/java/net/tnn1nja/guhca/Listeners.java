@@ -141,7 +141,8 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onRightClick(PlayerInteractAtEntityEvent e){
+    public void onRightClickEntity(PlayerInteractAtEntityEvent e){
+        //Toggle Item Frame Visibility
         if (e.getRightClicked() instanceof ItemFrame && e.getPlayer().isSneaking()){
             ItemFrame itf = (ItemFrame) e.getRightClicked();
             if(itf.getItem().getType() != Material.AIR) {
@@ -149,6 +150,57 @@ public class Listeners implements Listener {
                 itf.setRotation(itf.getRotation().rotateCounterClockwise());
                 log.info("[Guhca] Toggled Item Frame Visibility.");
             }
+        }
+
+        //Toggle Armor Stand Pose
+        if(e.getRightClicked() instanceof ArmorStand as){
+            if(e.getPlayer().isSneaking()){
+                setArmorStandPose(as, (getArmorStandPose(as)+1)%13);
+                e.setCancelled(true);
+            }
+        }
+
+        //Toggle Baby Aging
+        if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
+
+            boolean toggleAgeLock = false;
+            if (a.getAgeLock()) {
+                //Test for Unlock
+                PlayerInventory i = e.getPlayer().getInventory();
+                if (i.getItemInMainHand().getType() == Material.MILK_BUCKET) {
+                    i.setItemInMainHand(new ItemStack(Material.BUCKET));
+                    toggleAgeLock = true;
+                }
+            } else {
+                //Test for Lock
+                PlayerInventory i = e.getPlayer().getInventory();
+                if (i.getItemInMainHand().getType() == Material.SUGAR) {
+                    i.getItemInMainHand().setAmount(i.getItemInMainHand().getAmount() - 1);
+                    toggleAgeLock = true;
+                }
+            }
+
+            //Toggle Locked Aging
+            if(toggleAgeLock){
+                World w = a.getWorld();
+                BoundingBox bb = a.getBoundingBox();
+
+                //Display Particles
+                Particle p = a.getAgeLock() ? Particle.HAPPY_VILLAGER : Particle.WAX_ON;
+                w.spawnParticle(p, bb.getCenter().toLocation(w).add(0, bb.getHeight()/5, 0),
+                        15, bb.getWidthX()/2.5, bb.getHeight()/3.5, bb.getWidthZ()/2.5);
+
+                //Play Sound
+                Sound s = a.getAgeLock() ? Sound.ENTITY_GENERIC_DRINK : Sound.ENTITY_GENERIC_EAT;
+                w.playSound(a, s, SoundCategory.NEUTRAL, 1F, 1.2F);
+
+                //Cancel Event + Lock Aging + Logging
+                e.setCancelled(true);
+                a.setAgeLock(!a.getAgeLock());
+                String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
+                log.info("[Guhca] " + a.getType().toString() + " Aging " + locked);
+            }
+
         }
     }
 
@@ -298,50 +350,11 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onToggleAging(PlayerInteractAtEntityEvent e) {
-
-        if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
-
-            boolean toggleAgeLock = false;
-            if (a.getAgeLock()) {
-                //Test for Unlock
-                PlayerInventory i = e.getPlayer().getInventory();
-                if (i.getItemInMainHand().getType() == Material.MILK_BUCKET) {
-                    i.setItemInMainHand(new ItemStack(Material.BUCKET));
-                    toggleAgeLock = true;
-                }
-            } else {
-                //Test for Lock
-                PlayerInventory i = e.getPlayer().getInventory();
-                if (i.getItemInMainHand().getType() == Material.SUGAR) {
-                    i.getItemInMainHand().setAmount(i.getItemInMainHand().getAmount() - 1);
-                    toggleAgeLock = true;
-                }
-            }
-
-            //Toggle Locked Aging
-            if(toggleAgeLock){
-                World w = a.getWorld();
-                BoundingBox bb = a.getBoundingBox();
-
-                //Display Particles
-                Particle p = a.getAgeLock() ? Particle.HAPPY_VILLAGER : Particle.WAX_ON;
-                w.spawnParticle(p, bb.getCenter().toLocation(w).add(0, bb.getHeight()/5, 0),
-                        15, bb.getWidthX()/2.5, bb.getHeight()/3.5, bb.getWidthZ()/2.5);
-
-                //Play Sound
-                Sound s = a.getAgeLock() ? Sound.ENTITY_GENERIC_DRINK : Sound.ENTITY_GENERIC_EAT;
-                w.playSound(a, s, SoundCategory.NEUTRAL, 1F, 1.2F);
-
-                //Cancel Event + Lock Aging + Logging
-                e.setCancelled(true);
-                a.setAgeLock(!a.getAgeLock());
-                String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
-                log.info("[Guhca] " + a.getType().toString() + " Aging " + locked);
-            }
-
+    public void onPlaceArmorStand(EntitySpawnEvent e){
+        if (e.getEntity() instanceof ArmorStand as){
+            setArmorStandPose(as, 0);
+            as.setArms(true);
         }
-
     }
 
     //@HonouraryEventHandler

@@ -5,13 +5,15 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.*;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.EulerAngle;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -232,6 +234,11 @@ public class Tools {
         }, ticks);
     }
 
+    public static List<String> filterList(List<String> input, String arg){
+        return input.stream().filter(s -> s.toLowerCase().startsWith(arg.toLowerCase())).
+                collect(Collectors.toList());
+    }
+
     public static void loadDatapack(){
         String datapackDir = Bukkit.getWorlds().get(0).getName() + "/datapacks/guhca/";
         String[][] files = {
@@ -281,6 +288,71 @@ public class Tools {
                 bb.getHeight() == 1.0 &&
                 bb.getWidthX() == 1.0 &&
                 bb.getWidthZ() == 1.0);
+
+    }
+
+    public static int getArmorStandPose(ArmorStand as){
+        PersistentDataContainer pdh = as.getPersistentDataContainer();
+        if(pdh.has(armorStandDataKey)) {
+            return pdh.get(armorStandDataKey, PersistentDataType.INTEGER);
+        }else{
+            return 0;
+        }
+    }
+
+    public static void setArmorStandPose(ArmorStand as, int id){
+        as.getPersistentDataContainer().set(armorStandDataKey, PersistentDataType.INTEGER, id);
+
+        ArmorStandPose asp = armorStandPoses[id];
+        as.setHeadPose(asp.HEAD_POSE);
+        as.setBodyPose(asp.BODY_POSE);
+        as.setLeftArmPose(asp.LEFT_ARM_POSE);
+        as.setRightArmPose(asp.RIGHT_ARM_POSE);
+        as.setLeftLegPose(asp.LEFT_LEG_POSE);
+        as.setRightLegPose(asp.RIGHT_LEG_POSE);
+    }
+
+    public static class ArmorStandPose{
+
+        public EulerAngle HEAD_POSE;
+        public EulerAngle BODY_POSE;
+        public EulerAngle LEFT_ARM_POSE;
+        public EulerAngle RIGHT_ARM_POSE;
+        public EulerAngle LEFT_LEG_POSE;
+        public EulerAngle RIGHT_LEG_POSE;
+
+        public ArmorStandPose(double[] headPose, double[] bodyPose,
+                              double[] leftArmPose, double[] rightArmPose,
+                              double[] leftLegPose, double[] rightLegPose) {
+            try {
+                HEAD_POSE = new EulerAngle(headPose[0], headPose[1], headPose[2]);
+                BODY_POSE = new EulerAngle(bodyPose[0], bodyPose[1], bodyPose[2]);
+                LEFT_ARM_POSE = new EulerAngle(leftArmPose[0], leftArmPose[1], leftArmPose[2]);
+                RIGHT_ARM_POSE = new EulerAngle(rightArmPose[0], rightArmPose[1], rightArmPose[2]);
+                LEFT_LEG_POSE = new EulerAngle(leftLegPose[0], leftLegPose[1], leftLegPose[2]);
+                RIGHT_LEG_POSE = new EulerAngle(rightLegPose[0], rightLegPose[1], rightLegPose[2]);
+            }catch(IndexOutOfBoundsException e){
+                throw new IllegalArgumentException("All double arrays must be three elements long.");
+            }
+        }
+
+    }
+
+    public static class PlayerStatHolder {
+        public String name;
+        public int stat;
+
+        public PlayerStatHolder(String name, int stat){
+            this.name = name;
+            this.stat = stat;
+        }
+    }
+
+    public static class PlayerStatHolderComparator implements Comparator<PlayerStatHolder> {
+        @Override
+        public int compare(PlayerStatHolder one, PlayerStatHolder two) {
+            return two.stat-one.stat;
+        }
 
     }
 

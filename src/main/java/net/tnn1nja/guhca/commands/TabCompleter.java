@@ -8,7 +8,8 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static net.tnn1nja.guhca.Tools.filterList;
 
 public class TabCompleter implements org.bukkit.command.TabCompleter {
 
@@ -51,9 +52,4 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
     }
 
-
-    public List<String> filterList(List<String> input, String arg){
-        return input.stream().filter(s -> s.toLowerCase().startsWith(arg.toLowerCase())).
-                collect(Collectors.toList());
-    }
 }

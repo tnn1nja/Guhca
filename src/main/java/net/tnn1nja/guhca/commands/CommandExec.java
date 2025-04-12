@@ -1,5 +1,6 @@
 package net.tnn1nja.guhca.commands;
 
+import net.tnn1nja.guhca.Tools.*;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +10,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -177,24 +177,4 @@ public class CommandExec implements CommandExecutor {
 
     }
 
-
-    //Player Stat Data Structure
-    private static class PlayerStatHolder {
-        String name;
-        int stat;
-
-        public PlayerStatHolder(String name, int stat){
-            this.name = name;
-            this.stat = stat;
-        }
-    }
-
-    //Player Stat Comparator
-    private static class PlayerStatHolderComparator implements Comparator<PlayerStatHolder> {
-        @Override
-        public int compare(PlayerStatHolder one, PlayerStatHolder two) {
-            return two.stat-one.stat;
-        }
-
-    }
 }
