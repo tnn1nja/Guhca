@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Package and Move" type="BatchConfigurationType" factoryName="Batch">
+  <configuration default="false" name="Clean Package and Move" type="BatchConfigurationType" factoryName="Batch">
     <module name="Guhca" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
