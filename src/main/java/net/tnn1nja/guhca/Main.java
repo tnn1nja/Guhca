@@ -27,7 +27,7 @@ public final class Main extends JavaPlugin {
     public TabCompleter TabComp = new TabCompleter();
 
     //Constants
-    public static Integer afkTime = 300;
+    public static Integer afkTime = (Integer) 300;
     public static int pingKickThreshold = 5000;
     public static int vanillaBellDetectionRadius = 32;
     public static int customBellDetectionRadius = 128;

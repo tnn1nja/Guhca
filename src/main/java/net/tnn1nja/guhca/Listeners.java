@@ -36,7 +36,7 @@ public class Listeners implements Listener {
         p.setPlayerListName(ChatColor.WHITE + p.getName());
         Online.addEntry(p.getName());
         e.setJoinMessage(ChatColor.YELLOW + p.getName() + " joined the game.");
-        afkTracker.put(p.getUniqueId(), 0);
+        afkTracker.put(p.getUniqueId(), (Integer) 0);
 
         //Check if Players Died
         if(playersDied){
@@ -368,7 +368,7 @@ public class Listeners implements Listener {
                 //AFK Tracker
                 for(Player p: Bukkit.getOnlinePlayers()){
                     UUID uuid = p.getUniqueId();
-                    afkTracker.replace(uuid, afkTracker.get(uuid)+1);
+                    afkTracker.replace(uuid, (Integer) (afkTracker.get(uuid)+1));
 
                     if(afkTracker.get(uuid) > afkTime && Online.getEntries().contains(p.getName())){
                         Afk.addEntry(p.getName());
