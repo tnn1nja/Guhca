@@ -1,7 +1,7 @@
 name: Guhca
 version: '${project.version}'
 main: net.tnn1nja.guhca.Main
-api-version: '1.21'
+api-version: '1.21.5'
 authors: [ tnn1nja ]
 description: Custom Plugin for Multiplayer UHC.
 commands:
