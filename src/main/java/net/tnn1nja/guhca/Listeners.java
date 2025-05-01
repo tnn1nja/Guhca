@@ -117,7 +117,8 @@ public class Listeners implements Listener {
                     p.setVelocity(v);
                 }
                 if(!campfireBoostSoundTracker.get(p.getUniqueId())){
-                    p.playSound(p.getLocation(), "guhca.campfire_boost", SoundCategory.PLAYERS, 1, 1);
+                    p.getWorld().playSound(p.getLocation(), "guhca.campfire_boost", SoundCategory.PLAYERS,
+                            1, 1);
                     campfireBoostSoundTracker.replace(p.getUniqueId(), true);
                 }
             } else if(campfireBoostSoundTracker.get(p.getUniqueId())){
@@ -195,7 +196,7 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onToggleAging(PlayerInteractEntityEvent e){
+    public void onRightClickEntity(PlayerInteractEntityEvent e){
         //Toggle Animal Aging
         if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
 
@@ -245,13 +246,14 @@ public class Listeners implements Listener {
             ItemFrame itf = (ItemFrame) e.getRightClicked();
             if(itf.getItem().getType() != Material.AIR) {
                 itf.setVisible(!itf.isVisible());
+                itf.getWorld().playSound(itf.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1, 1);
                 e.setCancelled(true);
             }
         }
     }
 
     @EventHandler
-    public void onRightClickEntity(PlayerInteractAtEntityEvent e){
+    public void onRightClickAtEntity(PlayerInteractAtEntityEvent e){
         //Toggle Armor Stand Pose
         if(e.getRightClicked() instanceof ArmorStand as){
             if(e.getPlayer().isSneaking()){
