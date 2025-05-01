@@ -1,0 +1,11 @@
+{
+    "guhca.campfire_boost": {
+      "subtitle": "Campfire boosts",
+      "sounds": [
+        {
+          "name": "guhca:campfire_boost",
+          "pitch": 0.6
+        }
+      ]
+    }
+}

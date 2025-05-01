@@ -3,6 +3,9 @@ package net.tnn1nja.guhca;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Campfire;
 import org.bukkit.event.block.*;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.Damageable;
@@ -37,6 +40,7 @@ public class Listeners implements Listener {
         Online.addEntry(p.getName());
         e.setJoinMessage(ChatColor.YELLOW + p.getName() + " joined the game.");
         afkTracker.put(p.getUniqueId(), (Integer) 0);
+        campfireBoostSoundTracker.put(e.getPlayer().getUniqueId(), false);
 
         //Check if Players Died
         if(playersDied){
@@ -65,10 +69,60 @@ public class Listeners implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e){
         Player p = e.getPlayer();
+
+        //AFK Tracker
         afkTracker.replace(p.getUniqueId(), 0);
         if(Afk.getEntries().contains(p.getName())) {
             Online.addEntry(p.getName());
             p.setPlayerListName(ChatColor.WHITE + p.getName());
+        }
+
+        //Campfire Boosting
+        if(p.isGliding()) {
+            boolean aboveLitCampfire = false;
+            boolean isHayBaled = false;
+            boolean passedThroughBlock = false;
+            int distance = 1;
+            Block testBlock = p.getLocation().getBlock();
+            while (true) {
+                if (testBlock.getType().equals(Material.AIR) || !testBlock.isSolid()) {
+                    testBlock = testBlock.getRelative(BlockFace.DOWN);
+                    distance++;
+                } else if (testBlock.getType().equals(Material.CAMPFIRE)) {
+                    Campfire cf = (Campfire) testBlock.getBlockData();
+                    isHayBaled = cf.isSignalFire();
+                    if (isHayBaled || distance < 9) {
+                        aboveLitCampfire = cf.isLit();
+                    }
+                    break;
+                } else {
+                    if(passedThroughBlock){
+                        break;
+                    }else {
+                        passedThroughBlock = true;
+                    }
+                }
+
+                if (distance > 21) {
+                    break;
+                }
+            }
+
+            if (aboveLitCampfire) {
+                double lambda = 0.3;
+                double maxVelocity = isHayBaled ? 1.5 : 1;
+                Vector v = p.getVelocity();
+                if(v.getY() < maxVelocity) {
+                    v.setY(v.getY() + (lambda * (maxVelocity - v.getY())));
+                    p.setVelocity(v);
+                }
+                if(!campfireBoostSoundTracker.get(p.getUniqueId())){
+                    p.playSound(p.getLocation(), "guhca.campfire_boost", SoundCategory.PLAYERS, 1, 1);
+                    campfireBoostSoundTracker.replace(p.getUniqueId(), true);
+                }
+            } else if(campfireBoostSoundTracker.get(p.getUniqueId())){
+                campfireBoostSoundTracker.replace(p.getUniqueId(), false);
+            }
         }
     }
 
@@ -223,6 +277,7 @@ public class Listeners implements Listener {
     public void onQuit(PlayerQuitEvent e){
         Player p = e.getPlayer();
         afkTracker.remove(p.getUniqueId());
+        campfireBoostSoundTracker.remove(e.getPlayer().getUniqueId());
 
         //Quit Message
         if(kicker == null) {
