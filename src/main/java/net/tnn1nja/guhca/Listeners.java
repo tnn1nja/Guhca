@@ -387,10 +387,13 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onMonsterSpawn(CreatureSpawnEvent e){
-        if(e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
-                e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
-                !(e.getEntityType() == EntityType.WARDEN) &&
-                mobSwitchedWorlds.contains(e.getLocation().getWorld().getUID())){
+        if(mobSwitchedWorlds.contains(e.getLocation().getWorld().getUID()) &&
+                    e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
+                ((e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
+                        e.getEntityType() != EntityType.WARDEN) ||
+                (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL &&
+                        e.getEntityType() == EntityType.PHANTOM))
+                ){
             e.setCancelled(true);
         }
     }

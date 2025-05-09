@@ -7,5 +7,13 @@
           "pitch": 0.6
         }
       ]
+    },
+    "guhca.crystal_heart_shatters": {
+      "subtitle": "Crystal heart shatters",
+      "sounds": [
+        {
+          "name": "guhca:crystal_heart_shatters"
+        }
+      ]
     }
 }
