@@ -316,8 +316,8 @@ public class Listeners implements Listener {
             }
 
             if(Afk.hasPlayer(p)){
-                p.kickPlayer("You took damage will afk\n");
                 kicker = ".afk";
+                p.kickPlayer("You took damage will afk\n");
             }
 
             //Attempt to use Crystal Heart
