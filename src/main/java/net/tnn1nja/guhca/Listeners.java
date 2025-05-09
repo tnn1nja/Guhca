@@ -446,8 +446,8 @@ public class Listeners implements Listener {
                 //Kick Lagging Players
                 for(Player p: Bukkit.getOnlinePlayers()){
                     if(p.getPing() > pingKickThreshold){
-                        p.kickPlayer("Your ping exceeded " + pingKickThreshold);
                         kicker = ".lag";
+                        p.kickPlayer("Your ping exceeded " + pingKickThreshold);
                     }
                 }
             }
