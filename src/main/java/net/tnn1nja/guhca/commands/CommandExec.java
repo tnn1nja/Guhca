@@ -68,6 +68,26 @@ public class CommandExec implements CommandExecutor {
             }
         }
 
+        //Leave
+        if (command.getName().equalsIgnoreCase("leave")){
+            if(sender instanceof Player p) {
+                if (args.length > 0) {
+                    StringBuilder sb = new StringBuilder();
+                    for (String s : args) {
+                        sb.append(" ").append(s);
+                    }
+                    String msg = sb.toString();
+                    kicker = ".self";
+                    p.kickPlayer(msg);
+                    Bukkit.broadcastMessage(msg);
+                } else {
+                    p.kickPlayer("You have left the game.");
+                }
+            }else{
+                sender.sendMessage(ChatColor.RED + "Only a player can run this command.");
+            }
+        }
+
         //Night Vision
         if (command.getName().equalsIgnoreCase("nightvision")) {
             if(playersDied && sender instanceof Player){

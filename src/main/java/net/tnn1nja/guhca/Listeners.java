@@ -286,8 +286,10 @@ public class Listeners implements Listener {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " left the game.");
         }else if(kicker.equals(".afk")){
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " took damage while afk.");
-        }else if(kicker.equals(".lag")){
+        }else if(kicker.equals(".lag")) {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " lagged out.");
+        }else if(kicker.equals(".self")){
+            e.setQuitMessage(null);
         }else {
             e.setQuitMessage(ChatColor.GOLD + p.getName() + " was kicked by " + kicker + ".");
         }

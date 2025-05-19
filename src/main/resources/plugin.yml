@@ -7,11 +7,14 @@ description: Custom Plugin for Multiplayer UHC.
 commands:
   lastplayed:
     description: Shows when player was last online.
-    usage: /<command>
+    usage: /<command> [player]
     aliases: [ lp ]
   kick:
     description: A proxy for the native kick command.
-    usage: /<command>
+    usage: /<command> [player] [reason]
+  leave:
+    description: Leave for a custom reason.
+    usage: /<command> [reason]
   playtime:
     description: Shows total playtime of all players.
     usage: /<command>
