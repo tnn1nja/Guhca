@@ -121,12 +121,14 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         getCommand("lastplayed").setExecutor(ComExec);
         getCommand("playtime").setExecutor(ComExec);
+        getCommand("leave").setExecutor(ComExec);
         getCommand("damage").setExecutor(ComExec);
         getCommand("kick").setExecutor(ComExec);
         getCommand("dimension").setExecutor(ComExec);
         getCommand("nightvision").setExecutor(ComExec);
         getCommand("lastplayed").setTabCompleter(TabComp);
         getCommand("kick").setTabCompleter(TabComp);
+        getCommand("leave").setTabCompleter(TabComp);
         getCommand("dimension").setTabCompleter(TabComp);
         getCommand("nightvision").setTabCompleter(TabComp);
 

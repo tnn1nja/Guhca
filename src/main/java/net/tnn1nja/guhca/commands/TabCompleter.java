@@ -32,6 +32,11 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
         }
 
+        //Leave
+        if(command.getName().equalsIgnoreCase("leave")){
+            return empty;
+        }
+
         //Dimension
         if(command.getName().equalsIgnoreCase("dimension")) {
             List<String> output = Arrays.asList("overworld", "nether", "end");
