@@ -79,7 +79,7 @@ public class CommandExec implements CommandExecutor {
                     String msg = sb.toString();
                     kicker = ".self";
                     p.kickPlayer(msg);
-                    Bukkit.broadcastMessage(msg);
+                    Bukkit.broadcastMessage(ChatColor.GOLD + msg);
                 } else {
                     p.kickPlayer("You have left the game.");
                 }
