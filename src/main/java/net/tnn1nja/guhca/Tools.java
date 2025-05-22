@@ -94,18 +94,6 @@ public class Tools {
         }
     }
 
-    public static String stripMCCodes(String s){
-        String bsChar = "\u00A7";
-        StringBuilder output = new StringBuilder(s);
-        while (output.toString().contains(bsChar)){
-            int i = output.indexOf(bsChar);
-            output.deleteCharAt(i);
-            output.deleteCharAt(i);
-        }
-
-        return output.toString();
-    }
-
     public static boolean isRaidersWithinVanillaRange(Location bellLocation){
         Collection<Entity> entities = bellLocation.getWorld().getNearbyEntities(bellLocation,
                 vanillaBellDetectionRadius, vanillaBellDetectionRadius, vanillaBellDetectionRadius);
