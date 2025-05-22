@@ -1,5 +1,7 @@
 package net.tnn1nja.guhca;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -25,31 +27,32 @@ public class Tools {
 
         //Teams
         for(Team t: board.getTeams()){
-            if(t.getName().equalsIgnoreCase("guhcaOnline")){
+            if(t.getName().equalsIgnoreCase("guhca_online")){
                 t.unregister();
-            }else if(t.getName().equalsIgnoreCase("guhcaAFK")){
+            }else if(t.getName().equalsIgnoreCase("guhca_afk")){
                 t.unregister();
             }
         }
-        Online = board.registerNewTeam("guhcaOnline");
-        Online.setColor(ChatColor.RED);
+        Online = board.registerNewTeam("guhca_online");
+        Online.color(NamedTextColor.RED);
         Online.setCanSeeFriendlyInvisibles(false);
-        Afk = board.registerNewTeam("guhcaAFK");
-        Afk.setColor(ChatColor.GRAY);
+        Afk = board.registerNewTeam("guhca_afk");
+        Afk.color(NamedTextColor.GRAY);
         Afk.setCanSeeFriendlyInvisibles(false);
 
         //Objectives
         for(Objective o: board.getObjectives()) {
-            if (o.getName().equalsIgnoreCase("guhcaHealthBN")) {
+            if (o.getName().equalsIgnoreCase("guhca_health_below_name")) {
                 o.unregister();
-            } else if (o.getName().equalsIgnoreCase("guhcaHealthPL")){
+            } else if (o.getName().equalsIgnoreCase("guhca_health_player_list")){
                 o.unregister();
             }
         }
-        HealthBN = board.registerNewObjective("guhcaHealthBN", "health");
-        HealthBN.setDisplayName(ChatColor.DARK_RED + "♥");
+        HealthBN = board.registerNewObjective("guhca_health_below_name", Criteria.HEALTH,
+                Component.text("♥").color(NamedTextColor.DARK_RED));
         HealthBN.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        HealthPL = board.registerNewObjective("guhcaHealthPL", "health");
+        HealthPL = board.registerNewObjective("guhca_health_player_list", Criteria.HEALTH,
+                Component.text("Health"));
         HealthPL.setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
@@ -185,11 +188,12 @@ public class Tools {
             height = 0.45;
             yMod = 0.7;
         //Crawling
-        }else if((p.getPose() == Pose.SWIMMING && p.isOnGround()) || (p.getPose() == Pose.SLEEPING)){
+        }else if(p.getPose() == Pose.SWIMMING && !p.getLocation().getBlock().getType().equals(Material.WATER) ||
+                (p.getPose() == Pose.SLEEPING)){
             width = 0.55;
             height = 0.35;
             yMod = 0.25;
-        //Flying
+        //Flying or Swimming
         }else{
             width = 0.55;
             height = 0.55;
@@ -246,7 +250,7 @@ public class Tools {
             }
             log.info("Datapack extracted, reloading data...");
             Bukkit.getServer().reloadData();
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.severe("Datapack failed to extract");
             e.printStackTrace();
         }
@@ -261,13 +265,18 @@ public class Tools {
     }
 
     public static void recursiveDelete(File f){
-        if (f.isDirectory()) {
-            File[] list = f.listFiles();
-            for (File target : list) {
-                recursiveDelete(target);
+        try{
+            if (f.isDirectory()) {
+                File[] list = f.listFiles();
+                for (File target : list) {
+                    recursiveDelete(target);
+                }
             }
+            f.delete();
+        }catch(Exception e){
+            log.info("Datapack failed to uninstall");
+            e.printStackTrace();
         }
-        f.delete();
     }
 
     public static boolean isFullBlock(Block b){
