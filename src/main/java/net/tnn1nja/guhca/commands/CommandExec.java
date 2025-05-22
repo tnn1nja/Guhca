@@ -74,7 +74,7 @@ public class CommandExec implements CommandExecutor {
                 if (args.length > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (String s : args) {
-                        sb.append(" ").append(s);
+                        sb.append(s).append(" ");
                     }
                     String msg = sb.toString();
                     kicker = ".self";
