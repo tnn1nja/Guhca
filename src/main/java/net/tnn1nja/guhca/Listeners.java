@@ -1,8 +1,8 @@
 package net.tnn1nja.guhca;
 
 import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -36,10 +36,10 @@ public class Listeners implements Listener {
         Player p = e.getPlayer();
 
         //Set Player Data
-        p.setDisplayName(ChatColor.RED + p.getDisplayName() + ChatColor.RESET);
-        p.setPlayerListName(ChatColor.WHITE + p.getName());
+        p.displayName(p.name().color(NamedTextColor.RED));
+        p.playerListName(p.name().color(NamedTextColor.WHITE));
+        e.joinMessage(e.joinMessage().color(NamedTextColor.YELLOW));
         Online.addEntry(p.getName());
-        e.setJoinMessage(ChatColor.YELLOW + p.getName() + " joined the game.");
         afkTracker.put(p.getUniqueId(), (Integer) 0);
         campfireBoostSoundTracker.put(e.getPlayer().getUniqueId(), false);
 
@@ -75,7 +75,7 @@ public class Listeners implements Listener {
         afkTracker.replace(p.getUniqueId(), 0);
         if(Afk.getEntries().contains(p.getName())) {
             Online.addEntry(p.getName());
-            p.setPlayerListName(ChatColor.WHITE + p.getName());
+            p.playerListName(p.name().color(NamedTextColor.WHITE));
         }
 
         //Campfire Boosting
@@ -188,15 +188,13 @@ public class Listeners implements Listener {
         int remainingDurability = maxDurability - ((Damageable) is.getItemMeta()).getDamage();
         float durability = remainingDurability / (float) maxDurability;
         if (durability < 0.1){
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacy(ChatColor.RED + "Severe Warning: low durability"));
+            p.sendActionBar(Component.text("Severe Warning: low durability").color(NamedTextColor.RED));
         }else if(durability < 0.2){
-            p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                    TextComponent.fromLegacy(ChatColor.GOLD + "Warning: low durability"));
+            p.sendActionBar(Component.text("Warning: low durability").color(NamedTextColor.GOLD));
         }
     }
 
-    @EventHandler
+    @EventHandler @SuppressWarnings("deprecation")
     public void onRightClickEntity(PlayerInteractEntityEvent e){
         //Toggle Animal Aging
         if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
@@ -243,8 +241,7 @@ public class Listeners implements Listener {
         }
 
         //Toggle Item Frame Visibility
-        if (e.getRightClicked() instanceof ItemFrame && e.getPlayer().isSneaking()){
-            ItemFrame itf = (ItemFrame) e.getRightClicked();
+        if (e.getRightClicked() instanceof ItemFrame itf && e.getPlayer().isSneaking()){
             if(itf.getItem().getType() != Material.AIR) {
                 itf.setVisible(!itf.isVisible());
                 itf.getWorld().playSound(itf.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1, 1);
@@ -267,8 +264,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onHitItemFrame(EntityDamageByEntityEvent e){
-        if (e.getEntity() instanceof ItemFrame){
-            ItemFrame itf = (ItemFrame) e.getEntity();
+        if (e.getEntity() instanceof ItemFrame itf){
             if(!itf.isVisible()) {
                 itf.setVisible(true);
                 log.info("Toggled Item Frame Visibility.");
@@ -284,15 +280,15 @@ public class Listeners implements Listener {
 
         //Quit Message
         if(kicker == null) {
-            e.setQuitMessage(ChatColor.GOLD + p.getName() + " left the game.");
+            e.quitMessage(Component.text(p.getName() + " left the game.").color(NamedTextColor.GOLD));
         }else if(kicker.equals(".afk")){
-            e.setQuitMessage(ChatColor.GOLD + p.getName() + " took damage while afk.");
+            e.quitMessage(Component.text(p.getName() + " took damage while afk.").color(NamedTextColor.GOLD));
         }else if(kicker.equals(".lag")) {
-            e.setQuitMessage(ChatColor.GOLD + p.getName() + " lagged out.");
+            e.quitMessage(Component.text(p.getName() + " lagged out.").color(NamedTextColor.GOLD));
         }else if(kicker.equals(".self")){
-            e.setQuitMessage(null);
+            e.quitMessage(null);
         }else {
-            e.setQuitMessage(ChatColor.GOLD + p.getName() + " was kicked by " + kicker + ".");
+            e.quitMessage(Component.text(p.getName() + " left the game.").color(NamedTextColor.GOLD));
         }
         kicker = null;
 
@@ -304,15 +300,13 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e){
-        e.setDeathMessage(ChatColor.RED + stripMCCodes(e.getDeathMessage()));
+        e.deathMessage(e.deathMessage().color(NamedTextColor.RED));
         playersDied();
     }
 
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-
+        if (e.getEntity() instanceof Player p) {
             if(damageImmunePlayers.contains(p.getUniqueId())){
                 e.setCancelled(true);
                 return;
@@ -352,8 +346,7 @@ public class Listeners implements Listener {
                         p.teleport(respawn); //re-teleport to account for velocity
                         doWorldCrystalRelocateAnim(p);
                         doClientCrystalObscureAnim(p);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                                TextComponent.fromLegacy("Your crystal heart has shattered"));
+                        p.sendActionBar(Component.text("Your crystal heart has shattered"));
                     }
                 }, 1L);
 
@@ -435,7 +428,7 @@ public class Listeners implements Listener {
 
                     if(afkTracker.get(uuid) > afkTime && Online.getEntries().contains(p.getName())){
                         Afk.addEntry(p.getName());
-                        p.setPlayerListName(ChatColor.GRAY + "" + ChatColor.ITALIC  + p.getName());
+                        p.playerListName(p.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC));
                     }
                 }
             }
