@@ -1,5 +1,6 @@
 package net.tnn1nja.guhca;
 
+import net.kyori.adventure.text.Component;
 import net.tnn1nja.guhca.commands.CommandExec;
 import net.tnn1nja.guhca.commands.TabCompleter;
 import org.bukkit.*;
@@ -166,7 +167,7 @@ public final class Main extends JavaPlugin {
     public void onDisable() {
         //Kick Players on Reload
         for(Player p: Bukkit.getOnlinePlayers()){
-            p.kickPlayer("Server is restarting...");
+            p.kick(Component.text("Server is restarting..."));
         }
 
         //Unload

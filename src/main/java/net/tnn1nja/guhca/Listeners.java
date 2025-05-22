@@ -1,5 +1,6 @@
 package net.tnn1nja.guhca;
 
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -319,7 +320,7 @@ public class Listeners implements Listener {
 
             if(Afk.hasPlayer(p)){
                 kicker = ".afk";
-                p.kickPlayer("You took damage will afk\n");
+                p.kick(Component.text("You took damage will afk\n"));
             }
 
             //Attempt to use Crystal Heart
@@ -449,7 +450,7 @@ public class Listeners implements Listener {
                 for(Player p: Bukkit.getOnlinePlayers()){
                     if(p.getPing() > pingKickThreshold){
                         kicker = ".lag";
-                        p.kickPlayer("Your ping exceeded " + pingKickThreshold);
+                        p.kick(Component.text("Your ping exceeded " + pingKickThreshold));
                     }
                 }
             }
