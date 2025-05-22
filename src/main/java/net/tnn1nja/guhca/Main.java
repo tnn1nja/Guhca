@@ -22,7 +22,7 @@ public final class Main extends JavaPlugin {
     public static Objective HealthBN;
     public static Objective HealthPL;
     public static SimpleDateFormat DateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
-    public static Logger log = Bukkit.getLogger();
+    public static Logger log;
     public CommandExec ComExec = new CommandExec();
     public TabCompleter TabComp = new TabCompleter();
 
@@ -117,7 +117,8 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         //Init
         me = this;
-        log.info("[Guhca] Guhca Enabled.");
+        log = this.getLogger();
+        log.info("Guhca Enabled.");
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         getCommand("lastplayed").setExecutor(ComExec);
         getCommand("playtime").setExecutor(ComExec);
@@ -176,6 +177,6 @@ public final class Main extends JavaPlugin {
         unloadDatapack();
 
         //Log
-        log.info("[Guhca] Guhca Disabled.");
+        log.info("Guhca Disabled.");
     }
 }

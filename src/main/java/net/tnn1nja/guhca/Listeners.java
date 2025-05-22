@@ -150,7 +150,7 @@ public class Listeners implements Listener {
                     }
                 }, 10L);
                 startBellCooldown(l);
-                log.info("[Guhca] Bell resonated with range of " + customBellDetectionRadius + " blocks.");
+                log.info("Bell resonated with range of " + customBellDetectionRadius + " blocks.");
             }
         }
     }
@@ -160,7 +160,7 @@ public class Listeners implements Listener {
         Location l = e.getBlock().getLocation();
         e.getResonatedEntities().addAll(getRaidersWithinCustomRange(l));
         startBellCooldown(l);
-        log.info("[Guhca] Bell resonation range extended to " + customBellDetectionRadius + " blocks.");
+        log.info("Bell resonation range extended to " + customBellDetectionRadius + " blocks.");
     }
 
     @EventHandler
@@ -172,7 +172,7 @@ public class Listeners implements Listener {
             if(i.hasItemMeta()){
                 SuspiciousStewMeta stew = (SuspiciousStewMeta) i.getItemMeta();
                 if(stew.hasCustomEffects() && stew.hasCustomEffect(PotionEffectType.REGENERATION)){
-                    log.info("[Guhca] " + p.getName() + "'s Regen Soup Fixed.");
+                    log.info(p.getName() + "'s Regen Soup Fixed.");
                     p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
                 }
             }
@@ -236,7 +236,7 @@ public class Listeners implements Listener {
                 e.setCancelled(true);
                 a.setAgeLock(!a.getAgeLock());
                 String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
-                log.info("[Guhca] " + a.getType().toString() + " Aging " + locked);
+                log.info(a.getType().toString() + " Aging " + locked);
             }
 
         }
@@ -270,7 +270,7 @@ public class Listeners implements Listener {
             ItemFrame itf = (ItemFrame) e.getEntity();
             if(!itf.isVisible()) {
                 itf.setVisible(true);
-                log.info("[Guhca] Toggled Item Frame Visibility.");
+                log.info("Toggled Item Frame Visibility.");
             }
         }
     }
@@ -366,7 +366,7 @@ public class Listeners implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0));
 
                 //Logging
-                log.info("[Guhca] Crystal Heart Used.");
+                log.info("Crystal Heart Used.");
             }
         }
     }
@@ -482,11 +482,11 @@ public class Listeners implements Listener {
 
                     if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
                         if (mobSwitchedWorlds.add(w.getUID())) {
-                            log.info("[Guhca] Mob Switch Enabled for The " + dimension);
+                            log.info("Mob Switch Enabled for The " + dimension);
                         }
                     } else {
                         if (mobSwitchedWorlds.remove(w.getUID())) {
-                            log.info("[Guhca] Mob Switch Disabled for The " + dimension);
+                            log.info("Mob Switch Disabled for The " + dimension);
                         }
                     }
                 }

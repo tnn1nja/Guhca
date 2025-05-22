@@ -70,7 +70,7 @@ public class Tools {
     public static void serverFreeze(){
         if(!playersDied) {
             Bukkit.getServerTickManager().setFrozen(true);
-            log.info("[Guhca] Server Frozen.");
+            log.info("Server Frozen.");
         }
     }
 
@@ -90,7 +90,7 @@ public class Tools {
     public static void serverResume(){
         if(!playersDied) {
             Bukkit.getServerTickManager().setFrozen(false);
-            log.info("[Guhca] Server Resumed.");
+            log.info("Server Resumed.");
         }
     }
 
@@ -256,10 +256,10 @@ public class Tools {
                 is.close();
                 fos.close();
             }
-            log.info("[Guhca] Datapack extracted, reloading data...");
+            log.info("Datapack extracted, reloading data...");
             Bukkit.getServer().reloadData();
         } catch (IOException e) {
-            log.severe("[Guhca] Datapack failed to extract");
+            log.severe("Datapack failed to extract");
             e.printStackTrace();
         }
     }
@@ -268,7 +268,7 @@ public class Tools {
         File datapackFile = new File(Bukkit.getWorlds().get(0).getName() + "/datapacks/guhca/");
         if(datapackFile.exists()){
             recursiveDelete(datapackFile);
-            log.info("[Guhca] Datapack Unloaded.");
+            log.info("Datapack Unloaded.");
         }
     }
 
