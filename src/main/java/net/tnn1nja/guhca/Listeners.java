@@ -39,7 +39,7 @@ public class Listeners implements Listener {
         //Set Player Data
         p.displayName(p.name().color(NamedTextColor.RED));
         p.playerListName(p.name().color(NamedTextColor.WHITE));
-        e.joinMessage(Component.text(p.getName() + " joined the game.", NamedTextColor.YELLOW));
+        e.joinMessage(Component.text(getComponentAsPlainText(e.joinMessage()), NamedTextColor.YELLOW));
         Online.addEntry(p.getName());
         afkTracker.put(p.getUniqueId(), (Integer) 0);
         campfireBoostSoundTracker.put(e.getPlayer().getUniqueId(), false);
