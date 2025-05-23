@@ -2,6 +2,7 @@ package net.tnn1nja.guhca;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
@@ -49,7 +50,7 @@ public class Tools {
             }
         }
         HealthBN = board.registerNewObjective("guhca_health_below_name", Criteria.HEALTH,
-                Component.text("♥").color(NamedTextColor.DARK_RED));
+                Component.text("♥", NamedTextColor.DARK_RED));
         HealthBN.setDisplaySlot(DisplaySlot.BELOW_NAME);
         HealthPL = board.registerNewObjective("guhca_health_player_list", Criteria.HEALTH,
                 Component.text("Health"));
@@ -307,6 +308,10 @@ public class Tools {
         as.setRightArmPose(asp.RIGHT_ARM_POSE);
         as.setLeftLegPose(asp.LEFT_LEG_POSE);
         as.setRightLegPose(asp.RIGHT_LEG_POSE);
+    }
+
+    public static String getComponentAsPlainText(Component c){
+        return PlainTextComponentSerializer.plainText().serialize(c);
     }
 
     public static class ArmorStandPose{

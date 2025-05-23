@@ -3,6 +3,7 @@ package net.tnn1nja.guhca;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,7 +39,7 @@ public class Listeners implements Listener {
         //Set Player Data
         p.displayName(p.name().color(NamedTextColor.RED));
         p.playerListName(p.name().color(NamedTextColor.WHITE));
-        e.joinMessage(e.joinMessage().color(NamedTextColor.YELLOW));
+        e.joinMessage(Component.text(p.getName() + " joined the game.", NamedTextColor.YELLOW));
         Online.addEntry(p.getName());
         afkTracker.put(p.getUniqueId(), (Integer) 0);
         campfireBoostSoundTracker.put(e.getPlayer().getUniqueId(), false);
@@ -188,9 +189,9 @@ public class Listeners implements Listener {
         int remainingDurability = maxDurability - ((Damageable) is.getItemMeta()).getDamage();
         float durability = remainingDurability / (float) maxDurability;
         if (durability < 0.1){
-            p.sendActionBar(Component.text("Severe Warning: low durability").color(NamedTextColor.RED));
+            p.sendActionBar(Component.text("Severe Warning: low durability", NamedTextColor.RED));
         }else if(durability < 0.2){
-            p.sendActionBar(Component.text("Warning: low durability").color(NamedTextColor.GOLD));
+            p.sendActionBar(Component.text("Warning: low durability", NamedTextColor.GOLD));
         }
     }
 
@@ -280,15 +281,15 @@ public class Listeners implements Listener {
 
         //Quit Message
         if(kicker == null) {
-            e.quitMessage(Component.text(p.getName() + " left the game.").color(NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " left the game.", NamedTextColor.GOLD));
         }else if(kicker.equals(".afk")){
-            e.quitMessage(Component.text(p.getName() + " took damage while afk.").color(NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " took damage while afk.", NamedTextColor.GOLD));
         }else if(kicker.equals(".lag")) {
-            e.quitMessage(Component.text(p.getName() + " lagged out.").color(NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " lagged out.", NamedTextColor.GOLD));
         }else if(kicker.equals(".self")){
             e.quitMessage(null);
         }else {
-            e.quitMessage(Component.text(p.getName() + " left the game.").color(NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " was kicked by " + kicker + ".", NamedTextColor.GOLD));
         }
         kicker = null;
 
@@ -300,7 +301,7 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e){
-        e.deathMessage(e.deathMessage().color(NamedTextColor.RED));
+        e.deathMessage(Component.text(getComponentAsPlainText(e.deathMessage()), NamedTextColor.RED));
         playersDied();
     }
 
