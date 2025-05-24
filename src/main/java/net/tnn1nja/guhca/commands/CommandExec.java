@@ -1,5 +1,6 @@
 package net.tnn1nja.guhca.commands;
 
+import net.kyori.adventure.text.Component;
 import net.tnn1nja.guhca.Tools.*;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -52,9 +53,9 @@ public class CommandExec implements CommandExecutor {
                             for (int i = 1; i < args.length; i++){
                                 sb.append(args[i]).append(" ");
                             }
-                            p.kickPlayer(sb.toString());
+                            p.kick(Component.text(sb.toString()));
                         }else{
-                            p.kickPlayer("You have been kicked by " + sender.getName());
+                            p.kick(Component.text("You have been kicked by " + sender.getName()));
                         }
 
                     }else{
@@ -90,8 +91,7 @@ public class CommandExec implements CommandExecutor {
 
         //Night Vision
         if (command.getName().equalsIgnoreCase("nightvision")) {
-            if(playersDied && sender instanceof Player){
-                Player p = (Player) sender;
+            if(playersDied && sender instanceof Player p){
                 if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
                     p.removePotionEffect(PotionEffectType.NIGHT_VISION);
                     sender.sendMessage("Night vision removed.");
