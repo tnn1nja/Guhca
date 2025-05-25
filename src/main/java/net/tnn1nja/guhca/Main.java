@@ -20,8 +20,8 @@ public final class Main extends JavaPlugin {
     public static Main me;
     public static Team Online;
     public static Team Afk;
-    public static Objective HealthBN;
-    public static Objective HealthPL;
+    public static Objective HealthName;
+    public static Objective HealthList;
     public static SimpleDateFormat DateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
     public static Logger log;
     public CommandExec ComExec = new CommandExec();
@@ -173,8 +173,8 @@ public final class Main extends JavaPlugin {
         //Unload
         Online.unregister();
         Afk.unregister();
-        HealthBN.unregister();
-        HealthPL.unregister();
+        HealthName.unregister();
+        HealthList.unregister();
         unloadDatapack();
 
         //Log

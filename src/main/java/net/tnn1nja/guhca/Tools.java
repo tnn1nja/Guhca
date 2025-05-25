@@ -49,12 +49,12 @@ public class Tools {
                 o.unregister();
             }
         }
-        HealthBN = board.registerNewObjective("guhca_health_below_name", Criteria.HEALTH,
+        HealthName = board.registerNewObjective("guhca_health_below_name", Criteria.HEALTH,
                 Component.text("♥", NamedTextColor.DARK_RED));
-        HealthBN.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        HealthPL = board.registerNewObjective("guhca_health_player_list", Criteria.HEALTH,
+        HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        HealthList = board.registerNewObjective("guhca_health_player_list", Criteria.HEALTH,
                 Component.text("Health"));
-        HealthPL.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
     public static void playersDied(){
