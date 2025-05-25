@@ -170,4 +170,5 @@ public final class Main extends JavaPlugin {
 
         log.info("Guhca disabled");
     }
+
 }
