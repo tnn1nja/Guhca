@@ -469,9 +469,9 @@ public class Listeners implements Listener {
                     if (dimension.endsWith("L")) {
                         dimension = "Overworld";
                     }else if(dimension.endsWith("R")){
-                        dimension = "ether";
+                        dimension = "Nether";
                     }else{
-                        dimension = "end";
+                        dimension = "End";
                     }
 
                     if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {

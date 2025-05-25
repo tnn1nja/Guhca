@@ -1,6 +1,7 @@
 package net.tnn1nja.guhca.commands;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.tnn1nja.guhca.Tools.*;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -27,16 +28,20 @@ public class CommandExec implements CommandExecutor {
                 if (OfflinePlayers.contains(args[0].toLowerCase())) {
                     OfflinePlayer pt = Bukkit.getOfflinePlayer(args[0].toLowerCase());
                     if (pt.isOnline()) {
-                        sender.sendMessage( ChatColor.RED + pt.getName() + " is currently online.");
+                        sender.sendMessage(Component.text(pt.getName() + " is currently online.",
+                                NamedTextColor.RED));
                     } else {
-                        sender.sendMessage(ChatColor.RED + pt.getName() + ChatColor.WHITE + " Last Played: " +
-                                ChatColor.GOLD + DateFormat.format(new Date(pt.getLastPlayed())));
+                        sender.sendMessage(
+                                Component.text(pt.getName(), NamedTextColor.RED)
+                                .append(Component.text(" Last Played: ", NamedTextColor.WHITE))
+                                .append(Component.text(DateFormat.format(new Date(pt.getLastPlayed())).toUpperCase(),
+                                        NamedTextColor.GOLD)));
                     }
                 } else {
-                    sender.sendMessage(ChatColor.RED + "Player could not be found.");
+                    sender.sendMessage(Component.text("Player could not be found.", NamedTextColor.RED));
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "Please specify a player.");
+                sender.sendMessage(Component.text("Please specify a player.", NamedTextColor.RED));
             }
         }
 
@@ -59,13 +64,15 @@ public class CommandExec implements CommandExecutor {
                         }
 
                     }else{
-                        sender.sendMessage(ChatColor.RED + pt.getName() + " is not currently online.");
+                        sender.sendMessage(Component.text(pt.getName() + " is not currently online.",
+                                NamedTextColor.RED));
                     }
                 }else{
-                    sender.sendMessage(ChatColor.RED + args[0] + " has never connected.");
+                    sender.sendMessage(Component.text(args[0] + " has never connected.",
+                            NamedTextColor.RED));
                 }
             }else{
-                sender.sendMessage(ChatColor.RED + "Please specify a player.");
+                sender.sendMessage(Component.text("Please specify a a player.", NamedTextColor.RED));
             }
         }
 
@@ -80,12 +87,12 @@ public class CommandExec implements CommandExecutor {
                     String msg = sb.toString();
                     kicker = ".self";
                     p.kickPlayer(msg);
-                    Bukkit.broadcastMessage(ChatColor.GOLD + msg);
+                    Bukkit.broadcast(Component.text(msg, NamedTextColor.GOLD));
                 } else {
                     p.kickPlayer("You have left the game.");
                 }
             }else{
-                sender.sendMessage(ChatColor.RED + "Only a player can run this command.");
+                sender.sendMessage(Component.text("Only a player can run this command.", NamedTextColor.RED));
             }
         }
 
@@ -94,13 +101,14 @@ public class CommandExec implements CommandExecutor {
             if(playersDied && sender instanceof Player p){
                 if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
                     p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    sender.sendMessage("Night vision removed.");
+                    sender.sendMessage(Component.text("Night vision removed."));
                 }else{
                     p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 5));
-                    sender.sendMessage("You now have night vision.");
+                    sender.sendMessage(Component.text("You now have night vision."));
                 }
             }else{
-                sender.sendMessage(ChatColor.RED + "You cannot use this until you have died.");
+                sender.sendMessage(Component.text("You cannot use this until you have died.",
+                        NamedTextColor.RED));
             }
         }
 
@@ -128,13 +136,15 @@ public class CommandExec implements CommandExecutor {
                             p.teleport(tpl);
                             break;
                         default:
-                            p.sendMessage(ChatColor.RED + "That dimension is not recognised.");
+                            p.sendMessage(Component.text("That dimension is not recognised.",
+                                    NamedTextColor.RED));
                     }
                 }else{
-                    p.sendMessage(ChatColor.RED + "You must specify a dimension.");
+                    p.sendMessage(Component.text("You must specify a dimension.", NamedTextColor.RED));
                 }
             }else{
-                sender.sendMessage(ChatColor.RED + "You cannot use this until you have died.");
+                sender.sendMessage(Component.text("You cannot use this until you have died.",
+                        NamedTextColor.RED));
             }
         }
 
@@ -153,18 +163,26 @@ public class CommandExec implements CommandExecutor {
             Arrays.sort(psh, new PlayerStatHolderComparator());
 
             //Output
-            sender.sendMessage("");
-            sender.sendMessage(ChatColor.GRAY + "-+=" + ChatColor.RESET + " Playtime Leaderboard " +
-                    ChatColor.GRAY + "=+-");
-            sender.sendMessage("You have collectively survived " + ChatColor.GOLD +
-                    Bukkit.getWorlds().get(0).getFullTime()/24000 + ChatColor.RESET + " days.");
+            sender.sendMessage(Component.newline()
+                .append(Component.text("-+=", NamedTextColor.GRAY))
+                .append(Component.text(" Playtime Leaderboard ", NamedTextColor.WHITE))
+                .append(Component.text("=+-", NamedTextColor.GRAY))
+                .append(Component.newline())
+                .append(Component.text("You have collectively survived ", NamedTextColor.WHITE))
+                .append(Component.text(Bukkit.getWorlds().get(0).getFullTime()/24000, NamedTextColor.GOLD))
+                .append(Component.text(" days.", NamedTextColor.WHITE))
+            );
             counter = 1;
             for(PlayerStatHolder i: psh){
-                sender.sendMessage("" + ChatColor.GRAY + counter + ". " + ChatColor.RED + i.name + ChatColor.RESET +
-                        " has played for " + ChatColor.GOLD +  i.stat / 3600 + ChatColor.RESET + " hours.");
+                sender.sendMessage(Component.text(counter + ". ", NamedTextColor.GRAY)
+                    .append(Component.text(i.name, NamedTextColor.RED))
+                    .append(Component.text(" has played for ", NamedTextColor.WHITE))
+                    .append(Component.text(i.stat/3600, NamedTextColor.GOLD))
+                    .append(Component.text(" hours.", NamedTextColor.WHITE))
+                );
                 counter++;
             }
-            sender.sendMessage("");
+            sender.sendMessage(Component.empty());
         }
 
         //DamageLeaderboard
@@ -181,13 +199,19 @@ public class CommandExec implements CommandExecutor {
             Arrays.sort(psh, new PlayerStatHolderComparator());
 
             //Output
-            sender.sendMessage("");
-            sender.sendMessage(ChatColor.GRAY + "-+=" + ChatColor.RESET + " Damage Taken Leaderboard " +
-                    ChatColor.GRAY + "=+-");
+            sender.sendMessage(Component.newline()
+                .append(Component.text("-+=", NamedTextColor.GRAY))
+                .append(Component.text(" Damage Taken Leaderboard ", NamedTextColor.WHITE))
+                .append(Component.text("=+-", NamedTextColor.GRAY))
+            );
             int counter = 1;
             for(PlayerStatHolder i: psh){
-                sender.sendMessage("" + ChatColor.GRAY + counter + ". " + ChatColor.RED + i.name +  ChatColor.RESET +
-                        " has taken " + ChatColor.GOLD + ((float) i.stat)/10 + ChatColor.RESET + " damage.");
+                sender.sendMessage(Component.text(counter + ". ", NamedTextColor.GRAY)
+                    .append(Component.text(i.name, NamedTextColor.RED))
+                    .append(Component.text(" has taken ", NamedTextColor.WHITE))
+                    .append(Component.text(((float) i.stat)/10, NamedTextColor.GOLD))
+                    .append(Component.text(" damage.", NamedTextColor.WHITE))
+                );
                 counter++;
             }
             sender.sendMessage("");
