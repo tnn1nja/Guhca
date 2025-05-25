@@ -173,7 +173,7 @@ public class Listeners implements Listener {
             if(i.hasItemMeta()){
                 SuspiciousStewMeta stew = (SuspiciousStewMeta) i.getItemMeta();
                 if(stew.hasCustomEffects() && stew.hasCustomEffect(PotionEffectType.REGENERATION)){
-                    log.info(p.getName() + "'s Regen Soup Fixed");
+                    log.info(p.getName() + "'s regen soup fixed");
                     p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
                 }
             }
