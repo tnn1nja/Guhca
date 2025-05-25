@@ -140,7 +140,6 @@ public final class Main extends JavaPlugin {
         Listeners.onFifteenSec();
         initScoreboard();
         generateOfflinePlayerSet();
-        serverFreeze();
         reloadDatapack();
 
         //Set Gamerules

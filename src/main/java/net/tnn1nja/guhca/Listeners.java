@@ -53,11 +53,6 @@ public class Listeners implements Listener {
             generateOfflinePlayerSet();
         }
 
-        //Unfreeze Server
-        if (Bukkit.getServerTickManager().isFrozen()) {
-            serverResume();
-        }
-
         //Discover all Recipes
         Bukkit.recipeIterator().forEachRemaining(recipe -> {
             if (recipe instanceof Keyed){
@@ -291,11 +286,6 @@ public class Listeners implements Listener {
             e.quitMessage(Component.text(p.getName() + " was kicked by " + kicker + ".", NamedTextColor.GOLD));
         }
         kicker = null;
-
-        //Freeze Server
-        if(Bukkit.getOnlinePlayers().size() == 1){ //includes leaving player
-            delayedServerFreeze();
-        }
     }
 
     @EventHandler

@@ -68,43 +68,17 @@ public class Tools {
     }
 
     public static void playersDied(){
-        serverFreeze();
         playersDied = true;
+        Bukkit.getServerTickManager().setFrozen(true);
         for(Player p: Bukkit.getOnlinePlayers()){
             p.setGameMode(GameMode.SPECTATOR);
         }
+        log.info("A player has died, the world is frozen.");
     }
 
     public static void generateOfflinePlayerSet(){
         for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
             OfflinePlayers.add(op.getName().toLowerCase());
-        }
-    }
-
-    public static void serverFreeze(){
-        if(!playersDied) {
-            Bukkit.getServerTickManager().setFrozen(true);
-            log.info("Server frozen");
-        }
-    }
-
-    public static void delayedServerFreeze(){
-        if(!playersDied){
-            Bukkit.getServer().getScheduler().runTaskLater(me, new Runnable() {
-                @Override
-                public void run() {
-                    if(Bukkit.getOnlinePlayers().isEmpty()){ //includes leaving player
-                        serverFreeze();
-                    }
-                }
-            }, 100L);
-        }
-    }
-
-    public static void serverResume(){
-        if(!playersDied) {
-            Bukkit.getServerTickManager().setFrozen(false);
-            log.info("Server resumed");
         }
     }
 
