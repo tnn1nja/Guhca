@@ -28,33 +28,43 @@ public class Tools {
 
         //Teams
         for(Team t: board.getTeams()){
-            if(t.getName().equalsIgnoreCase("guhca_online")){
-                t.unregister();
-            }else if(t.getName().equalsIgnoreCase("guhca_afk")){
-                t.unregister();
+            if(t.getName().equalsIgnoreCase("guhca:online")){
+                Online = t;
+            }else if(t.getName().equalsIgnoreCase("guhca:afk")){
+                Afk = t;
             }
         }
-        Online = board.registerNewTeam("guhca_online");
-        Online.color(NamedTextColor.RED);
-        Online.setCanSeeFriendlyInvisibles(false);
-        Afk = board.registerNewTeam("guhca_afk");
-        Afk.color(NamedTextColor.GRAY);
-        Afk.setCanSeeFriendlyInvisibles(false);
+
+        if(Online == null) {
+            Online = board.registerNewTeam("guhca:online");
+            Online.color(NamedTextColor.RED);
+            Online.setCanSeeFriendlyInvisibles(false);
+        }
+        if(Afk == null){
+            Afk = board.registerNewTeam("guhca:afk");
+            Afk.color(NamedTextColor.GRAY);
+            Afk.setCanSeeFriendlyInvisibles(false);
+        }
 
         //Objectives
         for(Objective o: board.getObjectives()) {
-            if (o.getName().equalsIgnoreCase("guhca_health_below_name")) {
-                o.unregister();
-            } else if (o.getName().equalsIgnoreCase("guhca_health_player_list")){
-                o.unregister();
+            if (o.getName().equalsIgnoreCase("guhca.health_below_name")) {
+                HealthName = o;
+            } else if (o.getName().equalsIgnoreCase("guhca.health_player_list")){
+                HealthList = o;
             }
         }
-        HealthName = board.registerNewObjective("guhca_health_below_name", Criteria.HEALTH,
-                Component.text("♥", NamedTextColor.DARK_RED));
-        HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        HealthList = board.registerNewObjective("guhca_health_player_list", Criteria.HEALTH,
-                Component.text("Health"));
-        HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+
+        if(HealthName == null){
+            HealthName = board.registerNewObjective("guhca:health_below_name", Criteria.HEALTH,
+                    Component.text("♥", NamedTextColor.DARK_RED));
+            HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        }
+        if (HealthList == null){
+            HealthList = board.registerNewObjective("guhca:health_player_list", Criteria.HEALTH,
+                    Component.text("HealthList"));
+            HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+        }
     }
 
     public static void playersDied(){

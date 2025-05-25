@@ -170,14 +170,8 @@ public final class Main extends JavaPlugin {
             p.kick(Component.text("Server is restarting..."));
         }
 
-        //Unload
-        Online.unregister();
-        Afk.unregister();
-        HealthName.unregister();
-        HealthList.unregister();
+        //Misc
         unloadDatapack();
-
-        //Log
         log.info("Guhca Disabled.");
     }
 }
