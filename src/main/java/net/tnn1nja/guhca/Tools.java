@@ -28,40 +28,40 @@ public class Tools {
 
         //Teams
         for(Team t: board.getTeams()){
-            if(t.getName().equalsIgnoreCase("guhca:online")){
+            if(t.getName().equalsIgnoreCase("guhca.online")){
                 Online = t;
-            }else if(t.getName().equalsIgnoreCase("guhca:afk")){
+            }else if(t.getName().equalsIgnoreCase("guhca.afk")){
                 Afk = t;
             }
         }
 
         if(Online == null) {
-            Online = board.registerNewTeam("guhca:online");
+            Online = board.registerNewTeam("guhca.online");
             Online.color(NamedTextColor.RED);
             Online.setCanSeeFriendlyInvisibles(false);
         }
         if(Afk == null){
-            Afk = board.registerNewTeam("guhca:afk");
+            Afk = board.registerNewTeam("guhca.afk");
             Afk.color(NamedTextColor.GRAY);
             Afk.setCanSeeFriendlyInvisibles(false);
         }
 
         //Objectives
         for(Objective o: board.getObjectives()) {
-            if (o.getName().equalsIgnoreCase("guhca:health_below_name")) {
+            if (o.getName().equalsIgnoreCase("guhca.health_below_name")) {
                 HealthName = o;
-            } else if (o.getName().equalsIgnoreCase("guhca:health_player_list")){
+            } else if (o.getName().equalsIgnoreCase("guhca.health_player_list")){
                 HealthList = o;
             }
         }
 
         if(HealthName == null){
-            HealthName = board.registerNewObjective("guhca:health_below_name", Criteria.HEALTH,
+            HealthName = board.registerNewObjective("guhca.health_below_name", Criteria.HEALTH,
                     Component.text("♥", NamedTextColor.DARK_RED));
             HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
         }
         if (HealthList == null){
-            HealthList = board.registerNewObjective("guhca:health_player_list", Criteria.HEALTH,
+            HealthList = board.registerNewObjective("guhca.health_player_list", Criteria.HEALTH,
                     Component.text("HealthList"));
             HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
         }
