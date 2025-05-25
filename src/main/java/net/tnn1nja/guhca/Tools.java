@@ -48,9 +48,9 @@ public class Tools {
 
         //Objectives
         for(Objective o: board.getObjectives()) {
-            if (o.getName().equalsIgnoreCase("guhca.health_below_name")) {
+            if (o.getName().equalsIgnoreCase("guhca:health_below_name")) {
                 HealthName = o;
-            } else if (o.getName().equalsIgnoreCase("guhca.health_player_list")){
+            } else if (o.getName().equalsIgnoreCase("guhca:health_player_list")){
                 HealthList = o;
             }
         }
@@ -84,7 +84,7 @@ public class Tools {
     public static void serverFreeze(){
         if(!playersDied) {
             Bukkit.getServerTickManager().setFrozen(true);
-            log.info("Server Frozen.");
+            log.info("Server frozen");
         }
     }
 
@@ -104,7 +104,7 @@ public class Tools {
     public static void serverResume(){
         if(!playersDied) {
             Bukkit.getServerTickManager().setFrozen(false);
-            log.info("Server Resumed.");
+            log.info("Server resumed");
         }
     }
 
@@ -242,13 +242,17 @@ public class Tools {
                 collect(Collectors.toList());
     }
 
-    public static void loadDatapack(){
+    public static void reloadDatapack(){
         String datapackDir = Bukkit.getWorlds().get(0).getName() + "/datapacks/guhca/";
         String[][] files = {
                 {"pack.mcmeta", ""},
                 {"reward_ominous_unique.json", "data/minecraft/loot_table/chests/trial_chambers/"}};
 
-        unloadDatapack();
+        File datapackFile = new File(datapackDir);
+        if(datapackFile.exists()){
+            log.info("Datapack previously installed, updating...");
+            recursiveDelete(datapackFile);
+        }
 
         try {
             for (String[] pair : files) {
@@ -259,19 +263,11 @@ public class Tools {
                 is.close();
                 fos.close();
             }
-            log.info("Datapack extracted, reloading data...");
+            log.info("Datapack installed, reloading data...");
             Bukkit.getServer().reloadData();
         } catch (Exception e) {
-            log.severe("Datapack failed to extract");
+            log.severe("Datapack failed to install");
             e.printStackTrace();
-        }
-    }
-
-    public static void unloadDatapack(){
-        File datapackFile = new File(Bukkit.getWorlds().get(0).getName() + "/datapacks/guhca/");
-        if(datapackFile.exists()){
-            recursiveDelete(datapackFile);
-            log.info("Datapack Unloaded.");
         }
     }
 

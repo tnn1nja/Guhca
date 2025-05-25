@@ -119,7 +119,7 @@ public final class Main extends JavaPlugin {
         //Init
         me = this;
         log = this.getLogger();
-        log.info("Guhca Enabled.");
+        log.info("Guhca enabled");
         getServer().getPluginManager().registerEvents(new Listeners(), this);
         getCommand("lastplayed").setExecutor(ComExec);
         getCommand("playtime").setExecutor(ComExec);
@@ -141,7 +141,7 @@ public final class Main extends JavaPlugin {
         initScoreboard();
         generateOfflinePlayerSet();
         serverFreeze();
-        loadDatapack();
+        reloadDatapack();
 
         //Set Gamerules
         for(World w: Bukkit.getWorlds()){
@@ -165,13 +165,10 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        //Kick Players on Reload
         for(Player p: Bukkit.getOnlinePlayers()){
             p.kick(Component.text("Server is restarting..."));
         }
 
-        //Misc
-        unloadDatapack();
-        log.info("Guhca Disabled.");
+        log.info("Guhca disabled");
     }
 }

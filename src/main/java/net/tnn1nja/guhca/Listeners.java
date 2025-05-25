@@ -151,7 +151,7 @@ public class Listeners implements Listener {
                     }
                 }, 10L);
                 startBellCooldown(l);
-                log.info("Bell resonated with range of " + customBellDetectionRadius + " blocks.");
+                log.info("Bell resonated with range of " + customBellDetectionRadius + " blocks");
             }
         }
     }
@@ -161,7 +161,7 @@ public class Listeners implements Listener {
         Location l = e.getBlock().getLocation();
         e.getResonatedEntities().addAll(getRaidersWithinCustomRange(l));
         startBellCooldown(l);
-        log.info("Bell resonation range extended to " + customBellDetectionRadius + " blocks.");
+        log.info("Bell resonation range extended to " + customBellDetectionRadius + " blocks");
     }
 
     @EventHandler
@@ -173,7 +173,7 @@ public class Listeners implements Listener {
             if(i.hasItemMeta()){
                 SuspiciousStewMeta stew = (SuspiciousStewMeta) i.getItemMeta();
                 if(stew.hasCustomEffects() && stew.hasCustomEffect(PotionEffectType.REGENERATION)){
-                    log.info(p.getName() + "'s Regen Soup Fixed.");
+                    log.info(p.getName() + "'s Regen Soup Fixed");
                     p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
                 }
             }
@@ -234,7 +234,7 @@ public class Listeners implements Listener {
                 e.getPlayer().swingMainHand();
                 e.setCancelled(true);
                 a.setAgeLock(!a.getAgeLock());
-                String locked = a.getAgeLock() ? "Locked at: " + a.getAge() + "." : "Unlocked.";
+                String locked = a.getAgeLock() ? "locked at: " + a.getAge() : "unlocked";
                 log.info(a.getType().toString() + " Aging " + locked);
             }
 
@@ -267,7 +267,7 @@ public class Listeners implements Listener {
         if (e.getEntity() instanceof ItemFrame itf){
             if(!itf.isVisible()) {
                 itf.setVisible(true);
-                log.info("Toggled Item Frame Visibility.");
+                log.info("Toggled item frame visibility");
             }
         }
     }
@@ -360,7 +360,7 @@ public class Listeners implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0));
 
                 //Logging
-                log.info("Crystal Heart Used.");
+                log.info("Crystal heart used");
             }
         }
     }
@@ -465,22 +465,20 @@ public class Listeners implements Listener {
                         }
                     }
 
-                    String dimension = w.getEnvironment().toString();
-                    if (dimension.endsWith("L")) {
-                        dimension = "Overworld";
-                    }else if(dimension.endsWith("R")){
-                        dimension = "Nether";
-                    }else{
-                        dimension = "End";
-                    }
+                    String dimension = switch (w.getEnvironment()) {
+                        case NORMAL -> "overworld";
+                        case NETHER -> "nether";
+                        case THE_END -> "end";
+                        default -> "custom dimension";
+                    };
 
                     if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
                         if (mobSwitchedWorlds.add(w.getUID())) {
-                            log.info("Mob Switch Enabled for The " + dimension);
+                            log.info("Mob switch enabled for the " + dimension);
                         }
                     } else {
                         if (mobSwitchedWorlds.remove(w.getUID())) {
-                            log.info("Mob Switch Disabled for The " + dimension);
+                            log.info("Mob Switch Disabled for the " + dimension);
                         }
                     }
                 }
