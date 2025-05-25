@@ -86,10 +86,10 @@ public class CommandExec implements CommandExecutor {
                     }
                     String msg = sb.toString();
                     kicker = ".self";
-                    p.kickPlayer(msg);
+                    p.kick(Component.text(msg));
                     Bukkit.broadcast(Component.text(msg, NamedTextColor.GOLD));
                 } else {
-                    p.kickPlayer("You have left the game.");
+                    p.kick(Component.text("You have left the game."));
                 }
             }else{
                 sender.sendMessage(Component.text("Only a player can run this command.", NamedTextColor.RED));
