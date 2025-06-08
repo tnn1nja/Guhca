@@ -77,7 +77,6 @@ public class Listeners implements Listener {
         if(p.isGliding()) {
             boolean aboveLitCampfire = false;
             boolean isHayBaled = false;
-            boolean passedThroughBlock = false;
             int distance = 1;
             Block testBlock = p.getLocation().getBlock();
             while (true) {
@@ -92,11 +91,7 @@ public class Listeners implements Listener {
                     }
                     break;
                 } else {
-                    if(passedThroughBlock){
-                        break;
-                    }else {
-                        passedThroughBlock = true;
-                    }
+                    break;
                 }
 
                 if (distance > 21) {
