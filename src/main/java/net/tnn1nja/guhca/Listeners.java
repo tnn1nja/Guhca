@@ -100,7 +100,7 @@ public class Listeners implements Listener {
         if(!isRaidersWithinVanillaRange(l)){
             Collection<Raider> raiders = getRaidersWithinCustomRange(l);
             if(!raiders.isEmpty() && !bellOnCooldownLocations.contains(l)) {
-                Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+                Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                     @Override
                     public void run() {
                         for (LivingEntity le: raiders) {
@@ -108,7 +108,7 @@ public class Listeners implements Listener {
                         }
                     }
                 }, 60L);
-                Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+                Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                     @Override
                     public void run() {
                         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -300,7 +300,7 @@ public class Listeners implements Listener {
                 Location respawn = getRespawnLocation(p);
                 p.teleport(respawn);
                 doClientCrystalObscureAnim(p);
-                Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+                Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                     @Override
                     public void run() {
                         p.setVelocity(new Vector(0, 0, 0));
@@ -380,7 +380,7 @@ public class Listeners implements Listener {
 
     //@HonouraryEventHandler
     public static void onSec(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
             public void run() {
                 //AFK Tracker
                 for(Player p: Bukkit.getOnlinePlayers()){
@@ -398,7 +398,7 @@ public class Listeners implements Listener {
 
     //@HonouraryEventHandler
     public static void onHalfSec(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable(){
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
             public void run(){
                 //Kick Lagging Players
                 for(Player p: Bukkit.getOnlinePlayers()){
@@ -413,7 +413,7 @@ public class Listeners implements Listener {
 
     //@HonouraryEventHandler
     public static void onFifteenSec(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(me, new Runnable() {
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
             public void run() {
                 for(World w: Bukkit.getWorlds()) {

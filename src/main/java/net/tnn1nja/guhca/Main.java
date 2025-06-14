@@ -16,7 +16,7 @@ import static net.tnn1nja.guhca.Tools.*;
 public final class Main extends JavaPlugin {
 
     //Objects
-    public static Main me;
+    public static Main plugin;
     public static Team Online;
     public static Team Afk;
     public static Objective HealthName;
@@ -116,10 +116,10 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         //Init
-        me = this;
-        log = this.getLogger();
+        plugin = this;
+        log = plugin.getLogger();
         log.info("Guhca enabled");
-        getServer().getPluginManager().registerEvents(new Listeners(), this);
+        getServer().getPluginManager().registerEvents(new Listeners(), plugin);
         getCommand("lastplayed").setExecutor(ComExec);
         getCommand("playtime").setExecutor(ComExec);
         getCommand("leave").setExecutor(ComExec);

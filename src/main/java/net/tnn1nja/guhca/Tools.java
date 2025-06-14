@@ -121,7 +121,7 @@ public class Tools {
 
     public static void startBellCooldown(Location l){
         bellOnCooldownLocations.add(l);
-        Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
                 bellOnCooldownLocations.remove(l);
@@ -229,7 +229,7 @@ public class Tools {
 
     public static void grantPlayerImmunity(UUID uuid, long ticks){
         damageImmunePlayers.add(uuid);
-        Bukkit.getScheduler().runTaskLater(me, new Runnable() {
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
             @Override
             public void run() {
                 damageImmunePlayers.remove(uuid);
