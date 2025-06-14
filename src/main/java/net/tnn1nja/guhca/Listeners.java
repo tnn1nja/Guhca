@@ -34,32 +34,8 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-
-        //Set Player Data
-        p.displayName(p.name().color(NamedTextColor.RED));
-        p.playerListName(p.name().color(NamedTextColor.WHITE));
         e.joinMessage(Component.text(getComponentAsPlainText(e.joinMessage()), NamedTextColor.YELLOW));
-        Online.addEntry(p.getName());
-        afkTracker.put(p.getUniqueId(), (Integer) 0);
-        campfireBoostSoundTracker.put(e.getPlayer().getUniqueId(), false);
-
-        //Check if Players Died
-        if(playersDied){
-            p.setGameMode(GameMode.SPECTATOR);
-        }
-
-        //Setup New Player
-        if(!p.hasPlayedBefore()){
-            generateOfflinePlayerSet();
-        }
-
-        //Discover all Recipes
-        Bukkit.recipeIterator().forEachRemaining(recipe -> {
-            if (recipe instanceof Keyed){
-                p.discoverRecipe(((Keyed) recipe).getKey());
-            }
-        });
-
+        setupPlayer(p);
     }
 
     @EventHandler

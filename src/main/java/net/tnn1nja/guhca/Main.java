@@ -1,6 +1,5 @@
 package net.tnn1nja.guhca;
 
-import net.kyori.adventure.text.Component;
 import net.tnn1nja.guhca.commands.CommandExec;
 import net.tnn1nja.guhca.commands.TabCompleter;
 import org.bukkit.*;
@@ -159,15 +158,16 @@ public final class Main extends JavaPlugin {
             }
         }
 
+        //Setup Online Players
+        for(Player p: Bukkit.getOnlinePlayers()){
+            setupPlayer(p);
+        }
+
     }
 
 
     @Override
     public void onDisable() {
-        for(Player p: Bukkit.getOnlinePlayers()){
-            p.kick(Component.text("Server is restarting..."));
-        }
-
         log.info("Guhca disabled");
     }
 

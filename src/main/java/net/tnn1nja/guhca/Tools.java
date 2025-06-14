@@ -76,6 +76,32 @@ public class Tools {
         log.info("A player has died, the world is frozen.");
     }
 
+    public static void setupPlayer(Player p){
+        //Set Player Data
+        p.displayName(p.name().color(NamedTextColor.RED));
+        p.playerListName(p.name().color(NamedTextColor.WHITE));
+        Online.addEntry(p.getName());
+        afkTracker.put(p.getUniqueId(), (Integer) 0);
+        campfireBoostSoundTracker.put(p.getUniqueId(), false);
+
+        //Check if Players Died
+        if(playersDied){
+            p.setGameMode(GameMode.SPECTATOR);
+        }
+
+        //Setup New Player
+        if(!p.hasPlayedBefore()){
+            generateOfflinePlayerSet();
+        }
+
+        //Discover all Recipes
+        Bukkit.recipeIterator().forEachRemaining(recipe -> {
+            if (recipe instanceof Keyed){
+                p.discoverRecipe(((Keyed) recipe).getKey());
+            }
+        });
+    }
+
     public static void generateOfflinePlayerSet(){
         for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
             OfflinePlayers.add(op.getName().toLowerCase());
