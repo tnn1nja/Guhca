@@ -246,15 +246,15 @@ public class Listeners implements Listener {
 
         //Quit Message
         if(kicker == null) {
-            e.quitMessage(Component.text(p.getName() + " left the game.", NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " left the game", NamedTextColor.GOLD));
         }else if(kicker.equals(".afk")){
-            e.quitMessage(Component.text(p.getName() + " took damage while afk.", NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " took damage while afk", NamedTextColor.GOLD));
         }else if(kicker.equals(".lag")) {
-            e.quitMessage(Component.text(p.getName() + " lagged out.", NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " lagged out", NamedTextColor.GOLD));
         }else if(kicker.equals(".self")){
             e.quitMessage(null);
         }else {
-            e.quitMessage(Component.text(p.getName() + " was kicked by " + kicker + ".", NamedTextColor.GOLD));
+            e.quitMessage(Component.text(p.getName() + " was kicked by " + kicker, NamedTextColor.GOLD));
         }
         kicker = null;
     }
