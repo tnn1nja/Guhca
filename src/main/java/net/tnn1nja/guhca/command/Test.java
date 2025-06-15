@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class Test extends AbstractCommand {
+public class Test extends CommandCore {
 
     public Test(){
         name = "test";
