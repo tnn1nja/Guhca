@@ -1,13 +1,11 @@
 package net.tnn1nja.guhca;
 
-import net.tnn1nja.guhca.commands.CommandExec;
-import net.tnn1nja.guhca.commands.TabCompleter;
+import net.tnn1nja.guhca.command.CommandUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.*;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -21,13 +19,10 @@ public final class Main extends JavaPlugin {
     public static Team Afk;
     public static Objective HealthName;
     public static Objective HealthList;
-    public static SimpleDateFormat DateFormat = new SimpleDateFormat("hh:mm a, dd/MM/yy");
     public static Logger log;
-    public CommandExec ComExec = new CommandExec();
-    public TabCompleter TabComp = new TabCompleter();
 
     //Constants
-    public static Integer afkTime = (Integer) 300;
+    public static Integer afkTime = (Integer) 5;
     public static int pingKickThreshold = 5000;
     public static int vanillaBellDetectionRadius = 32;
     public static int customBellDetectionRadius = 128;
@@ -109,7 +104,6 @@ public final class Main extends JavaPlugin {
     public static HashMap<UUID, Boolean> campfireBoostSoundTracker = new HashMap<>();
     public static HashSet<Location> bellOnCooldownLocations = new HashSet<Location>();
     public static HashSet<UUID> mobSwitchedWorlds = new HashSet<UUID>();
-    public static String kicker = null;
     public static boolean playersDied = false;
 
 
@@ -120,20 +114,8 @@ public final class Main extends JavaPlugin {
         log = plugin.getLogger();
         log.info("Guhca enabled");
         getServer().getPluginManager().registerEvents(new Listeners(), plugin);
-        getCommand("lastplayed").setExecutor(ComExec);
-        getCommand("playtime").setExecutor(ComExec);
-        getCommand("leave").setExecutor(ComExec);
-        getCommand("damage").setExecutor(ComExec);
-        getCommand("kick").setExecutor(ComExec);
-        getCommand("dimension").setExecutor(ComExec);
-        getCommand("nightvision").setExecutor(ComExec);
-        getCommand("lastplayed").setTabCompleter(TabComp);
-        getCommand("kick").setTabCompleter(TabComp);
-        getCommand("leave").setTabCompleter(TabComp);
-        getCommand("dimension").setTabCompleter(TabComp);
-        getCommand("nightvision").setTabCompleter(TabComp);
+        CommandUtils.registerCommands();
 
-        DateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         Listeners.onSec();
         Listeners.onHalfSec();
         Listeners.onFifteenSec();

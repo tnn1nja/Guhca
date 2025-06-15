@@ -1,7 +1,5 @@
 package net.tnn1nja.guhca.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -18,20 +16,6 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-        //Last Played
-        if(command.getName().equalsIgnoreCase("lastplayed")) {
-            List<String> output = new ArrayList<String>();
-            for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
-                if(!op.getName().equalsIgnoreCase(sender.getName())) {
-                    output.add(op.getName());
-                }
-            }
-            if (args.length == 1){
-                return filterList(output, args[0]);
-            }
-
-        }
-
         //Leave
         if(command.getName().equalsIgnoreCase("leave")){
             return empty;
@@ -43,13 +27,6 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
 
             if (args.length == 1){
                 return filterList(output, args[0]);
-            }
-        }
-
-        //Kick
-        if(command.getName().equalsIgnoreCase("kick")) {
-            if (args.length > 1){
-                return empty;
             }
         }
 

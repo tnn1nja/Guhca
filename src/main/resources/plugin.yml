@@ -3,30 +3,23 @@ version: '${project.version}'
 main: net.tnn1nja.guhca.Main
 api-version: '1.21.5'
 authors: [ tnn1nja ]
-description: Custom Plugin for Multiplayer UHC.
+description: Custom plugin for multiplayer UHC
 commands:
   lastplayed:
-    description: Shows when player was last online.
-    usage: /<command> [player]
+    description: Shows when player was last online
     aliases: [ lp ]
   kick:
-    description: A proxy for the native kick command.
-    usage: /<command> [player] [reason]
+    description: A proxy for the native kick command
   leave:
-    description: Leave for a custom reason.
-    usage: /<command> [reason]
+    description: Leave for a custom reason
   playtime:
-    description: Shows total playtime of all players.
-    usage: /<command>
+    description: Shows total playtime of all players
     aliases: [ pt ]
   damage:
-    description: Shows player damage scoreboard.
-    usage: /<command>
+    description: Shows player damage scoreboard
   nightvision:
-    description: Gives the player Night Vision if they have died.
-    usage: /<command>
+    description: Gives the player Night Vision if they have died
     aliases: [ nv ]
   dimension:
-    description: Move between dimensions in Spectator Mode.
-    usage: /<command> [dimension]
+    description: Move between dimensions in spectator mode
     aliases: [ dim ]

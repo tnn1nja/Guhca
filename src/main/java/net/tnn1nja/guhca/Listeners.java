@@ -244,19 +244,11 @@ public class Listeners implements Listener {
         afkTracker.remove(p.getUniqueId());
         campfireBoostSoundTracker.remove(e.getPlayer().getUniqueId());
 
-        //Quit Message
-        if(kicker == null) {
-            e.quitMessage(Component.text(p.getName() + " left the game", NamedTextColor.GOLD));
-        }else if(kicker.equals(".afk")){
-            e.quitMessage(Component.text(p.getName() + " took damage while afk", NamedTextColor.GOLD));
-        }else if(kicker.equals(".lag")) {
-            e.quitMessage(Component.text(p.getName() + " lagged out", NamedTextColor.GOLD));
-        }else if(kicker.equals(".self")){
+        if(e.getReason() == PlayerQuitEvent.QuitReason.KICKED){
             e.quitMessage(null);
-        }else {
-            e.quitMessage(Component.text(p.getName() + " was kicked by " + kicker, NamedTextColor.GOLD));
+        }else{
+            e.quitMessage(Component.text(p.getName() + " left the game", NamedTextColor.GOLD));
         }
-        kicker = null;
     }
 
     @EventHandler
@@ -274,7 +266,9 @@ public class Listeners implements Listener {
             }
 
             if(Afk.hasPlayer(p)){
-                kicker = ".afk";
+                Bukkit.broadcast(
+                        Component.text(p.getName() + " took damage while afk", NamedTextColor.GOLD)
+                );
                 p.kick(Component.text("You took damage will afk\n"));
             }
 
@@ -403,7 +397,7 @@ public class Listeners implements Listener {
                 //Kick Lagging Players
                 for(Player p: Bukkit.getOnlinePlayers()){
                     if(p.getPing() > pingKickThreshold){
-                        kicker = ".lag";
+                        Component.text(p.getName() + " lagged out", NamedTextColor.GOLD);
                         p.kick(Component.text("Your ping exceeded " + pingKickThreshold));
                     }
                 }

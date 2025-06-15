@@ -12,7 +12,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static net.tnn1nja.guhca.Main.*;
@@ -21,60 +20,6 @@ public class CommandExec implements CommandExecutor {
 
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-
-        //Last Played
-        if (command.getName().equalsIgnoreCase("lastplayed")) {
-            if (args.length > 0) {
-                if (OfflinePlayers.contains(args[0].toLowerCase())) {
-                    OfflinePlayer pt = Bukkit.getOfflinePlayer(args[0].toLowerCase());
-                    if (pt.isOnline()) {
-                        sender.sendMessage(Component.text(pt.getName() + " is currently online.",
-                                NamedTextColor.RED));
-                    } else {
-                        sender.sendMessage(
-                                Component.text(pt.getName(), NamedTextColor.RED)
-                                .append(Component.text(" Last Played: ", NamedTextColor.WHITE))
-                                .append(Component.text(DateFormat.format(new Date(pt.getLastPlayed())).toUpperCase(),
-                                        NamedTextColor.GOLD)));
-                    }
-                } else {
-                    sender.sendMessage(Component.text("Player could not be found.", NamedTextColor.RED));
-                }
-            } else {
-                sender.sendMessage(Component.text("Please specify a player.", NamedTextColor.RED));
-            }
-        }
-
-        //Kick
-        if (command.getName().equalsIgnoreCase("kick")){
-            if(args.length > 0){
-                if(OfflinePlayers.contains(args[0].toLowerCase())){
-                    OfflinePlayer pt = Bukkit.getOfflinePlayer(args[0].toLowerCase());
-                    if(pt.isOnline()){
-                        Player p = Bukkit.getPlayer(pt.getName());
-                        kicker = sender.getName();
-                        if(args.length > 1) {
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = 1; i < args.length; i++){
-                                sb.append(args[i]).append(" ");
-                            }
-                            p.kick(Component.text(sb.toString()));
-                        }else{
-                            p.kick(Component.text("You have been kicked by " + sender.getName()));
-                        }
-
-                    }else{
-                        sender.sendMessage(Component.text(pt.getName() + " is not currently online.",
-                                NamedTextColor.RED));
-                    }
-                }else{
-                    sender.sendMessage(Component.text(args[0] + " has never connected.",
-                            NamedTextColor.RED));
-                }
-            }else{
-                sender.sendMessage(Component.text("Please specify a a player.", NamedTextColor.RED));
-            }
-        }
 
         //Leave
         if (command.getName().equalsIgnoreCase("leave")){
@@ -85,7 +30,6 @@ public class CommandExec implements CommandExecutor {
                         sb.append(s).append(" ");
                     }
                     String msg = sb.toString();
-                    kicker = ".self";
                     p.kick(Component.text(msg));
                     Bukkit.broadcast(Component.text(msg, NamedTextColor.GOLD));
                 } else {
