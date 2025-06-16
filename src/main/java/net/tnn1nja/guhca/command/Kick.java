@@ -4,20 +4,31 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 import static net.tnn1nja.guhca.Main.OfflinePlayers;
-import static net.tnn1nja.guhca.command.CommandUtils.empty;
 
-public class Kick implements CommandExecutor, TabCompleter {
+public class Kick extends CommandCore {
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+    String joinArguments(String[] args, int startIndex, int endIndex){
+        StringBuilder sb = new StringBuilder();
+        for (int i = startIndex; i < endIndex; i++){
+            sb.append(args[i]).append(" ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
+    }
+
+    @Override
+    public String getName(){
+        return "kick";
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String[] args) {
         if(args.length < 1) {
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return false;
@@ -36,7 +47,7 @@ public class Kick implements CommandExecutor, TabCompleter {
         }else{
             Player p = Bukkit.getPlayer(op.getUniqueId());
             if(args.length > 1) {
-                p.kick(Component.text(CommandUtils.joinArguments(args, 1, args.length)));
+                p.kick(Component.text(joinArguments(args, 1, args.length)));
             }else {
                 p.kick(Component.text("You have been kicked by " + sender.getName()));
             }
@@ -47,7 +58,8 @@ public class Kick implements CommandExecutor, TabCompleter {
         }
     }
 
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    @Override
+    public List<String> suggest(CommandSender sender, String[] args) {
         if (args.length > 1){
             return empty;
         }else{

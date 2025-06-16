@@ -3,17 +3,20 @@ package net.tnn1nja.guhca.command;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class Leave implements CommandExecutor, TabCompleter {
+public class Leave extends CommandCore {
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+    @Override
+    public String getName(){
+        return "leave";
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)) {
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
             return false;
@@ -30,7 +33,9 @@ public class Leave implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        return CommandUtils.empty;
+    @Override
+    public List<String> suggest(CommandSender sender, String[] args) {
+        return empty;
     }
+
 }

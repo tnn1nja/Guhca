@@ -4,17 +4,14 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static net.tnn1nja.guhca.Main.OfflinePlayers;
 
-public class LastPlayed implements CommandExecutor, TabCompleter {
+public class LastPlayed extends CommandCore {
 
     public static SimpleDateFormat dateFormat = initDateFormat();
     private static SimpleDateFormat initDateFormat(){
@@ -23,7 +20,13 @@ public class LastPlayed implements CommandExecutor, TabCompleter {
         return sdf;
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+    @Override
+    public String getName(){
+        return "lastplayed";
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 1){
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return false;
@@ -48,7 +51,8 @@ public class LastPlayed implements CommandExecutor, TabCompleter {
         }
     }
 
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    @Override
+    public List<String> suggest(CommandSender sender, String[] args) {
         if (args.length == 1){
             List<String> output = new ArrayList<String>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
@@ -56,7 +60,7 @@ public class LastPlayed implements CommandExecutor, TabCompleter {
                     output.add(op.getName());
                 }
             }
-            return CommandUtils.filterSuggestion(output, args[0]);
+            return filterSuggestion(output, args[0]);
         }
         return null;
     }

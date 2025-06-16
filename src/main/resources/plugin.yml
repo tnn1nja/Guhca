@@ -5,11 +5,11 @@ api-version: '1.21.5'
 authors: [ tnn1nja ]
 description: Custom plugin for multiplayer UHC
 commands:
+  kick:
+    description: An alternative to the native kick command
   lastplayed:
     description: Shows when player was last online
     aliases: [ lp ]
-  kick:
-    description: A proxy for the native kick command
   leave:
     description: Leave for a custom reason
   playtime:
@@ -18,7 +18,7 @@ commands:
   damage:
     description: Shows player damage scoreboard
   nightvision:
-    description: Gives the player Night Vision if they have died
+    description: Gives the player night vision if they have died
     aliases: [ nv ]
   dimension:
     description: Move between dimensions in spectator mode
