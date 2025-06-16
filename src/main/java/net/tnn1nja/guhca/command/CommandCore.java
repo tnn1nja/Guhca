@@ -25,7 +25,6 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     void register(JavaPlugin plugin){
         plugin.getCommand(getName()).setExecutor(this);
-        plugin.getCommand(getName()).setExecutor(this);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
