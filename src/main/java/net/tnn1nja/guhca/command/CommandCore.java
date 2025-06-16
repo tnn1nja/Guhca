@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
@@ -17,6 +16,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
         new Kick().register(plugin);
         new LastPlayed().register(plugin);
         new Leave().register(plugin);
+        new Dimension().register(plugin);
     }
 
 
@@ -34,17 +34,27 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     public abstract boolean execute(CommandSender sender, String[] args);
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        return suggest(sender, args);
+        List<String> result = suggest(sender, args);
+        if(result == null || result.isEmpty()){
+            return result;
+        }else {
+            return filterSuggestions(result, args[args.length-1]);
+        }
     }
     public abstract List<String> suggest(CommandSender sender, String[] args);
 
 
-    //Command utils
     List<String> empty = new ArrayList<String>();
 
-    List<String> filterSuggestion(List<String> input, String arg){
-        return input.stream().filter(s -> s.toLowerCase().startsWith(arg.toLowerCase())).
-                collect(Collectors.toList());
+    List<String> filterSuggestions(List<String> suggestions, String arg){
+        String lowerArg = arg.toLowerCase();
+        List<String> output = new ArrayList<String>();
+        for(String s: suggestions){
+            if(s.toLowerCase().startsWith(lowerArg)){
+                output.add(s);
+            }
+        }
+        return output;
     }
 
 }

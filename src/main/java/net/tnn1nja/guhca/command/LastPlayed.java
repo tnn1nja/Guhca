@@ -45,8 +45,8 @@ public class LastPlayed extends CommandCore {
         }else {
             sender.sendMessage(Component.text(op.getName(), NamedTextColor.RED)
                     .append(Component.text(" last played at ", NamedTextColor.WHITE))
-                    .append(Component.text(dateFormat.format(new Date(op.getLastPlayed())),
-                            NamedTextColor.GOLD)));
+                    .append(Component.text(
+                            dateFormat.format(new Date(op.getLastSeen())), NamedTextColor.GOLD)));
             return true;
         }
     }
@@ -60,7 +60,7 @@ public class LastPlayed extends CommandCore {
                     output.add(op.getName());
                 }
             }
-            return filterSuggestion(output, args[0]);
+            return output;
         }
         return null;
     }
