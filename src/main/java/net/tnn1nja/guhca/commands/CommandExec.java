@@ -21,25 +21,6 @@ public class CommandExec implements CommandExecutor {
     @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
 
-        //Leave
-        if (command.getName().equalsIgnoreCase("leave")){
-            if(sender instanceof Player p) {
-                if (args.length > 0) {
-                    StringBuilder sb = new StringBuilder();
-                    for (String s : args) {
-                        sb.append(s).append(" ");
-                    }
-                    String msg = sb.toString();
-                    p.kick(Component.text(msg));
-                    Bukkit.broadcast(Component.text(msg, NamedTextColor.GOLD));
-                } else {
-                    p.kick(Component.text("You have left the game."));
-                }
-            }else{
-                sender.sendMessage(Component.text("Only a player can run this command.", NamedTextColor.RED));
-            }
-        }
-
         //Night Vision
         if (command.getName().equalsIgnoreCase("nightvision")) {
             if(playersDied && sender instanceof Player p){

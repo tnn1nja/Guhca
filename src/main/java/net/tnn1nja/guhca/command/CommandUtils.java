@@ -25,12 +25,14 @@ public class CommandUtils {
         plugin.getCommand("kick").setExecutor(kick);
         plugin.getCommand("kick").setTabCompleter(kick);
 
+        Leave leave = new Leave();
+        plugin.getCommand("leave").setExecutor(leave);
+        plugin.getCommand("leave").setExecutor(leave);
+
         plugin.getCommand("playtime").setExecutor(ComExec);
-        plugin.getCommand("leave").setExecutor(ComExec);
         plugin.getCommand("damage").setExecutor(ComExec);
         plugin.getCommand("dimension").setExecutor(ComExec);
         plugin.getCommand("nightvision").setExecutor(ComExec);
-        plugin.getCommand("leave").setTabCompleter(TabComp);
         plugin.getCommand("dimension").setTabCompleter(TabComp);
         plugin.getCommand("nightvision").setTabCompleter(TabComp);
 

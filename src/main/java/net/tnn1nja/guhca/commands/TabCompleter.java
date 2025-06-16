@@ -16,11 +16,6 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 
-        //Leave
-        if(command.getName().equalsIgnoreCase("leave")){
-            return empty;
-        }
-
         //Dimension
         if(command.getName().equalsIgnoreCase("dimension")) {
             List<String> output = Arrays.asList("overworld", "nether", "end");

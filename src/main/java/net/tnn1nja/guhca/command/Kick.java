@@ -30,7 +30,7 @@ public class Kick implements CommandExecutor, TabCompleter {
 
         OfflinePlayer op = Bukkit.getOfflinePlayer(args[0].toLowerCase());
         if(!op.isOnline()){
-            sender.sendMessage(Component.text(op.getName() + " is not currently online.",
+            sender.sendMessage(Component.text(op.getName() + " is not currently online",
                     NamedTextColor.RED));
             return false;
         }else{
