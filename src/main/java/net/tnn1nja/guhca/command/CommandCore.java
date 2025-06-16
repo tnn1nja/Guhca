@@ -21,7 +21,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
 
     //Command instance
-    public abstract String getName();
+    abstract String getName();
 
     void register(JavaPlugin plugin){
         plugin.getCommand(getName()).setExecutor(this);
@@ -30,7 +30,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return execute(sender, args);
     }
-    public abstract boolean execute(CommandSender sender, String[] args);
+    abstract boolean execute(CommandSender sender, String[] args);
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> result = suggest(sender, args);
@@ -40,13 +40,12 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
             return filterSuggestions(result, args[args.length-1]);
         }
     }
-    public abstract List<String> suggest(CommandSender sender, String[] args);
+    abstract List<String> suggest(CommandSender sender, String[] args);
 
-
-    List<String> empty = new ArrayList<String>();
+    static final List<String> empty = new ArrayList<String>();
 
     //test this and all commands now
-    List<String> filterSuggestions(List<String> suggestions, String arg){
+    final List<String> filterSuggestions(List<String> suggestions, String arg){
         String lowerArg = arg.toLowerCase();
         List<String> output = new ArrayList<String>();
         for(String s: suggestions){

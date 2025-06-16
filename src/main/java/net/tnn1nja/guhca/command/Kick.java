@@ -23,12 +23,12 @@ public class Kick extends CommandCore {
     }
 
     @Override
-    public String getName(){
+    String getName(){
         return "kick";
     }
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    boolean execute(CommandSender sender, String[] args) {
         if(args.length < 1) {
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return false;
@@ -59,7 +59,7 @@ public class Kick extends CommandCore {
     }
 
     @Override
-    public List<String> suggest(CommandSender sender, String[] args) {
+    List<String> suggest(CommandSender sender, String[] args) {
         if (args.length > 1){
             return empty;
         }else{

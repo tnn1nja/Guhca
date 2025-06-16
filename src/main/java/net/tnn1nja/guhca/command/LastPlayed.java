@@ -13,7 +13,7 @@ import static net.tnn1nja.guhca.Main.OfflinePlayers;
 
 public class LastPlayed extends CommandCore {
 
-    public static SimpleDateFormat dateFormat = initDateFormat();
+    private static final SimpleDateFormat dateFormat = initDateFormat();
     private static SimpleDateFormat initDateFormat(){
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a, dd/MM/yy", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("Europe/London"));
@@ -21,12 +21,12 @@ public class LastPlayed extends CommandCore {
     }
 
     @Override
-    public String getName(){
+    String getName(){
         return "lastplayed";
     }
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    boolean execute(CommandSender sender, String[] args) {
         if (args.length < 1){
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return false;
@@ -52,7 +52,7 @@ public class LastPlayed extends CommandCore {
     }
 
     @Override
-    public List<String> suggest(CommandSender sender, String[] args) {
+    List<String> suggest(CommandSender sender, String[] args) {
         if (args.length == 1){
             List<String> output = new ArrayList<String>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
