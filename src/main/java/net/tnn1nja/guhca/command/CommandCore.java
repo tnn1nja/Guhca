@@ -39,7 +39,6 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     public abstract List<String> suggest(CommandSender sender, String[] args);
 
 
-
     //Command utils
     List<String> empty = new ArrayList<String>();
 
