@@ -45,6 +45,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     List<String> empty = new ArrayList<String>();
 
+    //test this and all commands now
     List<String> filterSuggestions(List<String> suggestions, String arg){
         String lowerArg = arg.toLowerCase();
         List<String> output = new ArrayList<String>();

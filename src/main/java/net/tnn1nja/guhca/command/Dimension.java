@@ -47,6 +47,7 @@ public class Dimension extends CommandCore{
                 break;
             default:
                 sender.sendMessage(Component.text("That dimension is not recognised.", NamedTextColor.RED));
+                return false;
         }
         return true;
     }
