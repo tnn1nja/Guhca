@@ -19,37 +19,35 @@ public class Dimension extends CommandCore{
     }
 
     @Override
-    boolean execute(CommandSender sender, String[] args) {
+    void execute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)){
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
-            return false;
+            return;
         }
 
         if(!(p.getGameMode().equals(GameMode.SPECTATOR))){
             sender.sendMessage(Component.text("Only a spectator to run this command", NamedTextColor.RED));
-            return false;
+            return;
         }
 
         if(args.length < 1){
             sender.sendMessage(Component.text("You must specify a dimension", NamedTextColor.RED));
-            return false;
+            return;
         }
 
         switch (args[0]) {
-            case "nether": case "n":
+            case "overworld":
                 p.teleport(new Location(Bukkit.getWorlds().get(0), 0, 64, 0));
                 break;
-            case "overworld": case "o":
+            case "nether":
                 p.teleport(new Location(Bukkit.getWorlds().get(1), 0, 150, 0));
                 break;
-            case "end": case "e":
+            case "end":
                 p.teleport(new Location(Bukkit.getWorlds().get(2), 0, 100, 0));
                 break;
             default:
                 sender.sendMessage(Component.text("That dimension is not recognised.", NamedTextColor.RED));
-                return false;
         }
-        return true;
     }
 
     @Override
@@ -57,7 +55,7 @@ public class Dimension extends CommandCore{
         if (args.length == 1){
             return Arrays.asList("overworld", "nether", "end");
         }else{
-            return null;
+            return empty;
         }
     }
 

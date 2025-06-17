@@ -28,9 +28,10 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        return execute(sender, args);
+        execute(sender, args);
+        return true; //prevents printing usage
     }
-    abstract boolean execute(CommandSender sender, String[] args);
+    abstract void execute(CommandSender sender, String[] args);
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> result = suggest(sender, args);

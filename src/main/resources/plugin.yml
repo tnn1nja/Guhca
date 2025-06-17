@@ -19,7 +19,5 @@ commands:
     description: Shows player damage scoreboard
   nightvision:
     description: Gives the player night vision if they have died
-    aliases: [ nv ]
   dimension:
     description: Move between dimensions in spectator mode
-    aliases: [ dim ]

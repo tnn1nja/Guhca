@@ -89,23 +89,12 @@ public class Tools {
             p.setGameMode(GameMode.SPECTATOR);
         }
 
-        //Setup New Player
-        if(!p.hasPlayedBefore()){
-            generateOfflinePlayerSet();
-        }
-
         //Discover all Recipes
         Bukkit.recipeIterator().forEachRemaining(recipe -> {
             if (recipe instanceof Keyed){
                 p.discoverRecipe(((Keyed) recipe).getKey());
             }
         });
-    }
-
-    public static void generateOfflinePlayerSet(){
-        for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
-            OfflinePlayers.add(op.getName().toLowerCase());
-        }
     }
 
     public static boolean isRaidersWithinVanillaRange(Location bellLocation){

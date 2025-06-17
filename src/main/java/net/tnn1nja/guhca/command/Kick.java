@@ -9,11 +9,9 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static net.tnn1nja.guhca.Main.OfflinePlayers;
-
 public class Kick extends CommandCore {
 
-    String joinArguments(String[] args, int startIndex, int endIndex){
+    private String joinArguments(String[] args, int startIndex, int endIndex){
         StringBuilder sb = new StringBuilder();
         for (int i = startIndex; i < endIndex; i++){
             sb.append(args[i]).append(" ");
@@ -28,42 +26,41 @@ public class Kick extends CommandCore {
     }
 
     @Override
-    boolean execute(CommandSender sender, String[] args) {
+    void execute(CommandSender sender, String[] args) {
         if(args.length < 1) {
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
-            return false;
+            return;
         }
 
-        if(!OfflinePlayers.contains(args[0].toLowerCase())){
+        OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
+        if(op == null){
             sender.sendMessage(Component.text("Player could not be found", NamedTextColor.RED));
-            return false;
+            return;
         }
 
-        OfflinePlayer op = Bukkit.getOfflinePlayer(args[0].toLowerCase());
-        if(!op.isOnline()){
-            sender.sendMessage(Component.text(op.getName() + " is not currently online",
+        if(!op.isOnline()) {
+            sender.sendMessage(Component.text("Player is not currently online",
                     NamedTextColor.RED));
-            return false;
-        }else{
-            Player p = Bukkit.getPlayer(op.getUniqueId());
-            if(args.length > 1) {
-                p.kick(Component.text(joinArguments(args, 1, args.length)));
-            }else {
-                p.kick(Component.text("You have been kicked by " + sender.getName()));
-            }
-            Bukkit.broadcast(
-                    Component.text(p.getName() + " was kicked by " + sender.getName(), NamedTextColor.GOLD)
-            );
-            return true;
+            return;
         }
+
+        Player p = Bukkit.getPlayer(op.getUniqueId());
+        if(args.length > 1) {
+            p.kick(Component.text(joinArguments(args, 1, args.length)));
+        }else {
+            p.kick(Component.text("You have been kicked by " + sender.getName()));
+        }
+        Bukkit.broadcast(
+                Component.text(p.getName() + " was kicked by " + sender.getName(), NamedTextColor.GOLD)
+        );
     }
 
     @Override
     List<String> suggest(CommandSender sender, String[] args) {
-        if (args.length > 1){
-            return empty;
-        }else{
+        if (args.length == 1){
             return null;
+        }else{
+            return empty;
         }
     }
 

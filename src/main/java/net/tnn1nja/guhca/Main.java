@@ -98,7 +98,6 @@ public final class Main extends JavaPlugin {
     };
 
     //Variables
-    public static HashSet<String> OfflinePlayers = new HashSet<String>();
     public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
     public static HashSet<UUID> damageImmunePlayers = new HashSet<UUID>();
     public static HashMap<UUID, Boolean> campfireBoostSoundTracker = new HashMap<>();
@@ -120,7 +119,6 @@ public final class Main extends JavaPlugin {
         Listeners.onHalfSec();
         Listeners.onFifteenSec();
         initScoreboard();
-        generateOfflinePlayerSet();
         reloadDatapack();
 
         //Set Gamerules
