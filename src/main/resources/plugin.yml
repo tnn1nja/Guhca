@@ -7,17 +7,24 @@ description: Custom plugin for multiplayer UHC
 commands:
   kick:
     description: An alternative to the native kick command
+    usage: /kick [player] [reason]
   lastplayed:
     description: Shows when player was last online
+    usage: /lastplayed [player]
     aliases: [ lp ]
   leave:
     description: Leave for a custom reason
+    usage: /leave [message]
   playtime:
     description: Shows total playtime of all players
+    usage: /playtime
     aliases: [ pt ]
   damage:
     description: Shows player damage scoreboard
+    usage: /damage
   nightvision:
     description: Gives the player night vision if they have died
+    usage: /nightvision
   dimension:
     description: Move between dimensions in spectator mode
+    usage: /dimension [dimension]
