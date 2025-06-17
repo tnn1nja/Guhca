@@ -42,10 +42,11 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     }
     abstract List<String> suggest(CommandSender sender, String[] args);
 
+
+    //Utils
     static final List<String> empty = new ArrayList<String>();
 
-    //test this and all commands now
-    final List<String> filterSuggestions(List<String> suggestions, String arg){
+    private List<String> filterSuggestions(List<String> suggestions, String arg){
         String lowerArg = arg.toLowerCase();
         List<String> output = new ArrayList<String>();
         for(String s: suggestions){
