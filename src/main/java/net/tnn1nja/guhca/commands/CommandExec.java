@@ -37,42 +37,6 @@ public class CommandExec implements CommandExecutor {
             }
         }
 
-        //Dimension
-        if (command.getName().equalsIgnoreCase("dimension")) {
-            if(playersDied && sender instanceof Player p){
-                Location l = p.getLocation();
-                List<World> worlds = Bukkit.getWorlds();
-                World o = worlds.get(0);
-                World n = worlds.get(1);
-                World e = worlds.get(2);
-                Location tpl;
-                if (args.length > 0){
-                    switch(args[0]){
-                        case "nether": case "n":
-                            tpl = new Location(n, 0, 64, 0);
-                            p.teleport(tpl);
-                            break;
-                        case "overworld": case "o":
-                            tpl = new Location(o, 0, 150, 0);
-                            p.teleport(tpl);
-                            break;
-                        case "end": case "e":
-                            tpl = new Location(e, 0, 100, 0);
-                            p.teleport(tpl);
-                            break;
-                        default:
-                            p.sendMessage(Component.text("That dimension is not recognised.",
-                                    NamedTextColor.RED));
-                    }
-                }else{
-                    p.sendMessage(Component.text("You must specify a dimension.", NamedTextColor.RED));
-                }
-            }else{
-                sender.sendMessage(Component.text("You cannot use this until you have died.",
-                        NamedTextColor.RED));
-            }
-        }
-
         //Playtime
         if (command.getName().equalsIgnoreCase("playtime")) {
 

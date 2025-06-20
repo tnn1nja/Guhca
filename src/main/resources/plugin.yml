@@ -23,7 +23,7 @@ commands:
     description: Shows player damage scoreboard
     usage: /damage
   nightvision:
-    description: Gives the player night vision if they have died
+    description: Gives the players in spectator mode night vision
     usage: /nightvision
   dimension:
     description: Move between dimensions in spectator mode

@@ -17,6 +17,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
         new LastPlayed().register(plugin);
         new Leave().register(plugin);
         new Dimension().register(plugin);
+        new NightVision().register(plugin);
     }
 
 
@@ -28,25 +29,24 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        execute(sender, args);
+        //add if command should run (canUse?) - better name
+        onExecute(sender, args);
         return true; //prevents printing usage
     }
-    abstract void execute(CommandSender sender, String[] args);
+    abstract void onExecute(CommandSender sender, String[] args);
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        List<String> result = suggest(sender, args);
+        List<String> result = getSuggestion(sender, args);
         if(result == null || result.isEmpty()){
             return result;
         }else {
             return filterSuggestions(result, args[args.length-1]);
         }
     }
-    abstract List<String> suggest(CommandSender sender, String[] args);
+    abstract List<String> getSuggestion(CommandSender sender, String[] args);
 
 
     //Utils
-    static final List<String> empty = new ArrayList<String>();
-
     private List<String> filterSuggestions(List<String> suggestions, String arg){
         String lowerArg = arg.toLowerCase();
         List<String> output = new ArrayList<String>();
@@ -57,5 +57,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
         }
         return output;
     }
+
+    static final List<String> empty = new ArrayList<String>();
 
 }

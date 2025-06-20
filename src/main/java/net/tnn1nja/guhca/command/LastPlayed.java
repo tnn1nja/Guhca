@@ -23,7 +23,7 @@ public class LastPlayed extends CommandCore {
     }
 
     @Override
-    void execute(CommandSender sender, String[] args) {
+    void onExecute(CommandSender sender, String[] args) {
         if (args.length == 0){
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return;
@@ -47,7 +47,7 @@ public class LastPlayed extends CommandCore {
     }
 
     @Override
-    List<String> suggest(CommandSender sender, String[] args) {
+    List<String> getSuggestion(CommandSender sender, String[] args) {
         if (args.length == 1){
             List<String> output = new ArrayList<String>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){

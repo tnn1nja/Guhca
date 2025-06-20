@@ -16,7 +16,7 @@ public class Leave extends CommandCore {
     }
 
     @Override
-    void execute(CommandSender sender, String[] args) {
+    void onExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)) {
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
             return;
@@ -34,7 +34,7 @@ public class Leave extends CommandCore {
     }
 
     @Override
-    List<String> suggest(CommandSender sender, String[] args) {
+    List<String> getSuggestion(CommandSender sender, String[] args) {
         return empty;
     }
 

@@ -19,7 +19,7 @@ public class Dimension extends CommandCore{
     }
 
     @Override
-    void execute(CommandSender sender, String[] args) {
+    void onExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)){
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
             return;
@@ -46,12 +46,12 @@ public class Dimension extends CommandCore{
                 p.teleport(new Location(Bukkit.getWorlds().get(2), 0, 100, 0));
                 break;
             default:
-                sender.sendMessage(Component.text("That dimension is not recognised.", NamedTextColor.RED));
+                sender.sendMessage(Component.text("That dimension is not recognised", NamedTextColor.RED));
         }
     }
 
     @Override
-    List<String> suggest(CommandSender sender, String[] args) {
+    List<String> getSuggestion(CommandSender sender, String[] args) {
         if (args.length == 1){
             return Arrays.asList("overworld", "nether", "end");
         }else{
