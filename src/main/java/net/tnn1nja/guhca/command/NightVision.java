@@ -31,7 +31,8 @@ public class NightVision extends CommandCore{
         if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
             p.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }else{
-            p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,
+                    PotionEffect.INFINITE_DURATION, 0, false, false));
         }
     }
 
