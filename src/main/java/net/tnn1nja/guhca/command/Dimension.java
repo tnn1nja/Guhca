@@ -30,7 +30,7 @@ public class Dimension extends CommandCore{
             return;
         }
 
-        if(args.length < 1){
+        if(args.length == 0){
             sender.sendMessage(Component.text("You must specify a dimension", NamedTextColor.RED));
             return;
         }
