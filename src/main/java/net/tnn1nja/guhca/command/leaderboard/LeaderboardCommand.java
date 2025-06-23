@@ -14,16 +14,17 @@ import java.util.List;
 
 public abstract class LeaderboardCommand extends CommandCore {
 
-    //CommandCore implementations
-    @Override
-    protected boolean shouldExecute(CommandSender sender, String[] args) {
-        return true;
-    }
+    /*
+    - this method needs general clean up
+    - getLeaderboardComponent should return without a new line at the end and
+      the line should be in subclasses
+    - components should use builders
+    - consider general inheritence structure of CommandCore and subclasses
+    */
 
-    @Override
-    protected List<String> getSuggestions(CommandSender sender, String[] args) {
-        return none;
-    }
+    //CommandCore implementations
+    @Override protected boolean shouldExecute(CommandSender sender, String[] args) { return true; }
+    @Override protected List<String> getSuggestions(CommandSender sender, String[] args) { return none; }
 
 
     //Create leaderboards
