@@ -7,57 +7,76 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
-    //Static command registry
+    //Static command register
     public static void registerCommands(JavaPlugin plugin){
-        new Kick().register(plugin);
-        new LastPlayed().register(plugin);
-        new Leave().register(plugin);
-        new Dimension().register(plugin);
-        new NightVision().register(plugin);
+        Set<CommandCore> registry = new HashSet<>(List.of(
+                new Dimension(),
+                new Kick(),
+                new LastPlayed(),
+                new Leave(),
+                new NightVision()
+        ));
+        for(CommandCore command: registry){
+            command.register(plugin);
+        }
     }
 
 
-    //Command instance
+    //Subclass utilities
+    static final List<String> none = new ArrayList<>();
+    static final List<String> onlinePlayers = null;
+
+    String joinArguments(String[] args, int startIndex){
+        StringBuilder sb = new StringBuilder();
+        for (int i = startIndex; i < args.length-1; i++){
+            sb.append(args[i]).append(" ");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
+    }
+
+
+    //Subclass contract and interface bridge
     abstract String getName();
+    abstract boolean shouldExecute(CommandSender sender, String[] args);
+    abstract void onExecute(CommandSender sender, String[] args);
+    abstract List<String> getSuggestions(CommandSender sender, String[] args);
 
     void register(JavaPlugin plugin){
         plugin.getCommand(getName()).setExecutor(this);
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        //add if command should run (canUse?) - better name
-        onExecute(sender, args);
+        if (shouldExecute(sender, args)) {
+            onExecute(sender, args);
+        }
         return true; //prevents printing usage
     }
-    abstract void onExecute(CommandSender sender, String[] args);
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        List<String> result = getSuggestion(sender, args);
-        if(result == null || result.isEmpty()){
-            return result;
+        List<String> suggestions = getSuggestions(sender, args);
+        if(suggestions == onlinePlayers || suggestions == none){
+            return suggestions;
         }else {
-            return filterSuggestions(result, args[args.length-1]);
+            return filterSuggestions(suggestions, args[args.length-1]);
         }
     }
-    abstract List<String> getSuggestion(CommandSender sender, String[] args);
 
-
-    //Utils
     private List<String> filterSuggestions(List<String> suggestions, String arg){
         String lowerArg = arg.toLowerCase();
-        List<String> output = new ArrayList<String>();
+        List<String> filtered = new ArrayList<>();
         for(String s: suggestions){
             if(s.toLowerCase().startsWith(lowerArg)){
-                output.add(s);
+                filtered.add(s);
             }
         }
-        return output;
+        return filtered;
     }
-
-    static final List<String> empty = new ArrayList<String>();
 
 }

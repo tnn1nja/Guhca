@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Dimension extends CommandCore{
@@ -19,22 +18,25 @@ public class Dimension extends CommandCore{
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    boolean shouldExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)){
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
-            return;
+            return false;
         }
-
         if(!(p.getGameMode().equals(GameMode.SPECTATOR))){
             sender.sendMessage(Component.text("Only a spectator to run this command", NamedTextColor.RED));
-            return;
+            return false;
         }
-
         if(args.length == 0){
             sender.sendMessage(Component.text("You must specify a dimension", NamedTextColor.RED));
-            return;
+            return false;
         }
+        return true;
+    }
 
+    @Override
+    void onExecute(CommandSender sender, String[] args) {
+        Player p = (Player) sender;
         switch (args[0]) {
             case "overworld":
                 p.teleport(new Location(Bukkit.getWorlds().get(0), 0, 64, 0));
@@ -51,11 +53,11 @@ public class Dimension extends CommandCore{
     }
 
     @Override
-    List<String> getSuggestion(CommandSender sender, String[] args) {
+    List<String> getSuggestions(CommandSender sender, String[] args) {
         if (args.length == 1){
-            return Arrays.asList("overworld", "nether", "end");
+            return List.of("overworld", "nether", "end");
         }else{
-            return empty;
+            return none;
         }
     }
 

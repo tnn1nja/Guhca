@@ -11,42 +11,34 @@ import java.util.List;
 
 public class Kick extends CommandCore {
 
-    private String joinArguments(String[] args, int startIndex, int endIndex){
-        StringBuilder sb = new StringBuilder();
-        for (int i = startIndex; i < endIndex; i++){
-            sb.append(args[i]).append(" ");
-        }
-        sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
-    }
-
     @Override
     String getName(){
         return "kick";
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    boolean shouldExecute(CommandSender sender, String[] args) {
         if(args.length == 0) {
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
-            return;
+            return false;
         }
-
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
         if(op == null){
             sender.sendMessage(Component.text("Player could not be found", NamedTextColor.RED));
-            return;
+            return false;
         }
-
         if(!op.isOnline()) {
-            sender.sendMessage(Component.text("Player is not currently online",
-                    NamedTextColor.RED));
-            return;
+            sender.sendMessage(Component.text("Player is not currently online", NamedTextColor.RED));
+            return false;
         }
+        return true;
+    }
 
-        Player p = Bukkit.getPlayer(op.getUniqueId());
+    @Override
+    void onExecute(CommandSender sender, String[] args) {
+        Player p = Bukkit.getPlayer(args[0].toLowerCase());
         if(args.length > 1) {
-            p.kick(Component.text(joinArguments(args, 1, args.length)));
+            p.kick(Component.text(joinArguments(args, 1)));
         }else {
             p.kick(Component.text("You have been kicked by " + sender.getName()));
         }
@@ -56,11 +48,11 @@ public class Kick extends CommandCore {
     }
 
     @Override
-    List<String> getSuggestion(CommandSender sender, String[] args) {
+    List<String> getSuggestions(CommandSender sender, String[] args) {
         if (args.length == 1){
-            return null;
+            return onlinePlayers;
         }else{
-            return empty;
+            return none;
         }
     }
 

@@ -7,35 +7,12 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
-import java.util.List;
-
-import static net.tnn1nja.guhca.Main.*;
 
 public class CommandExec implements CommandExecutor {
 
-    @Override @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-
-        //Night Vision
-        if (command.getName().equalsIgnoreCase("nightvision")) {
-            if(playersDied && sender instanceof Player p){
-                if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
-                    p.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    sender.sendMessage(Component.text("Night vision removed."));
-                }else{
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 5));
-                    sender.sendMessage(Component.text("You now have night vision."));
-                }
-            }else{
-                sender.sendMessage(Component.text("You cannot use this until you have died.",
-                        NamedTextColor.RED));
-            }
-        }
 
         //Playtime
         if (command.getName().equalsIgnoreCase("playtime")) {

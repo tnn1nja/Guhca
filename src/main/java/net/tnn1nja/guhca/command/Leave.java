@@ -16,26 +16,30 @@ public class Leave extends CommandCore {
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
-        if(!(sender instanceof Player p)) {
+    boolean shouldExecute(CommandSender sender, String[] args) {
+        if(!(sender instanceof Player)) {
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
-            return;
+            return false;
         }
-
-        if (args.length > 0) {
-            Component message = Component.text(String.join(" ", args));
-            p.kick(message);
-            Bukkit.broadcast(message.color(NamedTextColor.GOLD));
-            return;
-        }
-
-        p.kick(Component.text("You have left the game"));
-        Bukkit.broadcast(Component.text(p.getName() + " left the game", NamedTextColor.GOLD));
+        return true;
     }
 
     @Override
-    List<String> getSuggestion(CommandSender sender, String[] args) {
-        return empty;
+    void onExecute(CommandSender sender, String[] args) {
+        Player p = (Player) sender;
+        if (args.length == 0) {
+            p.kick(Component.text("You have left the game"));
+            Bukkit.broadcast(Component.text(p.getName() + " left the game", NamedTextColor.GOLD));
+        }else {
+            Component message = Component.text(joinArguments(args, 0));
+            p.kick(message);
+            Bukkit.broadcast(message.color(NamedTextColor.GOLD));
+        }
+    }
+
+    @Override
+    List<String> getSuggestions(CommandSender sender, String[] args) {
+        return none;
     }
 
 }

@@ -11,23 +11,28 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 public class NightVision extends CommandCore{
+
     @Override
     String getName() {
         return "nightvision";
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    boolean shouldExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)){
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
-            return;
+            return false;
         }
-
         if(!(p.getGameMode().equals(GameMode.SPECTATOR))){
             sender.sendMessage(Component.text("Only a spectator to run this command", NamedTextColor.RED));
-            return;
+            return false;
         }
+        return true;
+    }
 
+    @Override
+    void onExecute(CommandSender sender, String[] args) {
+        Player p = (Player) sender;
         if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
             p.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }else{
@@ -37,7 +42,7 @@ public class NightVision extends CommandCore{
     }
 
     @Override
-    List<String> getSuggestion(CommandSender sender, String[] args) {
-        return empty;
+    List<String> getSuggestions(CommandSender sender, String[] args) {
+        return none;
     }
 }
