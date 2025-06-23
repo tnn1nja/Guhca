@@ -12,12 +12,12 @@ import java.util.*;
 public class LastPlayed extends CommandCore {
 
     @Override
-    String getName(){
+    protected String getName(){
         return "lastplayed";
     }
 
     @Override
-    boolean shouldExecute(CommandSender sender, String[] args) {
+    protected boolean shouldExecute(CommandSender sender, String[] args) {
         if (args.length == 0){
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return false;
@@ -35,7 +35,7 @@ public class LastPlayed extends CommandCore {
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    protected void onExecute(CommandSender sender, String[] args) {
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
         sender.sendMessage(Component.text(op.getName(), NamedTextColor.RED)
                 .append(Component.text(" last played at ", NamedTextColor.WHITE))
@@ -43,7 +43,7 @@ public class LastPlayed extends CommandCore {
     }
 
     @Override
-    List<String> getSuggestions(CommandSender sender, String[] args) {
+    protected List<String> getSuggestions(CommandSender sender, String[] args) {
         if (args.length == 1){
             List<String> suggestions = new ArrayList<String>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){

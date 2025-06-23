@@ -13,12 +13,12 @@ import java.util.List;
 public class Dimension extends CommandCore{
 
     @Override
-    String getName() {
+    protected String getName() {
         return "dimension";
     }
 
     @Override
-    boolean shouldExecute(CommandSender sender, String[] args) {
+    protected boolean shouldExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)){
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
             return false;
@@ -35,7 +35,7 @@ public class Dimension extends CommandCore{
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    protected void onExecute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
         switch (args[0]) {
             case "overworld":
@@ -53,7 +53,7 @@ public class Dimension extends CommandCore{
     }
 
     @Override
-    List<String> getSuggestions(CommandSender sender, String[] args) {
+    protected List<String> getSuggestions(CommandSender sender, String[] args) {
         if (args.length == 1){
             return List.of("overworld", "nether", "end");
         }else{

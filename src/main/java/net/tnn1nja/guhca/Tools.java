@@ -16,7 +16,6 @@ import org.bukkit.util.EulerAngle;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static net.tnn1nja.guhca.Main.*;
 
@@ -226,11 +225,6 @@ public class Tools {
         }, ticks);
     }
 
-    public static List<String> filterList(List<String> input, String arg){
-        return input.stream().filter(s -> s.toLowerCase().startsWith(arg.toLowerCase())).
-                collect(Collectors.toList());
-    }
-
     public static void reloadDatapack(){
         String datapackDir = Bukkit.getWorlds().get(0).getName() + "/datapacks/guhca/";
         String[][] files = {
@@ -331,24 +325,6 @@ public class Tools {
             }catch(IndexOutOfBoundsException e){
                 throw new IllegalArgumentException("All double arrays must be three elements long.");
             }
-        }
-
-    }
-
-    public static class PlayerStatHolder {
-        public String name;
-        public int stat;
-
-        public PlayerStatHolder(String name, int stat){
-            this.name = name;
-            this.stat = stat;
-        }
-    }
-
-    public static class PlayerStatHolderComparator implements Comparator<PlayerStatHolder> {
-        @Override
-        public int compare(PlayerStatHolder one, PlayerStatHolder two) {
-            return two.stat-one.stat;
         }
 
     }

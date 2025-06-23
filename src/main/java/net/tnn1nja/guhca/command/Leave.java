@@ -11,12 +11,12 @@ import java.util.List;
 public class Leave extends CommandCore {
 
     @Override
-    String getName(){
+    protected String getName(){
         return "leave";
     }
 
     @Override
-    boolean shouldExecute(CommandSender sender, String[] args) {
+    protected boolean shouldExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
             return false;
@@ -25,7 +25,7 @@ public class Leave extends CommandCore {
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    protected void onExecute(CommandSender sender, String[] args) {
         Player p = (Player) sender;
         if (args.length == 0) {
             p.kick(Component.text("You have left the game"));
@@ -38,7 +38,7 @@ public class Leave extends CommandCore {
     }
 
     @Override
-    List<String> getSuggestions(CommandSender sender, String[] args) {
+    protected List<String> getSuggestions(CommandSender sender, String[] args) {
         return none;
     }
 

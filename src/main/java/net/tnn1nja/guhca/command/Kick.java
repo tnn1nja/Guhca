@@ -12,12 +12,12 @@ import java.util.List;
 public class Kick extends CommandCore {
 
     @Override
-    String getName(){
+    protected String getName(){
         return "kick";
     }
 
     @Override
-    boolean shouldExecute(CommandSender sender, String[] args) {
+    protected boolean shouldExecute(CommandSender sender, String[] args) {
         if(args.length == 0) {
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
             return false;
@@ -35,7 +35,7 @@ public class Kick extends CommandCore {
     }
 
     @Override
-    void onExecute(CommandSender sender, String[] args) {
+    protected void onExecute(CommandSender sender, String[] args) {
         Player p = Bukkit.getPlayer(args[0].toLowerCase());
         if(args.length > 1) {
             p.kick(Component.text(joinArguments(args, 1)));
@@ -48,7 +48,7 @@ public class Kick extends CommandCore {
     }
 
     @Override
-    List<String> getSuggestions(CommandSender sender, String[] args) {
+    protected List<String> getSuggestions(CommandSender sender, String[] args) {
         if (args.length == 1){
             return onlinePlayers;
         }else{

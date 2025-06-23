@@ -1,5 +1,7 @@
 package net.tnn1nja.guhca.command;
 
+import net.tnn1nja.guhca.command.leaderboard.Damage;
+import net.tnn1nja.guhca.command.leaderboard.Playtime;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -7,21 +9,20 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     //Static command register
     public static void registerCommands(JavaPlugin plugin){
-        Set<CommandCore> registry = new HashSet<>(List.of(
+        CommandCore[] registry = new CommandCore[]{
+                new Damage(),
                 new Dimension(),
                 new Kick(),
                 new LastPlayed(),
                 new Leave(),
-                new NightVision()
-        ));
+                new NightVision(),
+                new Playtime()
+        };
         for(CommandCore command: registry){
             command.register(plugin);
         }
@@ -29,12 +30,12 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
 
     //Subclass utilities
-    static final List<String> none = new ArrayList<>();
-    static final List<String> onlinePlayers = null;
+    protected static final List<String> none = new ArrayList<>();
+    protected static final List<String> onlinePlayers = null;
 
-    String joinArguments(String[] args, int startIndex){
+    protected String joinArguments(String[] args, int startIndex){
         StringBuilder sb = new StringBuilder();
-        for (int i = startIndex; i < args.length-1; i++){
+        for (int i = startIndex; i < args.length; i++){
             sb.append(args[i]).append(" ");
         }
         sb.deleteCharAt(sb.length()-1);
@@ -43,12 +44,12 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
 
     //Subclass contract and interface bridge
-    abstract String getName();
-    abstract boolean shouldExecute(CommandSender sender, String[] args);
-    abstract void onExecute(CommandSender sender, String[] args);
-    abstract List<String> getSuggestions(CommandSender sender, String[] args);
+    protected abstract String getName();
+    protected abstract boolean shouldExecute(CommandSender sender, String[] args);
+    protected abstract void onExecute(CommandSender sender, String[] args);
+    protected abstract List<String> getSuggestions(CommandSender sender, String[] args);
 
-    void register(JavaPlugin plugin){
+    public void register(JavaPlugin plugin){
         plugin.getCommand(getName()).setExecutor(this);
     }
 
@@ -61,7 +62,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> suggestions = getSuggestions(sender, args);
-        if(suggestions == onlinePlayers || suggestions == none){
+        if(suggestions == null || suggestions.isEmpty()){
             return suggestions;
         }else {
             return filterSuggestions(suggestions, args[args.length-1]);
