@@ -24,11 +24,11 @@ public class Kick extends CommandCore {
         }
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
         if(op == null){
-            sender.sendMessage(Component.text("Player could not be found", NamedTextColor.RED));
+            sender.sendMessage(Component.text(args[0] + " is not a recognised player", NamedTextColor.RED));
             return false;
         }
         if(!op.isOnline()) {
-            sender.sendMessage(Component.text("Player is not currently online", NamedTextColor.RED));
+            sender.sendMessage(Component.text(op.getName() + " is not currently online", NamedTextColor.RED));
             return false;
         }
         return true;

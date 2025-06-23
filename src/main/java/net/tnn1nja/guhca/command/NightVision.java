@@ -45,4 +45,5 @@ public class NightVision extends CommandCore{
     List<String> getSuggestions(CommandSender sender, String[] args) {
         return none;
     }
+
 }
