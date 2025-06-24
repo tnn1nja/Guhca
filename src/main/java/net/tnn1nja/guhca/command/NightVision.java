@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-public class NightVision extends CommandCore{
+public class NightVision extends CommandCore {
 
     @Override
     protected String getName() {

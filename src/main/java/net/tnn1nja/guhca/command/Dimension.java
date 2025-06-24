@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class Dimension extends CommandCore{
+public class Dimension extends CommandCore {
 
     @Override
     protected String getName() {
@@ -24,11 +24,11 @@ public class Dimension extends CommandCore{
             return false;
         }
         if(!(p.getGameMode().equals(GameMode.SPECTATOR))){
-            sender.sendMessage(Component.text("Only a spectator to run this command", NamedTextColor.RED));
+            p.sendMessage(Component.text("Only a spectator to run this command", NamedTextColor.RED));
             return false;
         }
         if(args.length == 0){
-            sender.sendMessage(Component.text("You must specify a dimension", NamedTextColor.RED));
+            p.sendMessage(Component.text("You must specify a dimension", NamedTextColor.RED));
             return false;
         }
         return true;
@@ -48,7 +48,7 @@ public class Dimension extends CommandCore{
                 p.teleport(new Location(Bukkit.getWorlds().get(2), 0, 100, 0));
                 break;
             default:
-                sender.sendMessage(Component.text("That dimension is not recognised", NamedTextColor.RED));
+                p.sendMessage(Component.text("That dimension is not recognised", NamedTextColor.RED));
         }
     }
 

@@ -33,7 +33,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     protected static final List<String> none = new ArrayList<>();
     protected static final List<String> onlinePlayers = null;
 
-    protected String joinArguments(String[] args, int startIndex){
+    protected final String joinArguments(String[] args, int startIndex){
         StringBuilder sb = new StringBuilder();
         for (int i = startIndex; i < args.length; i++){
             sb.append(args[i]).append(" ");
@@ -49,18 +49,18 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     protected abstract void onExecute(CommandSender sender, String[] args);
     protected abstract List<String> getSuggestions(CommandSender sender, String[] args);
 
-    public void register(JavaPlugin plugin){
+    public final void register(JavaPlugin plugin){
         plugin.getCommand(getName()).setExecutor(this);
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (shouldExecute(sender, args)) {
             onExecute(sender, args);
         }
         return true; //prevents printing usage
     }
 
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> suggestions = getSuggestions(sender, args);
         if(suggestions == null || suggestions.isEmpty()){
             return suggestions;
