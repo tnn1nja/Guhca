@@ -52,7 +52,6 @@ public class LastPlayed extends CommandCore {
         }
     }
 
-
     private String getFormattedDate(long millis){
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a, dd/MM/yy", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("Europe/London"));

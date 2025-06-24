@@ -20,12 +20,6 @@ public abstract class LeaderboardCore extends CommandCore {
 
 
     //Create and send leaderboards
-    private OfflinePlayer[] getOfflinePlayersSortedByStatistic(Statistic stat){
-        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
-        Arrays.sort(offlinePlayers, Comparator.comparingInt(x -> x.getStatistic(stat)));
-        return offlinePlayers;
-    }
-
     protected void sendTitle(CommandSender sender, String title){
         sender.sendMessage(Component.text("-+= ").color(NamedTextColor.GRAY)
                 .append(Component.text(title + " Leaderboard", NamedTextColor.WHITE))
@@ -45,5 +39,12 @@ public abstract class LeaderboardCore extends CommandCore {
             i++;
         }
     }
+
+    private OfflinePlayer[] getOfflinePlayersSortedByStatistic(Statistic stat){
+        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
+        Arrays.sort(offlinePlayers, Comparator.comparingInt(x -> x.getStatistic(stat)));
+        return offlinePlayers;
+    }
+
 
 }
