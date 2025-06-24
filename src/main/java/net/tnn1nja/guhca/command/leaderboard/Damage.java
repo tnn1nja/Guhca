@@ -7,11 +7,6 @@ import org.bukkit.command.CommandSender;
 public class Damage extends LeaderboardCore {
 
     @Override
-    protected String getName() {
-        return "damage";
-    }
-
-    @Override
     protected void onExecute(CommandSender sender, String[] args) {
         sender.sendMessage(Component.empty());
         sendTitle(sender, "Damage Taken");

@@ -12,11 +12,6 @@ import java.util.List;
 public class Kick extends CommandCore {
 
     @Override
-    protected String getName(){
-        return "kick";
-    }
-
-    @Override
     protected boolean shouldExecute(CommandSender sender, String[] args) {
         if(args.length == 0) {
             sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));

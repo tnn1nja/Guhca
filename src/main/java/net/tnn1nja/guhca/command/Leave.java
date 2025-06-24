@@ -11,11 +11,6 @@ import java.util.List;
 public class Leave extends CommandCore {
 
     @Override
-    protected String getName(){
-        return "leave";
-    }
-
-    @Override
     protected boolean shouldExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));

@@ -9,11 +9,6 @@ import org.bukkit.command.CommandSender;
 public class Playtime extends LeaderboardCore {
 
     @Override
-    protected String getName() {
-        return "playtime";
-    }
-
-    @Override
     protected void onExecute(CommandSender sender, String[] args) {
         sender.sendMessage(Component.empty());
         sendTitle(sender, "Playtime");

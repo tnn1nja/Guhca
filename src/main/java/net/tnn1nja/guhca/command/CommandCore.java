@@ -24,7 +24,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
                 new Playtime()
         };
         for(CommandCore command: registry){
-            command.register(plugin);
+            plugin.getCommand(command.getName()).setExecutor(command);
         }
     }
 
@@ -44,13 +44,12 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
 
     //Subclass contract and interface bridge
-    protected abstract String getName();
     protected abstract boolean shouldExecute(CommandSender sender, String[] args);
     protected abstract void onExecute(CommandSender sender, String[] args);
     protected abstract List<String> getSuggestions(CommandSender sender, String[] args);
 
-    public final void register(JavaPlugin plugin){
-        plugin.getCommand(getName()).setExecutor(this);
+    public String getName(){
+        return getClass().getName().toLowerCase();
     }
 
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -13,11 +13,6 @@ import java.util.List;
 public class Dimension extends CommandCore {
 
     @Override
-    protected String getName() {
-        return "dimension";
-    }
-
-    @Override
     protected boolean shouldExecute(CommandSender sender, String[] args) {
         if(!(sender instanceof Player p)){
             sender.sendMessage(Component.text("Only a player can run this command", NamedTextColor.RED));
