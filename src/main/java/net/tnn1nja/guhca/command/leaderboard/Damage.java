@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 
 import static net.kyori.adventure.text.Component.empty;
 
-public class Damage extends LeaderboardCore {
+public class Damage extends LeaderboardCommand {
 
     @Override
     protected void onExecute(CommandSender s, String[] args) {

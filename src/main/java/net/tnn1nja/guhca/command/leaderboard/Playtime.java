@@ -8,7 +8,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class Playtime extends LeaderboardCore {
+public class Playtime extends LeaderboardCommand {
 
     @Override
     protected void onExecute(CommandSender s, String[] args) {

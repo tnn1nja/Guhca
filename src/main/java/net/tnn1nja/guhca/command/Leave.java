@@ -11,7 +11,7 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 
-public class Leave extends CommandCore {
+public class Leave extends Command {
 
     @Override
     protected boolean shouldExecute(CommandSender s, String[] args) {

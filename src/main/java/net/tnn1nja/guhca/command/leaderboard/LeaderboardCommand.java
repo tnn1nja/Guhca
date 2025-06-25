@@ -1,6 +1,6 @@
 package net.tnn1nja.guhca.command.leaderboard;
 
-import net.tnn1nja.guhca.command.CommandCore;
+import net.tnn1nja.guhca.command.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -13,7 +13,7 @@ import java.util.List;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public abstract class LeaderboardCore extends CommandCore {
+public abstract class LeaderboardCommand extends Command {
 
     //CommandCore implementations
     @Override protected boolean shouldExecute(CommandSender s, String[] args) { return true; }

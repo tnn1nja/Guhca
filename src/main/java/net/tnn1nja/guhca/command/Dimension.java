@@ -11,7 +11,7 @@ import java.util.List;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class Dimension extends CommandCore {
+public class Dimension extends Command {
 
     @Override
     protected boolean shouldExecute(CommandSender s, String[] args) {

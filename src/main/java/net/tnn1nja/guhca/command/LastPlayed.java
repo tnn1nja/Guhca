@@ -10,7 +10,7 @@ import java.util.*;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class LastPlayed extends CommandCore {
+public class LastPlayed extends Command {
 
     @Override
     protected boolean shouldExecute(CommandSender s, String[] args) {
