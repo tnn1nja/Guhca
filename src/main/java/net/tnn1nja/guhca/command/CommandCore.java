@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     //Static command register
@@ -44,9 +45,9 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
 
     //Subclass contract and interface bridge
-    protected abstract boolean shouldExecute(CommandSender sender, String[] args);
-    protected abstract void onExecute(CommandSender sender, String[] args);
-    protected abstract List<String> getSuggestions(CommandSender sender, String[] args);
+    protected abstract boolean shouldExecute(CommandSender s, String[] args);
+    protected abstract void onExecute(CommandSender s, String[] args);
+    protected abstract List<String> getSuggestions(CommandSender s, String[] args);
 
     public String getName(){
         return getClass().getName().toLowerCase();

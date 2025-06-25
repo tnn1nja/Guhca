@@ -1,7 +1,5 @@
 package net.tnn1nja.guhca.command;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -9,40 +7,43 @@ import org.bukkit.command.CommandSender;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.*;
+
 public class LastPlayed extends CommandCore {
 
     @Override
-    protected boolean shouldExecute(CommandSender sender, String[] args) {
+    protected boolean shouldExecute(CommandSender s, String[] args) {
         if (args.length == 0){
-            sender.sendMessage(Component.text("Please specify a player", NamedTextColor.RED));
+            s.sendMessage(text("Please specify a player", RED));
             return false;
         }
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
         if (op == null) {
-            sender.sendMessage(Component.text(args[0] + " is not a recognised player", NamedTextColor.RED));
+            s.sendMessage(text(args[0] + " is not a recognised player", RED));
             return false;
         }
         if (op.isOnline()) {
-            sender.sendMessage(Component.text( op.getName() + " is currently online", NamedTextColor.RED));
+            s.sendMessage(text( op.getName() + " is currently online", RED));
             return false;
         }
         return true;
     }
 
     @Override
-    protected void onExecute(CommandSender sender, String[] args) {
+    protected void onExecute(CommandSender s, String[] args) {
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
-        sender.sendMessage(Component.text(op.getName(), NamedTextColor.RED)
-                .append(Component.text(" last played at ", NamedTextColor.WHITE))
-                .append(Component.text(getFormattedDate(op.getLastSeen()), NamedTextColor.GOLD)));
+        s.sendMessage(text(op.getName(), RED)
+                .append(text(" last played at ", WHITE))
+                .append(text(getFormattedDate(op.getLastSeen()), GOLD)));
     }
 
     @Override
-    protected List<String> getSuggestions(CommandSender sender, String[] args) {
+    protected List<String> getSuggestions(CommandSender s, String[] args) {
         if (args.length == 1){
-            List<String> suggestions = new ArrayList<String>();
+            List<String> suggestions = new ArrayList<>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
-                if(!op.getName().equalsIgnoreCase(sender.getName())) {
+                if(!op.getName().equalsIgnoreCase(s.getName())) {
                     suggestions.add(op.getName());
                 }
             }

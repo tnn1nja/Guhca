@@ -1,17 +1,18 @@
 package net.tnn1nja.guhca.command.leaderboard;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
+
+import static net.kyori.adventure.text.Component.empty;
 
 public class Damage extends LeaderboardCore {
 
     @Override
-    protected void onExecute(CommandSender sender, String[] args) {
-        sender.sendMessage(Component.empty());
-        sendTitle(sender, "Damage Taken");
-        sendLeaderboard(sender, Statistic.DAMAGE_TAKEN, 10, "has taken", "damage");
-        sender.sendMessage(Component.empty());
+    protected void onExecute(CommandSender s, String[] args) {
+        s.sendMessage(empty());
+        sendTitle(s, "Damage Taken");
+        sendLeaderboard(s, Statistic.DAMAGE_TAKEN, 10, "has taken", "damage");
+        s.sendMessage(empty());
     }
 
 }
