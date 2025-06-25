@@ -13,16 +13,12 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class NightVision extends PlayerCommand {
 
     @Override
-    protected boolean shouldExecute(Player p, String[] args) {
+    protected void onExecute(Player p, String[] args) {
         if(!(p.getGameMode().equals(GameMode.SPECTATOR))){
             p.sendMessage(text("Only a spectator to run this command", RED));
-            return false;
+            return;
         }
-        return true;
-    }
 
-    @Override
-    protected void onExecute(Player p, String[] args) {
         if(p.hasPotionEffect(PotionEffectType.NIGHT_VISION)){
             p.removePotionEffect(PotionEffectType.NIGHT_VISION);
         }else{

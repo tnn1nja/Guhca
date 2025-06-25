@@ -15,7 +15,6 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public abstract class LeaderboardCommand extends CommandCore {
 
     //CommandCore implementations
-    @Override protected boolean shouldExecute(CommandSender s, String[] args) { return true; }
     @Override protected List<String> getSuggestions(CommandSender s, String[] args) { return none; }
 
 

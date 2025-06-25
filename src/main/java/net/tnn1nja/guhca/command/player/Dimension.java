@@ -13,20 +13,16 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class Dimension extends PlayerCommand {
 
     @Override
-    protected boolean shouldExecute(Player p, String[] args) {
+    protected void onExecute(Player p, String[] args) {
         if(!(p.getGameMode().equals(GameMode.SPECTATOR))){
             p.sendMessage(text("Only a spectator to run this command", RED));
-            return false;
+            return;
         }
         if(args.length == 0){
             p.sendMessage(text("You must specify a dimension", RED));
-            return false;
+            return;
         }
-        return true;
-    }
 
-    @Override
-    protected void onExecute(Player p, String[] args) {
         switch (args[0]) {
             case "overworld":
                 p.teleport(new Location(Bukkit.getWorlds().get(0), 0, 64, 0));

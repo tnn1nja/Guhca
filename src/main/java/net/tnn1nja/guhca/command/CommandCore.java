@@ -48,7 +48,6 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
 
     //Subclass contract and interface bridge
-    protected abstract boolean shouldExecute(CommandSender s, String[] args);
     protected abstract void onExecute(CommandSender s, String[] args);
     protected abstract List<String> getSuggestions(CommandSender s, String[] args);
 
@@ -57,9 +56,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     }
 
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (shouldExecute(sender, args)) {
-            onExecute(sender, args);
-        }
+        onExecute(sender, args);
         return true; //prevents printing usage
     }
 

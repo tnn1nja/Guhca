@@ -12,11 +12,6 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class Leave extends PlayerCommand {
 
     @Override
-    protected boolean shouldExecute(Player p, String[] args) {
-        return true;
-    }
-
-    @Override
     protected void onExecute(Player p, String[] args) {
         if (args.length == 0) {
             Bukkit.broadcast(text(p.getName() + " left the game", GOLD));

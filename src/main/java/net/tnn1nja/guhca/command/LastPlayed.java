@@ -13,26 +13,21 @@ import static net.kyori.adventure.text.format.NamedTextColor.*;
 public class LastPlayed extends CommandCore {
 
     @Override
-    protected boolean shouldExecute(CommandSender s, String[] args) {
+    protected void onExecute(CommandSender s, String[] args) {
         if (args.length == 0){
             s.sendMessage(text("Please specify a player", RED));
-            return false;
+            return;
         }
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
         if (op == null) {
             s.sendMessage(text(args[0] + " is not a recognised player", RED));
-            return false;
+            return;
         }
         if (op.isOnline()) {
             s.sendMessage(text( op.getName() + " is currently online", RED));
-            return false;
+            return;
         }
-        return true;
-    }
 
-    @Override
-    protected void onExecute(CommandSender s, String[] args) {
-        OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
         s.sendMessage(text().content(op.getName()).color(RED)
                 .append(text(" last played at ", WHITE))
                 .append(text(getFormattedDate(op.getLastSeen()), GOLD)).build());
