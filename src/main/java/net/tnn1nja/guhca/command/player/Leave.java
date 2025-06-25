@@ -17,7 +17,7 @@ public class Leave extends PlayerCommand {
             Bukkit.broadcast(text(p.getName() + " left the game", GOLD));
             p.kick(text("You have left the game"));
         }else {
-            Component message = text(joinArguments(args, 0));
+            Component message = text("You have left the game for reason: " + joinArguments(args, 0));
             Bukkit.broadcast(message.color(GOLD));
             p.kick(message);
         }
