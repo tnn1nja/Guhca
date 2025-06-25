@@ -2,6 +2,10 @@ package net.tnn1nja.guhca.command;
 
 import net.tnn1nja.guhca.command.leaderboard.Damage;
 import net.tnn1nja.guhca.command.leaderboard.Playtime;
+import net.tnn1nja.guhca.command.player.Dimension;
+import net.tnn1nja.guhca.command.player.Leave;
+import net.tnn1nja.guhca.command.player.NightVision;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -10,11 +14,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Command implements CommandExecutor, TabCompleter {
+public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     //Static command register
     public static void registerCommands(JavaPlugin plugin){
-        Command[] registry = new Command[]{
+        CommandCore[] registry = new CommandCore[]{
                 new Damage(),
                 new Dimension(),
                 new Kick(),
@@ -23,7 +27,7 @@ public abstract class Command implements CommandExecutor, TabCompleter {
                 new NightVision(),
                 new Playtime()
         };
-        for(Command command: registry){
+        for(CommandCore command: registry){
             plugin.getCommand(command.getName()).setExecutor(command);
         }
     }
@@ -52,14 +56,14 @@ public abstract class Command implements CommandExecutor, TabCompleter {
         return getClass().getName().toLowerCase();
     }
 
-    public final boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (shouldExecute(sender, args)) {
             onExecute(sender, args);
         }
         return true; //prevents printing usage
     }
 
-    public final List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public final List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         List<String> suggestions = getSuggestions(sender, args);
         if(suggestions == null || suggestions.isEmpty()){
             return suggestions;

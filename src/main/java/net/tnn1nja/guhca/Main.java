@@ -1,6 +1,6 @@
 package net.tnn1nja.guhca;
 
-import net.tnn1nja.guhca.command.Command;
+import net.tnn1nja.guhca.command.CommandCore;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -113,7 +113,7 @@ public final class Main extends JavaPlugin {
         log = plugin.getLogger();
         log.info("Guhca enabled");
         getServer().getPluginManager().registerEvents(new Listeners(), plugin);
-        Command.registerCommands(plugin);
+        CommandCore.registerCommands(plugin);
 
         Listeners.onSec();
         Listeners.onHalfSec();

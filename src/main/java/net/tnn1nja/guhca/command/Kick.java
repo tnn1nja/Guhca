@@ -10,7 +10,7 @@ import java.util.List;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class Kick extends Command {
+public class Kick extends CommandCore {
 
     @Override
     protected boolean shouldExecute(CommandSender s, String[] args) {
