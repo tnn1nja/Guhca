@@ -22,20 +22,21 @@ public abstract class LeaderboardCommand extends CommandCore {
 
     //Create and send leaderboards
     protected void sendTitle(CommandSender sender, String title){
-        sender.sendMessage(text("-+= ").color(GRAY)
+        sender.sendMessage(text().content("-+= ").color(GRAY)
                 .append(text(title + " Leaderboard", WHITE))
-                .append(text(" =+-", GRAY)));
+                .append(text(" =+-", GRAY)).build()
+        );
     }
 
     protected void sendLeaderboard(CommandSender sender, Statistic stat, int divisor, String connector, String unit){
         int i = 1;
         OfflinePlayer[] sortedPlayers = getOfflinePlayersSortedByStatistic(stat);
         for (OfflinePlayer op : sortedPlayers) {
-            sender.sendMessage(text(i + ". ", GRAY)
+            sender.sendMessage(text().content(i + ". ").color(GRAY)
                     .append(text(op.getName(), RED))
                     .append(text(" " + connector + " ", WHITE))
                     .append(text(op.getStatistic(stat)/divisor, GOLD))
-                    .append(text(" " + unit + ".", WHITE))
+                    .append(text(" " + unit + ".", WHITE)).build()
             );
             i++;
         }

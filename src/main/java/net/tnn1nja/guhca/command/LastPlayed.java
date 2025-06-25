@@ -33,9 +33,9 @@ public class LastPlayed extends CommandCore {
     @Override
     protected void onExecute(CommandSender s, String[] args) {
         OfflinePlayer op = Bukkit.getOfflinePlayerIfCached(args[0].toLowerCase());
-        s.sendMessage(text(op.getName(), RED)
+        s.sendMessage(text().content(op.getName()).color(RED)
                 .append(text(" last played at ", WHITE))
-                .append(text(getFormattedDate(op.getLastSeen()), GOLD)));
+                .append(text(getFormattedDate(op.getLastSeen()), GOLD)).build());
     }
 
     @Override

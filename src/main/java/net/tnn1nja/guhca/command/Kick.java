@@ -38,9 +38,7 @@ public class Kick extends CommandCore {
         }else {
             p.kick(text("You have been kicked by " + s.getName()));
         }
-        Bukkit.broadcast(
-                text(p.getName() + " was kicked by " + s.getName(), GOLD)
-        );
+        Bukkit.broadcast(text(p.getName() + " was kicked by " + s.getName(), GOLD));
     }
 
     @Override
