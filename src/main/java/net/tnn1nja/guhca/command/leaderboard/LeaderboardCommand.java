@@ -7,7 +7,6 @@ import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import static net.kyori.adventure.text.Component.text;
@@ -44,7 +43,7 @@ public abstract class LeaderboardCommand extends CommandCore {
 
     private OfflinePlayer[] getOfflinePlayersSortedByStatistic(Statistic stat){
         OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
-        Arrays.sort(offlinePlayers, Comparator.comparingInt(x -> x.getStatistic(stat)));
+        Arrays.sort(offlinePlayers, (x, y) -> y.getStatistic(stat) - x.getStatistic(stat));
         return offlinePlayers;
     }
 

@@ -53,7 +53,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     protected abstract List<String> getSuggestions(CommandSender s, String[] args);
 
     public String getName(){
-        return getClass().getName().toLowerCase();
+        return getClass().getSimpleName().toLowerCase();
     }
 
     public final boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
