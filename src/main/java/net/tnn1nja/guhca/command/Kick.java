@@ -35,9 +35,8 @@ public class Kick extends CommandCore {
             p.kick(text().content("You have been kicked by " + s.getName() + " for reason:")
                     .appendNewline()
                     .appendNewline()
-                    .append(text(joinArguments(args, 0), GOLD)).build()
+                    .append(text(joinArguments(args, 1))).build()
             );
-            p.kick(text(joinArguments(args, 1)));
         }else {
             p.kick(text("You have been kicked by " + s.getName()));
         }
