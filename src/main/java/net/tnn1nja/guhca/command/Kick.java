@@ -33,12 +33,12 @@ public class Kick extends CommandCore {
     @Override
     protected void onExecute(CommandSender s, String[] args) {
         Player p = Bukkit.getPlayer(args[0].toLowerCase());
+        Bukkit.broadcast(text(p.getName() + " was kicked by " + s.getName(), GOLD));
         if(args.length > 1) {
             p.kick(text(joinArguments(args, 1)));
         }else {
             p.kick(text("You have been kicked by " + s.getName()));
         }
-        Bukkit.broadcast(text(p.getName() + " was kicked by " + s.getName(), GOLD));
     }
 
     @Override

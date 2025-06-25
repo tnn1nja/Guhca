@@ -19,12 +19,12 @@ public class Leave extends PlayerCommand {
     @Override
     protected void onExecute(Player p, String[] args) {
         if (args.length == 0) {
-            p.kick(text("You have left the game"));
             Bukkit.broadcast(text(p.getName() + " left the game", GOLD));
+            p.kick(text("You have left the game"));
         }else {
             Component message = text(joinArguments(args, 0));
-            p.kick(message);
             Bukkit.broadcast(message.color(GOLD));
+            p.kick(message);
         }
     }
 
