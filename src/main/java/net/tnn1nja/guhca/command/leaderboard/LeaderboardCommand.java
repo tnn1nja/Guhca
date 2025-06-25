@@ -19,18 +19,18 @@ public abstract class LeaderboardCommand extends CommandCore {
 
 
     //Create and send leaderboards
-    protected void sendTitle(CommandSender sender, String title){
-        sender.sendMessage(text().content("-+= ").color(GRAY)
+    protected void sendTitle(CommandSender s, String title){
+        s.sendMessage(text().content("-+= ").color(GRAY)
                 .append(text(title + " Leaderboard", WHITE))
                 .append(text(" =+-", GRAY)).build()
         );
     }
 
-    protected void sendLeaderboard(CommandSender sender, Statistic stat, int divisor, String connector, String unit){
+    protected void sendLeaderboard(CommandSender s, Statistic stat, int divisor, String connector, String unit){
         int i = 1;
         OfflinePlayer[] sortedPlayers = getOfflinePlayersSortedByStatistic(stat);
         for (OfflinePlayer op : sortedPlayers) {
-            sender.sendMessage(text().content(i + ". ").color(GRAY)
+            s.sendMessage(text().content(i + ". ").color(GRAY)
                     .append(text(op.getName(), RED))
                     .append(text(" " + connector + " ", WHITE))
                     .append(text(op.getStatistic(stat)/divisor, GOLD))

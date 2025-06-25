@@ -30,7 +30,8 @@ public class LastPlayed extends CommandCore {
 
         s.sendMessage(text().content(op.getName()).color(RED)
                 .append(text(" last played at ", WHITE))
-                .append(text(getFormattedDate(op.getLastSeen()), GOLD)).build());
+                .append(text(getFormattedDate(op.getLastSeen()), GOLD)).build()
+        );
     }
 
     @Override

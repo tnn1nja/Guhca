@@ -1,5 +1,6 @@
 package net.tnn1nja.guhca.command;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -31,6 +32,11 @@ public class Kick extends CommandCore {
         Player p = Bukkit.getPlayer(op.getUniqueId());
         Bukkit.broadcast(text(p.getName() + " was kicked by " + s.getName(), GOLD));
         if(args.length > 1) {
+            p.kick(text().content("You have been kicked by " + s.getName() + " for reason:")
+                    .appendNewline()
+                    .appendNewline()
+                    .append(text(joinArguments(args, 0), GOLD)).build()
+            );
             p.kick(text(joinArguments(args, 1)));
         }else {
             p.kick(text("You have been kicked by " + s.getName()));
