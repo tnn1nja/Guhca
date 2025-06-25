@@ -1,6 +1,5 @@
 package net.tnn1nja.guhca.command;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
