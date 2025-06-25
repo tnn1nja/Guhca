@@ -30,6 +30,7 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
         for(CommandCore command: registry){
             plugin.getCommand(command.getName()).setExecutor(command);
         }
+        plugin.getLogger().info("Commands registered");
     }
 
 
