@@ -3,28 +3,28 @@ version: '${project.version}'
 main: net.tnn1nja.guhca.Main
 api-version: '1.21.5'
 authors: [ tnn1nja ]
-description: Custom plugin for multiplayer UHC
+description: PaperMC plugin for multiplayer UHC
 commands:
+  damage:
+    description: Shows a damage taken leaderboard
+    usage: /damage
+  playtime:
+    description: Shows a playtime leaderboard
+    usage: /playtime
+    aliases: [ pt ]
+  dimension:
+    description: Moves the sender between dimensions in spectator mode
+    usage: /dimension [dimension]
+  leave:
+    description: Allow sender to leave for a custom reason
+    usage: /leave [message]
+  nightvision:
+    description: Toggles sender's night vision in spectator mode
+    usage: /nightvision
   kick:
     description: An alternative to the default kick command
     usage: /kick [player] [reason]
   lastplayed:
-    description: Shows when player was last online
+    description: Shows when a player was last online
     usage: /lastplayed [player]
     aliases: [ lp ]
-  leave:
-    description: Leave for a custom reason
-    usage: /leave [message]
-  playtime:
-    description: Shows total playtime of all players
-    usage: /playtime
-    aliases: [ pt ]
-  damage:
-    description: Shows player damage scoreboard
-    usage: /damage
-  nightvision:
-    description: Grant yourself night vision in spectator mode
-    usage: /nightvision
-  dimension:
-    description: Move between dimensions in spectator mode
-    usage: /dimension [dimension]

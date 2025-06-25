@@ -20,12 +20,13 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
     public static void registerCommands(JavaPlugin plugin){
         CommandCore[] registry = new CommandCore[]{
                 new Damage(),
+                new Playtime(),
                 new Dimension(),
-                new Kick(),
-                new LastPlayed(),
                 new Leave(),
                 new NightVision(),
-                new Playtime()
+                new Kick(),
+                new LastPlayed()
+
         };
         for(CommandCore command: registry){
             plugin.getCommand(command.getName()).setExecutor(command);
