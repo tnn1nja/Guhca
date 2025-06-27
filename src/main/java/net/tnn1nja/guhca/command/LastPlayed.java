@@ -39,7 +39,7 @@ public class LastPlayed extends CommandCore {
         if (args.length == 1){
             List<String> suggestions = new ArrayList<>();
             for(OfflinePlayer op: Bukkit.getOfflinePlayers()){
-                if(!op.getName().equalsIgnoreCase(s.getName())) {
+                if(!op.isOnline()) {
                     suggestions.add(op.getName());
                 }
             }

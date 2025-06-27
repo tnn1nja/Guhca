@@ -57,13 +57,15 @@ public class Tools {
         if(HealthName == null){
             HealthName = board.registerNewObjective("guhca.health_below_name", Criteria.HEALTH,
                     Component.text("♥", NamedTextColor.DARK_RED));
-            HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
         }
         if (HealthList == null){
             HealthList = board.registerNewObjective("guhca.health_player_list", Criteria.HEALTH,
                     Component.text("HealthList"));
-            HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
         }
+
+        //In case they are reset by operator
+        HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
     public static void playersDied(){

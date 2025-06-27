@@ -17,12 +17,13 @@ public class Leave extends PlayerCommand {
             Bukkit.broadcast(text(p.getName() + " left the game", GOLD));
             p.kick(text("You have left the game"));
         }else {
-            Component message = text().content("You have left the game for reason:")
+            Component message = text(joinArguments(args, 0), GOLD);
+            Bukkit.broadcast(message);
+            p.kick(text().content("You have left the game for reason:")
                     .appendNewline()
                     .appendNewline()
-                    .append(text(joinArguments(args, 0), GOLD)).build();
-            Bukkit.broadcast(message.color(GOLD));
-            p.kick(message);
+                    .append(message).build()
+            );
         }
     }
 
