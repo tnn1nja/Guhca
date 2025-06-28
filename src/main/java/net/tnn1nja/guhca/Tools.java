@@ -8,11 +8,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.*;
 import org.bukkit.util.BoundingBox;
-import org.bukkit.util.EulerAngle;
 
 import java.io.*;
 import java.util.*;
@@ -44,28 +41,6 @@ public class Tools {
             Afk.color(NamedTextColor.GRAY);
             Afk.setCanSeeFriendlyInvisibles(false);
         }
-
-        //Objectives
-        for(Objective o: board.getObjectives()) {
-            if (o.getName().equalsIgnoreCase("guhca.health_below_name")) {
-                HealthName = o;
-            } else if (o.getName().equalsIgnoreCase("guhca.health_player_list")){
-                HealthList = o;
-            }
-        }
-
-        if(HealthName == null){
-            HealthName = board.registerNewObjective("guhca.health_below_name", Criteria.HEALTH,
-                    Component.text("♥", NamedTextColor.DARK_RED));
-        }
-        if (HealthList == null){
-            HealthList = board.registerNewObjective("guhca.health_player_list", Criteria.HEALTH,
-                    Component.text("HealthList"));
-        }
-
-        //In case they are reset by operator
-        HealthName.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        HealthList.setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
 
     public static void playersDied(){
@@ -75,63 +50,6 @@ public class Tools {
             p.setGameMode(GameMode.SPECTATOR);
         }
         log.info("A player has died, the world is frozen.");
-    }
-
-    public static void setupPlayer(Player p){
-        //Set Player Data
-        p.displayName(p.name().color(NamedTextColor.RED));
-        p.playerListName(p.name().color(NamedTextColor.WHITE));
-        Online.addEntry(p.getName());
-        afkTracker.put(p.getUniqueId(), (Integer) 0);
-        campfireBoostSoundTracker.put(p.getUniqueId(), false);
-
-        //Check if Players Died
-        if(playersDied){
-            p.setGameMode(GameMode.SPECTATOR);
-        }
-
-        //Discover all Recipes
-        Bukkit.recipeIterator().forEachRemaining(recipe -> {
-            if (recipe instanceof Keyed){
-                p.discoverRecipe(((Keyed) recipe).getKey());
-            }
-        });
-    }
-
-    public static boolean isRaidersWithinVanillaRange(Location bellLocation){
-        Collection<Entity> entities = bellLocation.getWorld().getNearbyEntities(bellLocation,
-                vanillaBellDetectionRadius, vanillaBellDetectionRadius, vanillaBellDetectionRadius);
-        for(Entity e: entities){
-            if(e instanceof Raider && isWithinSphere(e.getLocation(), bellLocation, vanillaBellDetectionRadius)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void startBellCooldown(Location l){
-        bellOnCooldownLocations.add(l);
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                bellOnCooldownLocations.remove(l);
-            }
-        }, 60L);
-    }
-
-    public static boolean isWithinSphere(Location entityLocation, Location bellLocation, int radius){
-        return Math.pow((bellLocation.getX() - entityLocation.getX()), 2) +
-                Math.pow((bellLocation.getY() - entityLocation.getY()), 2) +
-                Math.pow((bellLocation.getZ() - entityLocation.getZ()), 2)
-                <= Math.pow(radius, 2);
-    }
-
-    public static Collection<Raider> getRaidersWithinCustomRange(Location bellLocation){
-        return bellLocation.getWorld().getNearbyEntities(bellLocation,
-                        customBellDetectionRadius, customBellDetectionRadius, customBellDetectionRadius,
-                        entity -> entity instanceof Raider &&
-                                isWithinSphere(entity.getLocation(), bellLocation, customBellDetectionRadius)).
-                stream().map(entity -> (Raider) entity).toList();
     }
 
     public static boolean useCrystalHeart(Player p){
@@ -280,55 +198,8 @@ public class Tools {
 
     }
 
-    public static int getArmorStandPose(ArmorStand as){
-        PersistentDataContainer pdh = as.getPersistentDataContainer();
-        if(pdh.has(armorStandDataKey)) {
-            return pdh.get(armorStandDataKey, PersistentDataType.INTEGER);
-        }else{
-            return 0;
-        }
-    }
-
-    public static void setArmorStandPose(ArmorStand as, int id){
-        as.getPersistentDataContainer().set(armorStandDataKey, PersistentDataType.INTEGER, id);
-
-        ArmorStandPose asp = armorStandPoses[id];
-        as.setHeadPose(asp.HEAD_POSE);
-        as.setBodyPose(asp.BODY_POSE);
-        as.setLeftArmPose(asp.LEFT_ARM_POSE);
-        as.setRightArmPose(asp.RIGHT_ARM_POSE);
-        as.setLeftLegPose(asp.LEFT_LEG_POSE);
-        as.setRightLegPose(asp.RIGHT_LEG_POSE);
-    }
-
     public static String getComponentAsPlainText(Component c){
         return PlainTextComponentSerializer.plainText().serialize(c);
-    }
-
-    public static class ArmorStandPose{
-
-        public EulerAngle HEAD_POSE;
-        public EulerAngle BODY_POSE;
-        public EulerAngle LEFT_ARM_POSE;
-        public EulerAngle RIGHT_ARM_POSE;
-        public EulerAngle LEFT_LEG_POSE;
-        public EulerAngle RIGHT_LEG_POSE;
-
-        public ArmorStandPose(double[] headPose, double[] bodyPose,
-                              double[] leftArmPose, double[] rightArmPose,
-                              double[] leftLegPose, double[] rightLegPose) {
-            try {
-                HEAD_POSE = new EulerAngle(headPose[0], headPose[1], headPose[2]);
-                BODY_POSE = new EulerAngle(bodyPose[0], bodyPose[1], bodyPose[2]);
-                LEFT_ARM_POSE = new EulerAngle(leftArmPose[0], leftArmPose[1], leftArmPose[2]);
-                RIGHT_ARM_POSE = new EulerAngle(rightArmPose[0], rightArmPose[1], rightArmPose[2]);
-                LEFT_LEG_POSE = new EulerAngle(leftLegPose[0], leftLegPose[1], leftLegPose[2]);
-                RIGHT_LEG_POSE = new EulerAngle(rightLegPose[0], rightLegPose[1], rightLegPose[2]);
-            }catch(IndexOutOfBoundsException e){
-                throw new IllegalArgumentException("All double arrays must be three elements long.");
-            }
-        }
-
     }
 
 }

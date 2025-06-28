@@ -9,15 +9,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.tnn1nja.guhca.Guhca.guhca;
+
 public abstract class CommandCore implements CommandExecutor, TabCompleter {
 
     //Static command register
-    public static void registerCommands(JavaPlugin plugin){
+    public static void registerCommands(){
         CommandCore[] registry = new CommandCore[]{
                 new Damage(),
                 new Playtime(),
@@ -26,12 +27,11 @@ public abstract class CommandCore implements CommandExecutor, TabCompleter {
                 new NightVision(),
                 new Kick(),
                 new LastPlayed()
-
         };
         for(CommandCore command: registry){
-            plugin.getCommand(command.getName()).setExecutor(command);
+            guhca.getCommand(command.getName()).setExecutor(command);
         }
-        plugin.getLogger().info("Commands registered");
+        guhca.log("Commands registered (" + registry.length + ")");
     }
 
 

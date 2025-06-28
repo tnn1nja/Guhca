@@ -4,25 +4,16 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.Campfire;
 import org.bukkit.event.block.*;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import static net.tnn1nja.guhca.Tools.*;
@@ -35,7 +26,15 @@ public class Listeners implements Listener {
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
         e.joinMessage(Component.text(getComponentAsPlainText(e.joinMessage()), NamedTextColor.YELLOW));
-        setupPlayer(p);
+        p.displayName(p.name().color(NamedTextColor.RED));
+        p.playerListName(p.name().color(NamedTextColor.WHITE));
+        Online.addEntry(p.getName());
+        afkTracker.put(p.getUniqueId(), (Integer) 0);
+
+        //Check if Players Died
+        if(playersDied){
+            p.setGameMode(GameMode.SPECTATOR);
+        }
     }
 
     @EventHandler
@@ -48,207 +47,29 @@ public class Listeners implements Listener {
             Online.addEntry(p.getName());
             p.playerListName(p.name().color(NamedTextColor.WHITE));
         }
-
-        //Campfire Boosting
-        if(p.isGliding()) {
-            boolean aboveLitCampfire = false;
-            boolean isHayBaled = false;
-            int distance = 1;
-            Block testBlock = p.getLocation().getBlock();
-            while (true) {
-                if (testBlock.getType().equals(Material.AIR) || !testBlock.isSolid()) {
-                    testBlock = testBlock.getRelative(BlockFace.DOWN);
-                    distance++;
-                } else if (testBlock.getType().equals(Material.CAMPFIRE)) {
-                    Campfire cf = (Campfire) testBlock.getBlockData();
-                    isHayBaled = cf.isSignalFire();
-                    if (isHayBaled || distance < 9) {
-                        aboveLitCampfire = cf.isLit();
-                    }
-                    break;
-                } else {
-                    break;
-                }
-
-                if (distance > 21) {
-                    break;
-                }
-            }
-
-            if (aboveLitCampfire) {
-                double lambda = 0.3;
-                double maxVelocity = isHayBaled ? 1.5 : 1;
-                Vector v = p.getVelocity();
-                if(v.getY() < maxVelocity) {
-                    v.setY(v.getY() + (lambda * (maxVelocity - v.getY())));
-                    p.setVelocity(v);
-                }
-                if(!campfireBoostSoundTracker.get(p.getUniqueId())){
-                    p.getWorld().playSound(p.getLocation(), "guhca.campfire_boost", SoundCategory.PLAYERS,
-                            1, 1);
-                    campfireBoostSoundTracker.replace(p.getUniqueId(), true);
-                }
-            } else if(campfireBoostSoundTracker.get(p.getUniqueId())){
-                campfireBoostSoundTracker.replace(p.getUniqueId(), false);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onBellRing(BellRingEvent e){
-        Location l = e.getBlock().getLocation();
-        if(!isRaidersWithinVanillaRange(l)){
-            Collection<Raider> raiders = getRaidersWithinCustomRange(l);
-            if(!raiders.isEmpty() && !bellOnCooldownLocations.contains(l)) {
-                Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        for (LivingEntity le: raiders) {
-                            le.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 60, 0));
-                        }
-                    }
-                }, 60L);
-                Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            p.playSound(l, Sound.BLOCK_BELL_RESONATE, 1, 1);
-                        }
-                    }
-                }, 10L);
-                startBellCooldown(l);
-                log.info("Bell resonated with range of " + customBellDetectionRadius + " blocks");
-            }
-        }
-    }
-
-    @EventHandler
-    public void onBellResonate(BellResonateEvent e){
-        Location l = e.getBlock().getLocation();
-        e.getResonatedEntities().addAll(getRaidersWithinCustomRange(l));
-        startBellCooldown(l);
-        log.info("Bell resonation range extended to " + customBellDetectionRadius + " blocks");
-    }
-
-    @EventHandler
-    public void onSoup(PlayerItemConsumeEvent e){
-        Player p = e.getPlayer();
-        ItemStack i = e.getItem();
-
-        if(i.getType().equals(Material.SUSPICIOUS_STEW)){
-            if(i.hasItemMeta()){
-                SuspiciousStewMeta stew = (SuspiciousStewMeta) i.getItemMeta();
-                if(stew.hasCustomEffects() && stew.hasCustomEffect(PotionEffectType.REGENERATION)){
-                    log.info(p.getName() + "'s regen soup fixed");
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 160, 0));
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void onToolDurabilityDecrease(PlayerItemDamageEvent e){
-        Player p = e.getPlayer();
-        ItemStack is = e.getItem();
-        int maxDurability = is.getType().getMaxDurability();
-        int remainingDurability = maxDurability - ((Damageable) is.getItemMeta()).getDamage();
-        float durability = remainingDurability / (float) maxDurability;
-        if (durability < 0.1){
-            p.sendActionBar(Component.text("Severe Warning: low durability", NamedTextColor.RED));
-        }else if(durability < 0.2){
-            p.sendActionBar(Component.text("Warning: low durability", NamedTextColor.GOLD));
-        }
-    }
-
-    @EventHandler @SuppressWarnings("deprecation")
-    public void onRightClickEntity(PlayerInteractEntityEvent e){
-        //Toggle Animal Aging
-        if ((e.getRightClicked() instanceof Ageable a) && (a.getAge() < -1)) { //non-aging babies are always -1
-
-            boolean toggleAgeLock = false;
-            if (a.getAgeLock()) {
-                //Test for Unlock
-                PlayerInventory i = e.getPlayer().getInventory();
-                if (i.getItemInMainHand().getType() == Material.MILK_BUCKET) {
-                    i.setItemInMainHand(new ItemStack(Material.BUCKET));
-                    toggleAgeLock = true;
-                }
-            } else {
-                //Test for Lock
-                PlayerInventory i = e.getPlayer().getInventory();
-                if (i.getItemInMainHand().getType() == Material.SUGAR) {
-                    i.getItemInMainHand().setAmount(i.getItemInMainHand().getAmount() - 1);
-                    toggleAgeLock = true;
-                }
-            }
-
-            //Toggle Locked Aging
-            if(toggleAgeLock){
-                World w = a.getWorld();
-                BoundingBox bb = a.getBoundingBox();
-
-                //Display Particles
-                Particle p = a.getAgeLock() ? Particle.HAPPY_VILLAGER : Particle.WAX_ON;
-                w.spawnParticle(p, bb.getCenter().toLocation(w).add(0, bb.getHeight()/5, 0),
-                        15, bb.getWidthX()/2.5, bb.getHeight()/3.5, bb.getWidthZ()/2.5);
-
-                //Play Sound
-                Sound s = a.getAgeLock() ? Sound.ENTITY_GENERIC_DRINK : Sound.ENTITY_GENERIC_EAT;
-                w.playSound(a, s, SoundCategory.NEUTRAL, 1F, 1.2F);
-
-                //Cancel Event + Lock Aging + Logging
-                e.getPlayer().swingMainHand();
-                e.setCancelled(true);
-                a.setAgeLock(!a.getAgeLock());
-                String locked = a.getAgeLock() ? "locked at: " + a.getAge() : "unlocked";
-                log.info(a.getType().toString() + " Aging " + locked);
-            }
-
-        }
-
-        //Toggle Item Frame Visibility
-        if (e.getRightClicked() instanceof ItemFrame itf && e.getPlayer().isSneaking()){
-            if(itf.getItem().getType() != Material.AIR) {
-                itf.setVisible(!itf.isVisible());
-                itf.getWorld().playSound(itf.getLocation(), Sound.ENTITY_ITEM_FRAME_ROTATE_ITEM, 1, 1);
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onRightClickAtEntity(PlayerInteractAtEntityEvent e){
-        //Toggle Armor Stand Pose
-        if(e.getRightClicked() instanceof ArmorStand as){
-            if(e.getPlayer().isSneaking()){
-                setArmorStandPose(as, (getArmorStandPose(as)+1)%13);
-                e.getPlayer().swingMainHand();
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onHitItemFrame(EntityDamageByEntityEvent e){
-        if (e.getEntity() instanceof ItemFrame itf){
-            if(!itf.isVisible()) {
-                itf.setVisible(true);
-                log.info("Toggled item frame visibility");
-            }
-        }
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
-        Player p = e.getPlayer();
-        afkTracker.remove(p.getUniqueId());
-        campfireBoostSoundTracker.remove(e.getPlayer().getUniqueId());
+        afkTracker.remove(e.getPlayer().getUniqueId());
+    }
 
-        if(e.getReason() == PlayerQuitEvent.QuitReason.KICKED){
-            e.quitMessage(null);
-        }else{
-            e.quitMessage(Component.text(p.getName() + " left the game", NamedTextColor.GOLD));
-        }
+    //@HonouraryEventHandler
+    public static void onSec(){
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
+            public void run() {
+                //AFK Tracker
+                for(Player p: Bukkit.getOnlinePlayers()){
+                    UUID uuid = p.getUniqueId();
+                    afkTracker.replace(uuid, (Integer) (afkTracker.get(uuid)+1));
+
+                    if(afkTracker.get(uuid) > afkTime && Online.getEntries().contains(p.getName())){
+                        Afk.addEntry(p.getName());
+                        p.playerListName(p.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC));
+                    }
+                }
+            }
+        }, 0L, 20L);
     }
 
     @EventHandler
@@ -321,124 +142,12 @@ public class Listeners implements Listener {
     }
 
     @EventHandler
-    public void onEndermanBlock(EntityChangeBlockEvent e) {
-        if (e.getEntity().getType().equals(EntityType.ENDERMAN)) {
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler
     public void onPlaceCrystalHeart(BlockPlaceEvent e){
         Material m = e.getBlock().getType();
         if (e.getItemInHand().getItemMeta().hasItemName() &&
                 (m.equals(Material.STRUCTURE_BLOCK))){
             e.setCancelled(true);
         }
-    }
-
-    @EventHandler
-    public void onMonsterSpawn(CreatureSpawnEvent e){
-        if(mobSwitchedWorlds.contains(e.getLocation().getWorld().getUID()) &&
-                    e.getEntity().getSpawnCategory() == SpawnCategory.MONSTER &&
-                ((e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.NATURAL &&
-                        e.getEntityType() != EntityType.WARDEN) ||
-                (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL &&
-                        e.getEntityType() == EntityType.PHANTOM))
-                ){
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onElytraSneak(PlayerToggleSneakEvent e){
-        Player p = e.getPlayer();
-        if (p.isGliding() && e.isSneaking()){
-            p.setGliding(false);
-        }
-    }
-
-    @EventHandler
-    public void onExperienceOrb(PlayerExpCooldownChangeEvent e){
-        if(e.getReason() == PlayerExpCooldownChangeEvent.ChangeReason.PICKUP_ORB) {
-            e.setNewCooldown(0);
-        }
-    }
-
-    @EventHandler
-    public void onPlaceArmorStand(EntitySpawnEvent e){
-        if (e.getEntity() instanceof ArmorStand as){
-            setArmorStandPose(as, 0);
-            as.setArms(true);
-        }
-    }
-
-    //@HonouraryEventHandler
-    public static void onSec(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-            public void run() {
-                //AFK Tracker
-                for(Player p: Bukkit.getOnlinePlayers()){
-                    UUID uuid = p.getUniqueId();
-                    afkTracker.replace(uuid, (Integer) (afkTracker.get(uuid)+1));
-
-                    if(afkTracker.get(uuid) > afkTime && Online.getEntries().contains(p.getName())){
-                        Afk.addEntry(p.getName());
-                        p.playerListName(p.name().color(NamedTextColor.GRAY).decorate(TextDecoration.ITALIC));
-                    }
-                }
-            }
-        }, 0L, 20L);
-    }
-
-    //@HonouraryEventHandler
-    public static void onHalfSec(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
-            public void run(){
-                //Kick Lagging Players
-                for(Player p: Bukkit.getOnlinePlayers()){
-                    if(p.getPing() > pingKickThreshold){
-                        Component.text(p.getName() + " lagged out", NamedTextColor.GOLD);
-                        p.kick(Component.text("Your ping exceeded " + pingKickThreshold));
-                    }
-                }
-            }
-        }, 0L, 10L);
-    }
-
-    //@HonouraryEventHandler
-    public static void onFifteenSec(){
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
-            @Override
-            public void run() {
-                for(World w: Bukkit.getWorlds()) {
-                    int validZombieVillagers = 0;
-                    for (LivingEntity le : w.getLivingEntities()) {
-                        if (le.getType() == EntityType.ZOMBIE_VILLAGER) {
-                            if (le.getRemoveWhenFarAway()) {
-                                validZombieVillagers += 1;
-                            }
-                        }
-                    }
-
-                    String dimension = switch (w.getEnvironment()) {
-                        case NORMAL -> "overworld";
-                        case NETHER -> "nether";
-                        case THE_END -> "end";
-                        default -> "custom dimension";
-                    };
-
-                    if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
-                        if (mobSwitchedWorlds.add(w.getUID())) {
-                            log.info("Mob switch enabled for the " + dimension);
-                        }
-                    } else {
-                        if (mobSwitchedWorlds.remove(w.getUID())) {
-                            log.info("Mob Switch Disabled for the " + dimension);
-                        }
-                    }
-                }
-            }
-        }, 0L, 300L);
     }
 
 }
