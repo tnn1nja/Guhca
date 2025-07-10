@@ -24,17 +24,9 @@ public class Tools {
 
         //Teams
         for(Team t: board.getTeams()){
-            if(t.getName().equalsIgnoreCase("guhca.online")){
-                Online = t;
-            }else if(t.getName().equalsIgnoreCase("guhca.afk")){
+            if(t.getName().equalsIgnoreCase("guhca.afk")){
                 Afk = t;
             }
-        }
-
-        if(Online == null) {
-            Online = board.registerNewTeam("guhca.online");
-            Online.color(NamedTextColor.RED);
-            Online.setCanSeeFriendlyInvisibles(false);
         }
         if(Afk == null){
             Afk = board.registerNewTeam("guhca.afk");

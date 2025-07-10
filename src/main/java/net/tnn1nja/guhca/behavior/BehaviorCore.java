@@ -1,5 +1,6 @@
 package net.tnn1nja.guhca.behavior;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -36,6 +37,10 @@ public class BehaviorCore implements Listener {
     }
 
     public void onEnable(){};
+
+    public void registerRepeatingTask(Runnable task, int period){
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(guhca, task, 0, period);
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST) //ensure its run last
     public void onQuit(PlayerQuitEvent e){

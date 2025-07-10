@@ -10,15 +10,6 @@ import static net.tnn1nja.guhca.Tools.*;
 
 public final class Main extends JavaPlugin {
 
-    //Objects
-    public static Team Online;
-    public static Team Afk;
-
-    //Constants
-    public static Integer afkTime = (Integer) 300;
-
-    //Variables
-    public static HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
     public static HashSet<UUID> damageImmunePlayers = new HashSet<UUID>();
     public static boolean playersDied = false;
 

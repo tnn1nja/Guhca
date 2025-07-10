@@ -19,38 +19,37 @@ public class MobSwitchManager extends BehaviorCore {
 
     @Override
     public void onEnable() {
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(guhca, new Runnable() {
-            @Override
-            public void run() {
-                for(World w: Bukkit.getWorlds()) {
-                    int validZombieVillagers = 0;
-                    for (LivingEntity le : w.getLivingEntities()) {
-                        if (le.getType() == EntityType.ZOMBIE_VILLAGER) {
-                            if (le.getRemoveWhenFarAway()) {
-                                validZombieVillagers += 1;
-                            }
-                        }
-                    }
+        registerRepeatingTask(this::eachFifteenSeconds, 300);
+    }
 
-                    String dimension = switch (w.getEnvironment()) {
-                        case NORMAL -> "overworld";
-                        case NETHER -> "nether";
-                        case THE_END -> "end";
-                        default -> "custom dimension";
-                    };
-
-                    if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
-                        if (mobSwitchedWorlds.add(w.getUID())) {
-                            guhca.log("Mob switch enabled for the " + dimension);
-                        }
-                    } else {
-                        if (mobSwitchedWorlds.remove(w.getUID())) {
-                            guhca.log("Mob Switch Disabled for the " + dimension);
-                        }
+    public void eachFifteenSeconds(){
+        for(World w: Bukkit.getWorlds()) {
+            int validZombieVillagers = 0;
+            for (LivingEntity le : w.getLivingEntities()) {
+                if (le.getType() == EntityType.ZOMBIE_VILLAGER) {
+                    if (le.getRemoveWhenFarAway()) {
+                        validZombieVillagers += 1;
                     }
                 }
             }
-        }, 0L, 300L);
+
+            String dimension = switch (w.getEnvironment()) {
+                case NORMAL -> "overworld";
+                case NETHER -> "nether";
+                case THE_END -> "end";
+                default -> "custom dimension";
+            };
+
+            if (validZombieVillagers > (70 * Bukkit.getOnlinePlayers().size())) {
+                if (mobSwitchedWorlds.add(w.getUID())) {
+                    guhca.log("Mob switch enabled for the " + dimension);
+                }
+            } else {
+                if (mobSwitchedWorlds.remove(w.getUID())) {
+                    guhca.log("Mob Switch Disabled for the " + dimension);
+                }
+            }
+        }
     }
 
     @EventHandler
