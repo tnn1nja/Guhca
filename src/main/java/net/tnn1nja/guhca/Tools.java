@@ -1,14 +1,10 @@
 package net.tnn1nja.guhca;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.scoreboard.*;
 import org.bukkit.util.BoundingBox;
 
 import java.io.*;
@@ -17,23 +13,6 @@ import java.util.*;
 import static net.tnn1nja.guhca.Main.*;
 
 public class Tools {
-
-    public static void initScoreboard(){
-        //Init
-        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-
-        //Teams
-        for(Team t: board.getTeams()){
-            if(t.getName().equalsIgnoreCase("guhca.afk")){
-                Afk = t;
-            }
-        }
-        if(Afk == null){
-            Afk = board.registerNewTeam("guhca.afk");
-            Afk.color(NamedTextColor.GRAY);
-            Afk.setCanSeeFriendlyInvisibles(false);
-        }
-    }
 
     public static void playersDied(){
         playersDied = true;
@@ -188,10 +167,6 @@ public class Tools {
                 bb.getWidthX() == 1.0 &&
                 bb.getWidthZ() == 1.0);
 
-    }
-
-    public static String getComponentAsPlainText(Component c){
-        return PlainTextComponentSerializer.plainText().serialize(c);
     }
 
 }

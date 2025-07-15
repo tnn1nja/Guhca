@@ -23,9 +23,6 @@ public class Listeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-        afkTracker.put(p.getUniqueId(), (Integer) 0);
-
-        //Check if Players Died
         if(playersDied){
             p.setGameMode(GameMode.SPECTATOR);
         }

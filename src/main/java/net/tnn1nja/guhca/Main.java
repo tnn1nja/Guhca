@@ -2,7 +2,6 @@ package net.tnn1nja.guhca;
 
 import org.bukkit.*;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.*;
 
 import java.util.*;
 
@@ -16,7 +15,6 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Listeners.onSec();
         initScoreboard();
         reloadDatapack();
 

@@ -1,5 +1,8 @@
-package net.tnn1nja.guhca.behavior;
+package net.tnn1nja.guhca.behavior.colorManagers;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.tnn1nja.guhca.behavior.BehaviorCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,26 +13,25 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import static net.kyori.adventure.text.Component.text;
-import static net.tnn1nja.guhca.Tools.getComponentAsPlainText;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 
-public class ColorManager extends BehaviorCore {
+public class DefaultColorManager extends BehaviorCore {
 
-    public Team Default;
-    public String defaultName = "guhca.default";
+    private static Team DefaultTeam;
+    String defaultTeamName = "guhca.default";
 
     @Override
     public void onEnable() {
         Scoreboard sb = Bukkit.getScoreboardManager().getMainScoreboard();
         for(Team t: sb.getTeams()) {
-            if (t.getName().equalsIgnoreCase(defaultName)) {
-                Default = t;
+            if (t.getName().equalsIgnoreCase(defaultTeamName)) {
+                DefaultTeam = t;
             }
 
-            if (Default == null) {
-                Default = sb.registerNewTeam(defaultName);
-                Default.color(RED);
-                Default.setCanSeeFriendlyInvisibles(false);
+            if (DefaultTeam == null) {
+                DefaultTeam = sb.registerNewTeam(defaultTeamName);
+                DefaultTeam.color(RED);
+                DefaultTeam.setCanSeeFriendlyInvisibles(false);
             }
 
         }
@@ -37,9 +39,12 @@ public class ColorManager extends BehaviorCore {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        Player p = e.getPlayer();
-        Default.addEntry(p.getName());
         e.joinMessage(text(getComponentAsPlainText(e.joinMessage()), YELLOW));
+        applyDefaultColoring(e.getPlayer());
+    }
+
+    public static void applyDefaultColoring(Player p){
+        DefaultTeam.addEntry(p.getName());
         p.displayName(p.name().color(RED));
         p.playerListName(p.name().color(WHITE));
     }
@@ -52,6 +57,10 @@ public class ColorManager extends BehaviorCore {
     @EventHandler
     public void onDeath(PlayerDeathEvent e){
         e.deathMessage(text(getComponentAsPlainText(e.deathMessage()), RED));
+    }
+
+    public static String getComponentAsPlainText(Component c){
+        return PlainTextComponentSerializer.plainText().serialize(c);
     }
 
 }

@@ -1,6 +1,8 @@
-package net.tnn1nja.guhca.behavior;
+package net.tnn1nja.guhca.behavior.colorManagers;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.tnn1nja.guhca.behavior.BehaviorCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,16 +19,29 @@ import java.util.UUID;
 import static net.kyori.adventure.text.format.NamedTextColor.*;
 import static net.kyori.adventure.text.format.TextDecoration.*;
 
-public class AFKManager extends BehaviorCore{
+public class AFKManager extends BehaviorCore {
 
-    public Team AFK;
-    public Integer afkTime = 300;
-    public HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
-    public Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+    Team AFK;
+    String afkTeamName = "guhca.afk";
+    Integer afkTime = 300;
+    HashMap<UUID, Integer> afkTracker = new HashMap<UUID, Integer>();
 
     @Override
     public void onEnable(){
         registerRepeatingTask(this::eachSecond, 20);
+        Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+
+        for(Team t: board.getTeams()){
+            if(t.getName().equalsIgnoreCase(afkTeamName)){
+                AFK = t;
+            }
+        }
+
+        if(AFK == null){
+            AFK = board.registerNewTeam(afkTeamName);
+            AFK.color(NamedTextColor.GRAY);
+            AFK.setCanSeeFriendlyInvisibles(false);
+        }
     }
 
     @EventHandler
@@ -39,7 +54,8 @@ public class AFKManager extends BehaviorCore{
             UUID uuid = p.getUniqueId();
             afkTracker.replace(uuid, afkTracker.get(uuid)+1);
 
-            if(afkTracker.get(uuid) > afkTime && !AFK.equals(scoreboard.getPlayerTeam(p))){
+            Scoreboard sb = Bukkit.getScoreboardManager().getMainScoreboard();
+            if(afkTracker.get(uuid) > afkTime && !AFK.equals(sb.getPlayerTeam(p))){
                 AFK.addEntry(p.getName());
                 p.playerListName(p.name().color(GRAY).decorate(ITALIC));
             }
@@ -51,8 +67,7 @@ public class AFKManager extends BehaviorCore{
         Player p = e.getPlayer();
         afkTracker.replace(p.getUniqueId(), 0);
         if(AFK.getEntries().contains(p.getName())) {
-            Default.addEntry(p.getName());
-            p.playerListName(p.name().color(WHITE));
+            DefaultColorManager.applyDefaultColoring(p);
         }
     }
 
