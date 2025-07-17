@@ -15,10 +15,11 @@ public class Guhca extends JavaPlugin {
     @Override
     public void onEnable() {
         guhca = this;
-
         guhca.log("Guhca enabled");
+
         CommandCore.registerCommands();
         BehaviorCore.registerBehaviors();
+        DatapackManager.reloadDatapack();
 
         for(World w: Bukkit.getWorlds()){
             w.setGameRule(GameRule.NATURAL_REGENERATION, false);

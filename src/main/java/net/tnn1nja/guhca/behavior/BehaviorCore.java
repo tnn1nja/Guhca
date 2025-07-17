@@ -1,5 +1,7 @@
 package net.tnn1nja.guhca.behavior;
 
+import net.tnn1nja.guhca.behavior.colorManagers.AFKManager;
+import net.tnn1nja.guhca.behavior.colorManagers.DefaultColorManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,10 +16,13 @@ public class BehaviorCore implements Listener {
     public static void registerBehaviors(){
         BehaviorCore[] registry = new BehaviorCore[]{
                 new BehaviorCore(),
+                new AFKManager(),
+                new DefaultColorManager(),
                 new AntiEndermanGreifer(),
                 new AnimalAgeToggler(),
                 new ArmorStandPoser(),
                 new CampfireBooster(),
+                new CrystalHeartManager(),
                 new DurabilityWarner(),
                 new ElytraCanceller(),
                 new ExperienceDelayRemover(),
