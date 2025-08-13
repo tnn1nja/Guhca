@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Guhca extends JavaPlugin {
 
     public static Guhca guhca;
+    //test:q
 
     @Override
     public void onEnable() {
